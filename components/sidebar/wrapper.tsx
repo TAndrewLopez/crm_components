@@ -10,14 +10,12 @@ type Props = {
 };
 
 export const Wrapper = ({ children }: Props) => {
-    const matches = useMediaQuery('(max-width:1024px)')
+    const matches = useMediaQuery("(max-width:1024px)");
     const { isOpen, onCollapse, onExpand } = useSidebar();
 
-
     useEffect(() => {
-        matches ? onCollapse() : onExpand()
-    }, [matches, onCollapse, onExpand])
-
+        matches ? onCollapse() : onExpand();
+    }, [matches, onCollapse, onExpand]);
 
     return (
         <aside

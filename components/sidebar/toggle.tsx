@@ -12,7 +12,8 @@ type Props = {};
 export const Toggle = ({ }: Props) => {
     const { isOpen, onCollapse, onExpand } = useSidebar();
     const label = isOpen ? "Collapse" : "Expand";
-    const onClick = isOpen ? onCollapse : onExpand
+    let onClick = isOpen ? onCollapse : onExpand
+
 
     return (
         <div className="flex items-center w-full">

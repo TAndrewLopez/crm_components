@@ -10,7 +10,7 @@ import { Badge } from "../ui/badge";
 
 type Props = {
     children: React.ReactNode;
-    count: number;
+    count?: number;
     name: string;
     href: string;
 };
@@ -18,6 +18,7 @@ type Props = {
 export const NavItem = ({ children, count, name, href }: Props) => {
     const pathname = usePathname();
     const { isOpen } = useSidebar();
+    const notificationCount = count && count > 0 ? count : 0
     const activeNav = href === pathname;
     const defaultStyles = cn(
         "relative px-4 py-3 font-extralight flex hover:bg-neutral-800 gap-x-4 items-center",
@@ -33,7 +34,7 @@ export const NavItem = ({ children, count, name, href }: Props) => {
                             {children}
                             {isOpen && <div>{name}</div>}
                         </div>
-                        {count > 0 && (
+                        {notificationCount > 0 && (
                             <div className="relative">
                                 <Badge className="rounded-xl" variant={activeNav ? "active" : "secondary"}>
                                     {count}
@@ -46,7 +47,7 @@ export const NavItem = ({ children, count, name, href }: Props) => {
                 <Hint label={name} side="right" delayAmount={0} asChild>
                     <Link href={href} className={defaultStyles + " rounded-2xl"}>
                         <div className="relative">
-                            {!!count && <Badge variant="notification">{count}</Badge>}
+                            {!!count && <Badge variant="notification">{notificationCount}</Badge>}
                             {children}
                         </div>
                     </Link>
