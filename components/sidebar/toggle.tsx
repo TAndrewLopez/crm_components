@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { ArrowRightFromLine } from "lucide-react";
 
@@ -10,14 +10,16 @@ import { cn } from "@/lib/utils";
 type Props = {};
 
 export const Toggle = ({ }: Props) => {
-    const { isOpen, toggleSidebar } = useSidebar();
+    const { isOpen, onCollapse, onExpand } = useSidebar();
     const label = isOpen ? "Collapse" : "Expand";
+    const onClick = isOpen ? onCollapse : onExpand
 
     return (
         <div className="flex items-center w-full">
+            {isOpen && <p className="text-muted-foreground text-sm">Collapse</p>}
             <Hint label={label} side="right" asChild>
                 <Button
-                    onClick={toggleSidebar}
+                    onClick={onClick}
                     className="h-auto p-2 ml-auto"
                     variant="ghost">
                     <ArrowRightFromLine

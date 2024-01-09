@@ -28,51 +28,30 @@ export const NavItem = ({ children, count, name, href }: Props) => {
         <>
             {isOpen ? (
                 <Link href={href} className={defaultStyles + " rounded-3xl"}>
-                    <ItemWrapper
-                        activeNav={activeNav}
-                        count={count}
-                        isOpen={isOpen}
-                        name={name}>
-                        {children}
-                    </ItemWrapper>
+                    <div className="flex justify-between w-full">
+                        <div className="flex justify-center items-center gap-x-3">
+                            {children}
+                            {isOpen && <div>{name}</div>}
+                        </div>
+                        {count > 0 && (
+                            <div className="relative">
+                                <Badge className="rounded-xl" variant={activeNav ? "active" : "secondary"}>
+                                    {count}
+                                </Badge>
+                            </div>
+                        )}
+                    </div>
                 </Link>
             ) : (
                 <Hint label={name} side="right" delayAmount={0} asChild>
                     <Link href={href} className={defaultStyles + " rounded-2xl"}>
-                        {children}
+                        <div className="relative">
+                            {!!count && <Badge variant="notification">{count}</Badge>}
+                            {children}
+                        </div>
                     </Link>
                 </Hint>
             )}
         </>
-    );
-};
-
-type ItemWrapperProps = {
-    activeNav: boolean;
-    children: React.ReactNode;
-    count: number;
-    isOpen: boolean;
-    name: string;
-};
-
-const ItemWrapper = ({
-    activeNav,
-    children,
-    count,
-    isOpen,
-    name,
-}: ItemWrapperProps) => {
-    return (
-        <div className="flex justify-between w-full">
-            <div className="flex justify-center items-center gap-x-3">
-                {children}
-                {isOpen && <div>{name}</div>}
-            </div>
-            {count > 0 && (
-                <div className="relative">
-                    <Badge variant={activeNav ? "active" : "secondary"}>{count}</Badge>
-                </div>
-            )}
-        </div>
     );
 };

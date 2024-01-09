@@ -2,12 +2,12 @@ import { create } from "zustand";
 
 interface SidebarProps {
     isOpen: boolean;
-    toggleSidebar: () => void;
+    onExpand: () => void
+    onCollapse: () => void
 }
 
 export const useSidebar = create<SidebarProps>((set) => ({
     isOpen: false,
-    toggleSidebar: () => set(({ isOpen }) => ({
-        isOpen: !isOpen
-    }))
+    onExpand: () => set(() => ({ isOpen: true })),
+    onCollapse: () => set(() => ({ isOpen: false }))
 }))

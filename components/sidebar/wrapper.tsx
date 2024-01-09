@@ -2,13 +2,22 @@
 
 import { cn } from "@/lib/utils";
 import { useSidebar } from "@/store/useSidebar";
+import { useEffect } from "react";
+import { useMediaQuery } from "usehooks-ts";
 
 type Props = {
     children: React.ReactNode;
 };
 
 export const Wrapper = ({ children }: Props) => {
-    const { isOpen } = useSidebar()
+    const matches = useMediaQuery('(max-width:1024px)')
+    const { isOpen, onCollapse, onExpand } = useSidebar();
+
+
+    useEffect(() => {
+        matches ? onCollapse() : onExpand()
+    }, [matches, onCollapse, onExpand])
+
 
     return (
         <aside
