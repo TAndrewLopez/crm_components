@@ -1,7 +1,17 @@
-type Props = {}
+import { UserAvatar } from "./userAvatar";
 
-export const Header = ({ }: Props) => {
+type Props = {
+    imageURL: string;
+    username: string
+}
+
+export const Header = ({ imageURL, username }: Props) => {
     return (
-        <div>Dashboard Header</div>
+        <header className="h-[75px] p-4 flex items-center justify-between bg-black/80">
+            <UserAvatar
+                imageURL={imageURL}
+                username={username}
+            />
+        </header>
     )
 }

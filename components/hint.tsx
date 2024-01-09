@@ -9,13 +9,14 @@ type Props = {
     align?: "start" | "center" | "end";
     asChild?: boolean;
     children: React.ReactNode;
+    delayAmount?: number
     label: string;
     side?: "top" | "bottom" | "left" | "right";
 };
 
-export const Hint = ({ align, asChild, children, label, side }: Props) => {
+export const Hint = ({ align, asChild, children, delayAmount, label, side }: Props) => {
     return (
-        <TooltipProvider>
+        <TooltipProvider delayDuration={delayAmount}>
             <Tooltip>
                 <TooltipTrigger asChild={asChild}>{children}</TooltipTrigger>
                 <TooltipContent

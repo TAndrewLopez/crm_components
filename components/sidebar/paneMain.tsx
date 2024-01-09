@@ -5,6 +5,7 @@ import {
     SendHorizonalIcon,
     User,
 } from "lucide-react";
+
 import { NavItem } from "./navItem";
 
 type Props = {};
@@ -12,7 +13,7 @@ type Props = {};
 const LINKS = [
     {
         name: "Dashboard",
-        href: "/dashboard",
+        href: "/",
         Icon: FingerprintIcon,
     },
     {
@@ -39,14 +40,18 @@ const LINKS = [
 
 export const MainPane = ({ }: Props) => {
     return (
-        <div className="mx-2">
-            <ul className="py-4 flex flex-col gap-y-3">
-                {LINKS.map(({ name, Icon, href }, i) => (
-                    <NavItem name={name} href={href} key={i}>
-                        <Icon className="w-5 h-5" />
-                    </NavItem>
-                ))}
-            </ul>
-        </div>
+        <>
+            <div className="mx-2">
+                <ul className="py-4 flex flex-col gap-y-3">
+                    {LINKS.map(({ name, Icon, href }, i) => (
+                        <NavItem name={name} href={href} count={i * 5} key={href}>
+                            <Icon className="w-5 h-5" />
+                        </NavItem>
+                    ))}
+                </ul>
+            </div>
+            <hr />
+        </>
+
     );
 };
