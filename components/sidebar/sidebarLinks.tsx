@@ -18,7 +18,7 @@ const LINKS = [
     },
     {
         name: "Submissions",
-        href: "/submission",
+        href: "/submissions",
         Icon: GanttChartIcon,
     },
     {
@@ -38,7 +38,7 @@ const LINKS = [
     },
 ];
 
-export const MainPane = ({ }: Props) => {
+export const SidebarLinks = ({ }: Props) => {
     return (
         <>
             <div className="mx-2">

@@ -1,4 +1,5 @@
 import { BadgeHelpIcon, CogIcon, Plug } from "lucide-react";
+
 import { NavItem } from "./navItem";
 
 type Props = {};
@@ -21,7 +22,7 @@ const FOOTER = [
     },
 ];
 
-export const UtilPane = ({ }: Props) => {
+export const SidebarUtilLinks = ({ }: Props) => {
     return (
         <>
             <div className="mx-2">

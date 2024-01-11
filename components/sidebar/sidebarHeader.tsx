@@ -5,7 +5,7 @@ type Props = {
     username: string
 }
 
-export const Header = ({ imageURL, username }: Props) => {
+export const SidebarHeader = ({ imageURL, username }: Props) => {
     return (
         <header className="h-[75px] p-4 flex items-center justify-between bg-black/80">
             <UserAvatar

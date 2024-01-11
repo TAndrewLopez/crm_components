@@ -25,7 +25,7 @@ const VIEWS = [
     },
 ];
 
-export const FavoritePane = ({ }: Props) => {
+export const SidebarFavoriteLinks = ({ }: Props) => {
     return (
         <>
             <div className="mx-2 flex-1 overflow-y-auto hidden-scrollbar">
