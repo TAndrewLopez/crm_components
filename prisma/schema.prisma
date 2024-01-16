@@ -7,19 +7,29 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Submission {
-  id                 Int     @id @default(autoincrement())
-  name               String  @db.VarChar(255)
-  email              String  @db.VarChar(255)
-  phone_number       String  @db.VarChar(255)
-  preferred_pronouns String? @db.VarChar(255)
-  description        String
-  size               String  @db.VarChar(255)
-  placement          String  @db.VarChar(255)
-  color              String  @db.VarChar(255)
-}
-
-enum Color {
+enum tattooColor {
   black_and_grey @map("black and grey")
   color
+}
+
+enum submissionStatus {
+  unread
+  read
+}
+
+model submission {
+  id                 Int         @id @default(autoincrement())
+  name               String      @db.VarChar(255)
+  email              String      @db.VarChar(255)
+  phone_number       String      @db.VarChar(255)
+  preferred_pronouns String?     @db.VarChar(255)
+  description        String
+  size               String      @db.VarChar(255)
+  placement          String      @db.VarChar(255)
+  color              tattooColor
+
+  status submissionStatus @default(unread)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 }

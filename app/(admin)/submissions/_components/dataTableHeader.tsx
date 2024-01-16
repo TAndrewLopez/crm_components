@@ -27,7 +27,7 @@ export const DataTableHeader = <TData, TValue>({ table }: Props<TData>) => {
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button variant="outline" className="ml-auto">
-                        Columns
+                        Toggle Columns
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
@@ -43,7 +43,7 @@ export const DataTableHeader = <TData, TValue>({ table }: Props<TData>) => {
                                     onCheckedChange={(value) =>
                                         column.toggleVisibility(!!value)
                                     }>
-                                    {column.id}
+                                    {column.id.split("_").join(" ")}
                                 </DropdownMenuCheckboxItem>
                             );
                         })}

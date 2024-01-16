@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "seed": "psql -U tandrewlopez -d crm_app < ./sql/init.sql"
   },
   "dependencies": {
     "@prisma/client": "^5.8.1",

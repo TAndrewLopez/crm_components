@@ -1,5 +1,3 @@
-"use client";
-
 import {
     ColumnDef,
     Table,
@@ -24,8 +22,9 @@ export const DataTable = <TData, TValue>({
     columns,
     table
 }: Props<TData, TValue>) => {
+
     return (
-        <TableComponent className="bg-neutral-900">
+        <TableComponent>
             <TableHeader>
                 {table.getHeaderGroups().map((headerGroup) => (
                     <TableRow key={headerGroup.id}>
@@ -44,7 +43,7 @@ export const DataTable = <TData, TValue>({
                     </TableRow>
                 ))}
             </TableHeader>
-            <TableBody>
+            <TableBody >
                 {table.getRowModel().rows?.length ? (
                     table.getRowModel().rows.map((row) => (
                         <TableRow

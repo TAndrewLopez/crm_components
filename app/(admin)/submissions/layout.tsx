@@ -4,7 +4,7 @@ type Props = {
 
 const SubmissionsLayout = ({ children }: Props) => {
     return (
-        <div>
+        <div className="flex w-full">
             {children}
         </div>
     );
