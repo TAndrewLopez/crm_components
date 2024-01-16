@@ -6,12 +6,11 @@ import { revalidatePath } from "next/cache";
 
 export const getSubmissionByID = async (id: number): Promise<submission | null> => {
     try {
-        const submission = await db.submission.findUnique({
+        return await db.submission.findUnique({
             where: {
                 id
             }
         })
-        return submission
     } catch (error) {
         console.log("Something went wrong", error);
         return null
@@ -20,18 +19,15 @@ export const getSubmissionByID = async (id: number): Promise<submission | null> 
 
 export const markSubAsRead = async (id: number): Promise<submission | null> => {
     try {
-        const sub = await db.submission.findUnique({
-            where: {
-                id
-            }
-        })
+        const submission = await getSubmissionByID(id)
 
-        if (!sub) throw new Error("Invalid Submission ID.");
-        if (sub.status === "read") throw new Error("Submission is already marked as read.");
+        if (!submission) throw new Error("Invalid Submission ID.");
+        if (submission.status === "read")
+            throw new Error("Submission is already marked as read.");
 
         const updatedSub = await db.submission.update({
             where: {
-                id: sub.id,
+                id: submission.id,
             },
             data: {
                 status: "read",
@@ -45,6 +41,25 @@ export const markSubAsRead = async (id: number): Promise<submission | null> => {
         return null;
     }
 };
+
+export const markGivenSubsAsRead = async (ids: number[]): Promise<void> => {
+    for (const id of ids) {
+        try {
+            await db.submission.update({
+                where: {
+                    id,
+                },
+                data: {
+                    status: "read",
+                }
+            })
+
+            revalidatePath("/")
+        } catch (error) {
+            console.log("Something went wrong", error)
+        }
+    }
+}
 
 export const markSubAsUnread = async (id: number): Promise<submission | null> => {
     try {
@@ -69,3 +84,21 @@ export const markSubAsUnread = async (id: number): Promise<submission | null> =>
         return null;
     }
 };
+
+export const markGivenSubsAsUnread = async (ids: number[]): Promise<void> => {
+    for (const id of ids) {
+        try {
+            await db.submission.update({
+                where: {
+                    id,
+                },
+                data: {
+                    status: 'unread',
+                }
+            })
+            revalidatePath('/')
+        } catch (error) {
+            console.log("Something went wrong", error)
+        }
+    }
+}
