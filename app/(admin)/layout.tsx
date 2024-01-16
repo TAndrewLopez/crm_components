@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     title: "Dashboard"
 }
 
-const DashboardLayout = ({ children }: Props) => {
+const AdminViewLayout = ({ children }: Props) => {
     return (
         <div className="flex h-full">
             <Sidebar />
@@ -18,4 +18,4 @@ const DashboardLayout = ({ children }: Props) => {
     )
 }
 
-export default DashboardLayout
+export default AdminViewLayout

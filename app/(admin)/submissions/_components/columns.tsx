@@ -12,9 +12,31 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { InitialSubmission } from "@/temporary/types";
+import { Submission } from "@prisma/client";
+import { Checkbox } from "@/components/ui/checkbox";
 
-export const columns: ColumnDef<InitialSubmission>[] = [
+export const columns: ColumnDef<Submission>[] = [
+    {
+        id: "select",
+        header: ({ table }) => (
+            <Checkbox
+                checked={
+                    table.getIsAllPageRowsSelected() ||
+                    (table.getIsSomePageRowsSelected() && "indeterminate")
+                }
+                onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+                aria-label='Select all'
+            />
+        ),
+        cell: ({ row }) => (
+            <Checkbox
+                checked={row.getIsSelected()}
+                onCheckedChange={(value) => row.toggleSelected(!!value)}
+                aria-label="Select row" />
+        ),
+        enableSorting: false,
+        enableHiding: false,
+    },
     {
         accessorKey: "name",
         header: ({ column }) => {
@@ -42,10 +64,10 @@ export const columns: ColumnDef<InitialSubmission>[] = [
         },
     },
     {
-        accessorKey: "phoneNumber",
+        accessorKey: "phone_number",
         header: "Phone Number",
         cell: ({ row }) => {
-            const phoneNumber: string = row.getValue("phoneNumber");
+            const phoneNumber: string = row.getValue("phone_number");
             const areaCode = phoneNumber.slice(0, 3);
             const centralCode = phoneNumber.slice(3, 6);
             const lineNumber = phoneNumber.slice(6);
@@ -74,7 +96,7 @@ export const columns: ColumnDef<InitialSubmission>[] = [
                         <DropdownMenuSeparator />
                         <DropdownMenuItem
                             className="cursor-pointer"
-                            onClick={() => navigator.clipboard.writeText(submission.id)}>
+                            onClick={() => navigator.clipboard.writeText(String(submission.id))}>
                             Copy Submission ID
                         </DropdownMenuItem>
                         <DropdownMenuItem>View Submission</DropdownMenuItem>
