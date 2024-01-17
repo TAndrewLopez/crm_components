@@ -1,3 +1,4 @@
+// PRISMA SETUP
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,7 +8,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// SUBMISSION MODELS
+// ENUMS
 enum tattooColor {
   black_and_grey @map("black and grey")
   color
@@ -18,6 +19,19 @@ enum submissionStatus {
   read
 }
 
+enum role {
+  client
+  admin
+  owner
+  dev
+}
+
+enum depositStatus {
+  paid
+  unpaid
+}
+
+// SUBMISSION MODELS
 model submission {
   id                 Int     @id @default(autoincrement())
   name               String  @db.VarChar(255)
@@ -27,60 +41,67 @@ model submission {
   description        String
   size               String  @db.VarChar(255)
   placement          String  @db.VarChar(255)
+  author_id          Int?
 
-  color  tattooColor
-  status submissionStatus @default(unread)
-
-  author_id Int?
-  author    user? @relation(fields: [author_id], references: [id])
-
-  created_at DateTime  @default(now())
-  updated_at DateTime? @updatedAt
+  // ENUMS
+  color      tattooColor
+  status     submissionStatus @default(unread)
+  // RELATIONS
+  favorite   favorite[]
+  author     user?            @relation(fields: [author_id], references: [id])
+  // TIMESTAMPS
+  created_at DateTime         @default(now())
+  updated_at DateTime?        @updatedAt
 }
 
 // PAYMENT MODELS
-enum depositStatus {
-  paid
-  unpaid
-}
-
 model deposit {
-  id     Int    @id @default(autoincrement())
-  amount Int
-  email  String @db.VarChar(255)
-
-  status depositStatus @default(unpaid)
-
+  id        Int    @id @default(autoincrement())
+  amount    Int
+  email     String @db.VarChar(255)
   client_id Int?
-  client    user? @relation("client", fields: [client_id], references: [id])
   owner_id  Int
-  owner     user  @relation("owner", fields: [owner_id], references: [id])
 
-  created_at DateTime  @default(now())
-  updated_at DateTime? @updatedAt
+  // ENUMS
+  status     depositStatus @default(unpaid)
+  // RELATIONS
+  client     user?         @relation("client", fields: [client_id], references: [id])
+  owner      user          @relation("owner", fields: [owner_id], references: [id])
+  // TIMESTAMPS
+  created_at DateTime      @default(now())
+  updated_at DateTime?     @updatedAt
 }
 
 // USER MODELS
-enum role {
-  client
-  admin
-  owner
-  dev
-}
-
 model user {
   id           Int    @id @default(autoincrement())
   username     String @db.VarChar(255)
   email        String @db.VarChar(255)
   phone_number String @db.VarChar(255)
 
-  role role @default(client)
+  // ENUMS
+  role            role         @default(client)
+  // RELATIONS
+  client_history  submission[]
+  favorites       favorite[]
+  owner_deposits  deposit[]    @relation("owner")
+  client_deposits deposit[]    @relation("client")
+  // TIMESTAMPS
+  created_at      DateTime     @default(now())
+  updated_at      DateTime?    @updatedAt
+}
 
-  submissions submission[]
+// USER MODEL -> FOR ADMINS & OWNERS & DEVS
+model favorite {
+  id            Int    @id @default(autoincrement())
+  label         String
+  user_id       Int
+  submission_id Int
 
-  owner_deposits  deposit[] @relation("owner")
-  client_deposits deposit[] @relation("client")
-
-  created_at DateTime  @default(now())
-  updated_at DateTime? @updatedAt
+  // RELATIONS
+  submission submission @relation(fields: [submission_id], references: [id])
+  owner      user       @relation(fields: [user_id], references: [id])
+  // TIMESTAMPS
+  created_at DateTime   @default(now())
+  updated_at DateTime?  @updatedAt
 }

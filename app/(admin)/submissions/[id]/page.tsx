@@ -14,7 +14,9 @@ type Props = {
 const SingleSubmission = async ({ params }: Props) => {
     const submission = await getSubmissionByID(Number(params.id));
     const wasViewed = await checkSubmissionViewStatusByID(Number(params.id))
+
     console.log(wasViewed)
+
     if (!submission) return null;
 
     return (

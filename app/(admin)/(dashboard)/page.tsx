@@ -3,8 +3,6 @@ import { DashboardGraph } from "./_components/dashboardGraph";
 import { DashboardWidget } from "./_components/dashboardWidget";
 import { getRandomDate } from "@/lib/utils";
 
-console.log(getRandomDate())
-
 const DashboardPage = () => {
   return (
     <PageWrapper className="flex flex-col gap-y-6">
