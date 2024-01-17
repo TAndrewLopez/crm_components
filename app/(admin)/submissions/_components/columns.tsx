@@ -16,7 +16,7 @@ import {
     markGivenSubsAsUnread,
     markSubAsRead,
     markSubAsUnread,
-} from "@/actions/submission";
+} from "@/actions/submissions";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {

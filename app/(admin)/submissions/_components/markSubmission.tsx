@@ -1,4 +1,4 @@
-import { markSubAsRead, markSubAsUnread } from "@/actions/submission";
+import { markSubAsRead, markSubAsUnread } from "@/actions/submissions";
 import { Button } from "@/components/ui/button";
 
 type Props = {

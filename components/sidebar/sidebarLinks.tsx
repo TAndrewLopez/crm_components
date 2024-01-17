@@ -6,42 +6,14 @@ import {
     User,
 } from "lucide-react";
 
+import { getTotalContactCount, getUnreadSubCount } from "@/actions/count";
 import { NavItem } from "./navItem";
-import { db } from "@/lib/prisma";
-import { getUnreadSubCount } from "@/actions/count";
 
 type Props = {};
 
-const LINKS = [
-    {
-        name: "Dashboard",
-        href: "/",
-        Icon: FingerprintIcon,
-    },
-    {
-        name: "Submissions",
-        href: "/submissions",
-        Icon: GanttChartIcon,
-    },
-    {
-        name: "Calendar",
-        href: "/calendar",
-        Icon: Calendar,
-    },
-    {
-        name: "Messages",
-        href: "/message",
-        Icon: SendHorizonalIcon,
-    },
-    {
-        name: "Contacts",
-        href: "/contact",
-        Icon: User,
-    },
-];
-
 export const SidebarLinks = async ({ }: Props) => {
     const subCount = await getUnreadSubCount()
+    const contactCount = await getTotalContactCount()
 
     const LINKS = [
         {
@@ -62,13 +34,14 @@ export const SidebarLinks = async ({ }: Props) => {
         },
         {
             name: "Messages",
-            href: "/message",
+            href: "/messages",
             Icon: SendHorizonalIcon,
         },
         {
             name: "Contacts",
-            href: "/contact",
+            href: "/contacts",
             Icon: User,
+            count: contactCount
         },
     ];
 

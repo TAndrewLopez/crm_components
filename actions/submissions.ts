@@ -4,6 +4,7 @@ import { db } from "@/lib/prisma";
 import { submission } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
+// QUERIES
 export const getSubmissionByID = async (id: number): Promise<submission | null> => {
     try {
         return await db.submission.findUnique({
@@ -17,6 +18,14 @@ export const getSubmissionByID = async (id: number): Promise<submission | null> 
     }
 }
 
+export const checkSubmissionViewStatusByID = async (id: number): Promise<boolean> => {
+    const submission = await getSubmissionByID(id)
+    if (!submission) throw new Error("Invalid Submission ID.");
+    return submission.status === 'read' ? true : false
+}
+
+
+// MUTATIONS
 export const markSubAsRead = async (id: number): Promise<submission | null> => {
     try {
         const submission = await getSubmissionByID(id)

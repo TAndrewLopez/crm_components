@@ -1,4 +1,4 @@
-import { ColumnDef, Row, Table, flexRender } from "@tanstack/react-table";
+import { ColumnDef, Table, flexRender } from "@tanstack/react-table";
 
 import {
     TableBody,
@@ -8,7 +8,6 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { cn } from "@/lib/utils";
 
 type Props<TData, TValue> = {
     columns: ColumnDef<TData, TValue>[];

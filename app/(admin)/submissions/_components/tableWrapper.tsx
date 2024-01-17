@@ -37,7 +37,7 @@ export const TableWrapper = <TData, TValue>({
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
-        getPaginationRowModel: getPaginationRowModel(),
+        // getPaginationRowModel: getPaginationRowModel(),
         getSortedRowModel: getSortedRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
         onSortingChange: setSorting,
@@ -53,15 +53,15 @@ export const TableWrapper = <TData, TValue>({
     });
 
     return (
-        <div className="relative flex flex-col px-5 overflow-y-auto w-full">
+        <div className="relative flex flex-col px-5 w-full">
             <div
                 className={cn(
-                    "bg-neutral-800 fixed right-0 px-5 z-20",
+                    "bg-neutral-800 fixed top-0 right-0 px-5 z-20",
                     isOpen ? "left-[320px]" : "left-[75px]"
                 )}>
                 <DataTableHeader table={table} />
             </div>
-            <div className="bg-neutral-900 mt-20">
+            <div className="bg-neutral-900 mt-14">
                 <DataTable table={table} columns={columns} />
                 <DataTablePagination table={table} />
             </div>

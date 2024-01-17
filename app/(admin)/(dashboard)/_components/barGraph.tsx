@@ -18,7 +18,7 @@ export const BarGraph = () => {
                         style={{ height: `${height}%` }}
                     />
                     <p className="text-white text-center">
-                        {months[i]}
+                        {months[i][0]}
                     </p>
                 </div>
             ))}

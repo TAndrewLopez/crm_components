@@ -1,11 +1,21 @@
+import { PageWrapper } from "@/components/pageWrapper";
 import { DashboardGraph } from "./_components/dashboardGraph";
 import { DashboardWidget } from "./_components/dashboardWidget";
-import { PageWrapper } from "./_components/pageWrapper";
+import { getRandomDate } from "@/lib/utils";
+
+console.log(getRandomDate())
 
 const DashboardPage = () => {
   return (
     <PageWrapper className="flex flex-col gap-y-6">
       <h1 className="text-4xl font-semibold">Dashboard</h1>
+      <p>Total Sales for the current day.</p>
+      <p>Total Sales for the last 7 days.</p>
+      <p>Total Sales for the last 30 days.</p>
+      <p>Total Sales for the current year.</p>
+      <p>Total Sales for the last 12 months.</p>
+      <p>Current Sales Leader. Who and how much?</p>
+      <p>Top employee in sales. Who and how much?</p>
 
       <DashboardWidget
         title="Total Revenue"
@@ -16,7 +26,6 @@ const DashboardPage = () => {
 
       <div className="flex flex-col xl:flex-row gap-4 h-full">
         <DashboardGraph />
-
       </div>
 
     </PageWrapper>

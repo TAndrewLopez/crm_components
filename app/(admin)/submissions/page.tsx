@@ -1,8 +1,9 @@
+import { PageWrapper } from "@/components/pageWrapper";
 import { db } from "@/lib/prisma";
 import { columns } from "./_components/columns";
 import { TableWrapper } from "./_components/tableWrapper";
 
-const SubmissionsPage = async () => {
+const SubmissionPage = async () => {
     const data = await db.submission.findMany({
         orderBy: [
             {
@@ -13,7 +14,12 @@ const SubmissionsPage = async () => {
             },
         ],
     });
-    return <TableWrapper columns={columns} data={data} />;
+
+    return (
+        <PageWrapper>
+            <TableWrapper columns={columns} data={data} />
+        </PageWrapper>
+    );
 };
 
-export default SubmissionsPage;
+export default SubmissionPage;

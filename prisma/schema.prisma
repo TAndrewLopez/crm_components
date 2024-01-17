@@ -7,6 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// SUBMISSION MODELS
 enum tattooColor {
   black_and_grey @map("black and grey")
   color
@@ -30,16 +31,56 @@ model submission {
   color  tattooColor
   status submissionStatus @default(unread)
 
-  authorID Int
-  author   user? @relation(references: [id], fields: [authorID], onDelete: Cascade)
+  author_id Int?
+  author    user? @relation(fields: [author_id], references: [id])
 
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
+  created_at DateTime  @default(now())
+  updated_at DateTime? @updatedAt
+}
+
+// PAYMENT MODELS
+enum depositStatus {
+  paid
+  unpaid
+}
+
+model deposit {
+  id     Int    @id @default(autoincrement())
+  amount Int
+  email  String @db.VarChar(255)
+
+  status depositStatus @default(unpaid)
+
+  client_id Int?
+  client    user? @relation("client", fields: [client_id], references: [id])
+  owner_id  Int
+  owner     user  @relation("owner", fields: [owner_id], references: [id])
+
+  created_at DateTime  @default(now())
+  updated_at DateTime? @updatedAt
+}
+
+// USER MODELS
+enum role {
+  client
+  admin
+  owner
+  dev
 }
 
 model user {
-  id          Int          @id @default(autoincrement())
-  username    String       @db.VarChar(255)
-  email       String       @db.VarChar(255)
+  id           Int    @id @default(autoincrement())
+  username     String @db.VarChar(255)
+  email        String @db.VarChar(255)
+  phone_number String @db.VarChar(255)
+
+  role role @default(client)
+
   submissions submission[]
+
+  owner_deposits  deposit[] @relation("owner")
+  client_deposits deposit[] @relation("client")
+
+  created_at DateTime  @default(now())
+  updated_at DateTime? @updatedAt
 }
