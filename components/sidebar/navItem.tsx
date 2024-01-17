@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Hint } from "@/components/hint";
 import { useSidebar } from "@/store/useSidebar";
-import { Badge } from "../ui/badge";
+import { NotificationBadge } from "../notificationBadge";
 
 type Props = {
     children: React.ReactNode;
@@ -37,11 +37,11 @@ export const NavItem = ({ children, count, name, href }: Props) => {
 
                         {notificationCount > 0 && (
                             <div className="relative">
-                                <Badge
+                                <NotificationBadge
                                     className="rounded-xl"
-                                    variant={activeNav ? "active" : "secondary"}>
+                                    variant={activeNav ? "active" : "default"}>
                                     {count}
-                                </Badge>
+                                </NotificationBadge>
                             </div>
                         )}
                     </div>
@@ -51,7 +51,7 @@ export const NavItem = ({ children, count, name, href }: Props) => {
                     <Link href={href} className={defaultStyles + " rounded-2xl"}>
                         <div className="relative">
                             {!!count && (
-                                <Badge variant="notification">{notificationCount}</Badge>
+                                <NotificationBadge variant="notification">{notificationCount}</NotificationBadge>
                             )}
                             {children}
                         </div>

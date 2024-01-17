@@ -18,18 +18,28 @@ enum submissionStatus {
 }
 
 model submission {
-  id                 Int         @id @default(autoincrement())
-  name               String      @db.VarChar(255)
-  email              String      @db.VarChar(255)
-  phone_number       String      @db.VarChar(255)
-  preferred_pronouns String?     @db.VarChar(255)
+  id                 Int     @id @default(autoincrement())
+  name               String  @db.VarChar(255)
+  email              String  @db.VarChar(255)
+  phone_number       String  @db.VarChar(255)
+  preferred_pronouns String? @db.VarChar(255)
   description        String
-  size               String      @db.VarChar(255)
-  placement          String      @db.VarChar(255)
-  color              tattooColor
+  size               String  @db.VarChar(255)
+  placement          String  @db.VarChar(255)
 
+  color  tattooColor
   status submissionStatus @default(unread)
+
+  authorID Int
+  author   user? @relation(references: [id], fields: [authorID], onDelete: Cascade)
 
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
+}
+
+model user {
+  id          Int          @id @default(autoincrement())
+  username    String       @db.VarChar(255)
+  email       String       @db.VarChar(255)
+  submissions submission[]
 }

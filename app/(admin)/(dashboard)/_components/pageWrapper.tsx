@@ -1,4 +1,4 @@
-import { poppins } from "@/app/fonts";
+import { poppins } from "@/fonts";
 import { cn } from "@/lib/utils";
 
 type Props = {

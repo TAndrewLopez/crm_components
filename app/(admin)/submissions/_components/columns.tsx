@@ -6,6 +6,8 @@ import {
     ArrowUpDown,
     GalleryVerticalEndIcon,
     MoreHorizontal,
+    Copy,
+    PlusCircle,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -27,6 +29,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Hint } from "@/components/hint";
 import { TableItem } from "./tableItem";
+import { formatToUSNumber } from "@/lib/utils";
 
 export const columns: ColumnDef<submission>[] = [
     {
@@ -64,7 +67,11 @@ export const columns: ColumnDef<submission>[] = [
             );
         },
         cell: ({ row }) => (
-            <TableItem status={row.original.status}>{row.original.name}</TableItem>
+            <TableItem
+                href={`/submissions/${row.original.id}`}
+                status={row.original.status}>
+                {row.original.name}
+            </TableItem>
         ),
     },
     {
@@ -112,17 +119,11 @@ export const columns: ColumnDef<submission>[] = [
     {
         accessorKey: "phone_number",
         header: "Phone Number",
-        cell: ({ row }) => {
-            const phoneNumber: string = row.getValue("phone_number");
-            const areaCode = phoneNumber.slice(0, 3);
-            const centralCode = phoneNumber.slice(3, 6);
-            const lineNumber = phoneNumber.slice(6);
-            return (
-                <TableItem status={row.original.status}>
-                    {`(${areaCode}) ${centralCode}-${lineNumber}`}
-                </TableItem>
-            );
-        },
+        cell: ({ row }) => (
+            <TableItem status={row.original.status}>
+                {formatToUSNumber(row.getValue("phone_number"))}
+            </TableItem>
+        ),
     },
     {
         accessorKey: "description",
@@ -154,20 +155,25 @@ export const columns: ColumnDef<submission>[] = [
             return (
                 <div className="flex justify-end items-center">
                     <DropdownMenu>
-                        <DropdownMenuTrigger>
-                            <div className="pr-2">
-                                <Hint delayAmount={0} side="left" label="All actions" asChild>
-                                    <GalleryVerticalEndIcon className="w-4 h-4 hover:text-white" />
-                                </Hint>
-                            </div>
+                        <DropdownMenuTrigger className="mr-2">
+                            <Hint delayAmount={0} side="left" label="All actions" asChild>
+                                <GalleryVerticalEndIcon className="w-4 h-4 hover:text-white" />
+                            </Hint>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
                             <DropdownMenuLabel>All Actions</DropdownMenuLabel>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem onClick={() => void handleMarkAllUnread(ids)}>
+                            <DropdownMenuItem>
+                                <button className="w-full flex items-center justify-start gap-x-2 hover:underline">
+                                    <PlusCircle className="w-4 h-4" />
+                                    Create new submission
+                                </button>
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem onClick={() => handleMarkAllUnread(ids)}>
                                 Mark as unread
                             </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => void handleMarkAllRead(ids)}>
+                            <DropdownMenuItem onClick={() => handleMarkAllRead(ids)}>
                                 Mark as read
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
@@ -178,7 +184,7 @@ export const columns: ColumnDef<submission>[] = [
             );
         },
         cell: ({ table, row }) => {
-            const { id, status } = row.original;
+            const { id, name, email, phone_number, status } = row.original;
             const handleClick = () => {
                 const click = status === "read" ? markSubAsUnread : markSubAsRead;
                 click(id);
@@ -194,21 +200,48 @@ export const columns: ColumnDef<submission>[] = [
                                 <MoreHorizontal className="h-4 w-4" />
                             </Button>
                         </DropdownMenuTrigger>
+
                         <DropdownMenuContent align="end">
                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                            <DropdownMenuSeparator />
 
-                            <DropdownMenuItem onClick={handleClick}>
-                                Mark as {label}
-                            </DropdownMenuItem>
+                            <DropdownMenuSeparator />
                             <DropdownMenuItem>
                                 <Link href={`/submissions/${id}`}>View Submission</Link>
                             </DropdownMenuItem>
+                            <DropdownMenuItem>
+                                <button
+                                    className="w-full flex items-center justify-start gap-x-2 hover:underline"
+                                    onClick={handleClick}>
+                                    Mark as {label}
+                                </button>
+                            </DropdownMenuItem>
 
-                            <DropdownMenuItem
-                                className="cursor-pointer"
-                                onClick={() => navigator.clipboard.writeText(String(id))}>
-                                Copy Submission ID
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem>
+                                <button
+                                    className="w-full flex items-center justify-start gap-x-2 hover:underline"
+                                    onClick={() => navigator.clipboard.writeText(name)}>
+                                    <Copy className="w-3 h-3" />
+                                    Copy Name
+                                </button>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem>
+                                <button
+                                    className="w-full flex items-center justify-start gap-x-2 hover:underline"
+                                    onClick={() => navigator.clipboard.writeText(email)}>
+                                    <Copy className="w-3 h-3" />
+                                    Copy Email
+                                </button>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem>
+                                <button
+                                    className="w-full flex items-center justify-start gap-x-2 hover:underline"
+                                    onClick={() =>
+                                        navigator.clipboard.writeText(String(phone_number))
+                                    }>
+                                    <Copy className="w-3 h-3" />
+                                    Phone Number
+                                </button>
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
