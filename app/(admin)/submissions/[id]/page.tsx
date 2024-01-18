@@ -10,6 +10,7 @@ import { InitialWidget } from "./_components/widgetInitialReview";
 import { ReferenceWidget } from "./_components/widgetReferences";
 import { ReviewWidget } from "./_components/widgetReview";
 import { NotesWidget } from "./_components/widgetNotes";
+import { Metadata } from "next";
 
 type Props = {
     params: {
@@ -17,9 +18,16 @@ type Props = {
     };
 };
 
-const SingleSubmission = async ({ params }: Props) => {
-    const submission = await getSubmissionByID(Number(params.id));
-    const wasViewed = await checkSubmissionViewStatusByID(Number(params.id));
+export const generateMetadata = async ({ params: { id } }: Props): Promise<Metadata> => {
+    const submission = await getSubmissionByID(Number(id))
+    return {
+        title: `${submission?.email}`
+    }
+}
+
+const SingleSubmission = async ({ params: { id } }: Props) => {
+    const submission = await getSubmissionByID(Number(id));
+    const wasViewed = await checkSubmissionViewStatusByID(Number(id));
 
     if (!submission) return null;
 

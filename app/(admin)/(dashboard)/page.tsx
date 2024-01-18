@@ -1,7 +1,12 @@
 import { PageWrapper } from "@/components/pageWrapper";
 import { DashboardGraph } from "./_components/dashboardGraph";
 import { DashboardWidget } from "./_components/dashboardWidget";
-import { getRandomDate } from "@/lib/utils";
+import { type Metadata } from "next";
+
+
+export const metadata: Metadata = {
+  title: "Dashboard",
+}
 
 const DashboardPage = () => {
   return (

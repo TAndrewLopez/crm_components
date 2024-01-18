@@ -44,7 +44,7 @@ export const ContactWidget = ({
                         </div>
                     }
                     <div className="flex items-center gap-x-1 font-thin">
-                        <p>Created</p>
+                        <p>Submission created </p>
                         <p>{moment(created_at).fromNow()}</p>
                     </div>
                 </div>

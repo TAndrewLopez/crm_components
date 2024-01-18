@@ -83,15 +83,15 @@ export const markSubAsUnread = async (
         const sub = await getSubmissionByID(id);
 
         if (!sub) throw new Error("Invalid Submission ID.");
-        if (sub.status === "unread")
-            throw new Error("Submission is already marked as unread.");
+        if (sub.status === "new")
+            throw new Error("Submission is already marked as new.");
 
         const updatedSub = await db.submission.update({
             where: {
                 id: sub.id,
             },
             data: {
-                status: "unread",
+                status: "new",
             },
         });
 
@@ -111,7 +111,7 @@ export const markGivenSubsAsUnread = async (ids: number[]): Promise<void> => {
                     id,
                 },
                 data: {
-                    status: "unread",
+                    status: "new",
                 },
             });
             revalidatePath("/");

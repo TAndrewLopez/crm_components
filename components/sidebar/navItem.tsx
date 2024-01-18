@@ -19,7 +19,11 @@ export const NavItem = ({ children, count, name, href }: Props) => {
     const pathname = usePathname();
     const { isOpen } = useSidebar();
     const notificationCount = count && count > 0 ? count : 0;
-    const activeNav = href === pathname || pathname.includes(href) && href !== '/'
+
+    const pathArr = pathname.split('/')
+    const hrefArr = href.split("/")
+
+    const activeNav = href === pathname || pathArr.includes(hrefArr[hrefArr.length - 1]) && href !== '/'
     const defaultStyles = cn(
         "relative px-4 py-3 font-extralight flex hover:bg-neutral-800 gap-x-4 items-center",
         activeNav && "bg-neutral-800 text-emerald-500"

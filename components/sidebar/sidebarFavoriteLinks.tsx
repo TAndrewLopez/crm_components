@@ -12,7 +12,7 @@ export const SidebarFavoriteLinks = async ({ }: Props) => {
     return (
         <>
             <div className="flex justify-center flex-1 overflow-y-auto hidden-scrollbar">
-                <ul className="py-4 flex flex-col gap-y-1 overflow-y-hidden">
+                <ul className="py-4 flex flex-col gap-y-1 overflow-y-auto">
                     {favorites.map(({ label, submission_id }) => (
                         <NavItem
                             name={label}
