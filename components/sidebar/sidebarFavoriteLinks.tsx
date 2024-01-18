@@ -1,6 +1,7 @@
+import { Separator } from "../separator";
 import { NavItem } from "./navItem";
 
-type Props = {}
+type Props = {};
 
 const VIEWS = [
     {
@@ -30,17 +31,14 @@ export const SidebarFavoriteLinks = ({ }: Props) => {
         <>
             <div className="mx-2 flex-1 overflow-y-auto hidden-scrollbar">
                 <ul className="py-4 flex flex-col gap-y-1">
-                    {
-                        VIEWS.map(({ href, icon, title }) => (
-                            <NavItem name={title} href={href} key={href}>
-                                {icon}
-                            </NavItem>
-                        ))
-                    }
+                    {VIEWS.map(({ href, icon, title }) => (
+                        <NavItem name={title} href={href} key={href}>
+                            {icon}
+                        </NavItem>
+                    ))}
                 </ul>
             </div>
-            <hr />
+            <Separator className="bg-white/5" />
         </>
-
-    )
-}
+    );
+};

@@ -8,7 +8,7 @@ const AdminViewLayout = ({ children }: Props) => {
     return (
         <div className="flex h-full">
             <Sidebar />
-            <div className="w-full p-4 overflow-auto">
+            <div className="w-full h-full p-4 overflow-y-auto default-scrollbar">
                 {children}
             </div>
         </div>

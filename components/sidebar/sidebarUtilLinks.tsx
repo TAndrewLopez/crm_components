@@ -1,6 +1,7 @@
 import { BadgeHelpIcon, CogIcon, Plug } from "lucide-react";
 
 import { NavItem } from "./navItem";
+import { Separator } from "../separator";
 
 type Props = {};
 
@@ -34,8 +35,7 @@ export const SidebarUtilLinks = ({ }: Props) => {
                     ))}
                 </ul>
             </div>
-            <hr />
+            <Separator className="bg-white/5" />
         </>
-
     );
 };

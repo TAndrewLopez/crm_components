@@ -8,6 +8,7 @@ import {
 
 import { getTotalContactCount, getUnreadSubCount } from "@/actions/count";
 import { NavItem } from "./navItem";
+import { Separator } from "../separator";
 
 type Props = {};
 
@@ -56,7 +57,7 @@ export const SidebarLinks = async ({ }: Props) => {
                     ))}
                 </ul>
             </div>
-            <hr />
+            <Separator className="bg-white/5" />
         </>
 
     );

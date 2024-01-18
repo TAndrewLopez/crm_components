@@ -78,6 +78,7 @@ model user {
   username     String @db.VarChar(255)
   email        String @db.VarChar(255)
   phone_number String @db.VarChar(255)
+  // image_url    String?
 
   // ENUMS
   role            role         @default(client)

@@ -10,7 +10,7 @@ export const PageWrapper = ({ children, className }: Props) => {
     return (
         <div
             className={cn(
-                "w-full mx-auto lg:max-w-[2000px]",
+                "w-full mx-auto xl:max-w-[2000px]",
                 className,
                 poppins.className
             )}>

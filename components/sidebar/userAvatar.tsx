@@ -8,7 +8,9 @@ import { useSidebar } from "@/store/useSidebar";
 const avatarSizes = cva("", {
     variants: {
         size: {
-            default: "h-8 w-8",
+            sm: "h-8 w-8",
+            default: "h-10 w-10",
+            md: "h-12 w-12",
             lg: "h-14 w-14",
         },
     },
@@ -22,21 +24,21 @@ interface Props extends VariantProps<typeof avatarSizes> {
     username: string;
 }
 
-export const UserAvatar = ({ imageURL, username }: Props) => {
+export const UserAvatar = ({ imageURL, username, size }: Props) => {
     const { isOpen } = useSidebar();
 
     return (
         <div
             className={cn(
                 "relative w-full flex items-center",
-                isOpen ? "justify-between" : "justify-center"
+                isOpen ? "justify-between p-4" : "justify-center"
             )}>
             <p className={cn("", isOpen ? "block" : "hidden")}>
                 {username}
             </p>
-            <div className="bg-neutral-800 p-3 rounded-full">
-                {'A'}
-                {'D'}
+            <div className={cn("bg-neutral-800 flex items-center justify-center rounded-full", avatarSizes({ size }))}>
+                {username[0].toUpperCase()}
+                {username[1].toUpperCase()}
             </div>
         </div>
     );

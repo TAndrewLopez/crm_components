@@ -3,7 +3,7 @@
 import { db } from "@/lib/prisma";
 
 // QUERIES
-export const getUnreadSubCount = async () => {
+export const getUnreadSubCount = async (): Promise<number> => {
     return await db.submission.count({
         where: {
             status: "unread",
@@ -11,7 +11,7 @@ export const getUnreadSubCount = async () => {
     });
 };
 
-export const getTotalContactCount = async () => {
+export const getTotalContactCount = async (): Promise<number> => {
     return await db.user.count()
 }
 
