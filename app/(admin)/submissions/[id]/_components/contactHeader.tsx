@@ -1,5 +1,6 @@
-import { Badge } from "@/components/ui/badge";
 import { CircleUser } from "lucide-react";
+
+import { Badge } from "@/components/ui/badge";
 
 type Props = {
     contactName: string;

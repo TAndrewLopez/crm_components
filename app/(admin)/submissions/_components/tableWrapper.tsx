@@ -37,7 +37,7 @@ export const TableWrapper = <TData, TValue>({
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
-        // getPaginationRowModel: getPaginationRowModel(),
+        getPaginationRowModel: getPaginationRowModel(),
         getSortedRowModel: getSortedRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
         onSortingChange: setSorting,

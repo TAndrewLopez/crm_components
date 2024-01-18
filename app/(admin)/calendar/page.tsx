@@ -1,6 +1,15 @@
+"use client";
+import { useRef } from "react";
+
 import { PageWrapper } from "@/components/pageWrapper";
 
 const CalendarPage = () => {
-    return <PageWrapper>Calendar Page</PageWrapper>;
+    const div = useRef(null);
+    console.log(div.current);
+    return (
+        <PageWrapper>
+            thing
+        </PageWrapper>
+    );
 };
 export default CalendarPage;

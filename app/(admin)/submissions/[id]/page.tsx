@@ -9,9 +9,6 @@ import { ContactWidget } from "./_components/widgetContact";
 import { InitialWidget } from "./_components/widgetInitial";
 import { ReferenceWidget } from "./_components/widgetReference";
 import { ReviewWidget } from "./_components/widgetReview";
-import { WidgetWrapper } from "./_components/widgetWrapper";
-import { LOGS } from "@/temp/data";
-import moment from "moment";
 
 type Props = {
     params: {
@@ -35,7 +32,11 @@ const SingleSubmission = async ({ params }: Props) => {
                         email={submission.email}
                         phone_number={submission.phone_number}
                     />
-                    <ActivityWidget client_name={submission.name} />
+                    <ActivityWidget
+                        client_name={submission.name}
+                        submissionID={submission.id}
+                        wasViewed={wasViewed}
+                    />
                 </div>
                 <div className="flex flex-col space-y-5 pb-5 xl:pb-0 overflow-x-auto">
                     <InitialWidget submission={submission} />
