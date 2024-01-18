@@ -36,7 +36,7 @@ export const NavItem = ({ children, count, name, href }: Props) => {
                     <div className="flex justify-between w-full">
                         <div className="flex justify-center items-center gap-x-3">
                             {children}
-                            {isOpen && <p>{name}</p>}
+                            {isOpen && <p className="line-clamp-1">{name}</p>}
                         </div>
 
                         {notificationCount > 0 && (

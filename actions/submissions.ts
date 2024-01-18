@@ -1,15 +1,23 @@
 "use server";
 
-import { db } from "@/lib/prisma";
-import { submission, user } from "@prisma/client";
+import { submission } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
+import { db } from "@/lib/prisma";
+import { updateFavoriteStatusByID } from "./favorites";
+
 // QUERIES
-export const getSubmissionByID = async (
-    id: number
-): Promise<submission | null> => {
+export const getSubmissions = async (): Promise<submission[]> => {
     try {
-        return await db.submission.findUnique({
+        return await db.submission.findMany();
+    } catch (error) {
+        throw new Error("Internal Error.");
+    }
+};
+
+export const getSubmissionByID = async (id: number): Promise<submission> => {
+    try {
+        const submission = await db.submission.findUnique({
             where: {
                 id,
             },
@@ -17,26 +25,28 @@ export const getSubmissionByID = async (
                 author: true,
             },
         });
+
+        if (!submission)
+            throw new Error(`Couldn't find a submission with submission_id: ${id}.`);
+
+        return submission;
     } catch (error) {
-        console.log("Something went wrong", error);
-        return null;
+        throw new Error("Internal Error.");
     }
 };
 
-export const checkSubmissionViewStatusByID = async (
+export const checkSubmissionStatusByID = async (
     id: number
 ): Promise<boolean> => {
     const submission = await getSubmissionByID(id);
-    if (!submission) throw new Error("Invalid Submission ID.");
-    return submission.status === "read" ? true : false;
+    return submission.status === "new" ? false : true;
 };
 
 // MUTATIONS
-export const markSubAsRead = async (id: number): Promise<submission | null> => {
+export const markSubAsRead = async (id: number): Promise<submission> => {
     try {
         const submission = await getSubmissionByID(id);
 
-        if (!submission) throw new Error("Invalid Submission ID.");
         if (submission.status === "read")
             throw new Error("Submission is already marked as read.");
 
@@ -49,11 +59,39 @@ export const markSubAsRead = async (id: number): Promise<submission | null> => {
             },
         });
 
+        await updateFavoriteStatusByID(updatedSub.id);
+
         revalidatePath("/");
         return updatedSub;
     } catch (error) {
-        console.log("Something went wrong", error);
-        return null;
+        throw new Error("Internal Error.")
+    }
+};
+
+export const markSubAsUnread = async (
+    id: number
+): Promise<submission> => {
+    try {
+        const submission = await getSubmissionByID(id);
+
+        if (submission.status === "new")
+            throw new Error("Submission is already marked as new.");
+
+        const updatedSub = await db.submission.update({
+            where: {
+                id: submission.id,
+            },
+            data: {
+                status: "new",
+            },
+        });
+
+        await updateFavoriteStatusByID(updatedSub.id);
+
+        revalidatePath("/");
+        return updatedSub;
+    } catch (error) {
+        throw new Error("Internal Error.")
     }
 };
 
@@ -71,38 +109,10 @@ export const markGivenSubsAsRead = async (ids: number[]): Promise<void> => {
 
             revalidatePath("/");
         } catch (error) {
-            console.log("Something went wrong", error);
+            throw new Error("Internal Error.")
         }
     }
 };
-
-export const markSubAsUnread = async (
-    id: number
-): Promise<submission | null> => {
-    try {
-        const sub = await getSubmissionByID(id);
-
-        if (!sub) throw new Error("Invalid Submission ID.");
-        if (sub.status === "new")
-            throw new Error("Submission is already marked as new.");
-
-        const updatedSub = await db.submission.update({
-            where: {
-                id: sub.id,
-            },
-            data: {
-                status: "new",
-            },
-        });
-
-        revalidatePath("/");
-        return updatedSub;
-    } catch (error) {
-        console.log("Something went wrong", error);
-        return null;
-    }
-};
-
 export const markGivenSubsAsUnread = async (ids: number[]): Promise<void> => {
     for (const id of ids) {
         try {
@@ -116,7 +126,7 @@ export const markGivenSubsAsUnread = async (ids: number[]): Promise<void> => {
             });
             revalidatePath("/");
         } catch (error) {
-            console.log("Something went wrong", error);
+            throw new Error("Internal Error.")
         }
     }
 };

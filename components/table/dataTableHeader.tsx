@@ -20,8 +20,10 @@ export const DataTableHeader = <TData, TValue>({ table }: Props<TData>) => {
                 placeholder="Filter emails..."
                 className="max-w-sm"
                 value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
-                onChange={(event) =>
+                onChange={(event) => {
                     table.getColumn("email")?.setFilterValue(event.target.value)
+
+                }
                 }
             />
             <DropdownMenu>

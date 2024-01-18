@@ -98,8 +98,9 @@ model user {
 
 // USER MODEL -> FOR ADMINS & OWNERS & DEVS
 model favorite {
-  id            Int    @id @default(autoincrement())
+  id            Int              @id @default(autoincrement())
   label         String
+  status        submissionStatus @map("status")
   user_id       Int
   submission_id Int
 

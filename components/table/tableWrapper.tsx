@@ -12,11 +12,12 @@ import {
     useReactTable,
 } from "@tanstack/react-table";
 import { useState } from "react";
+
+import { cn } from "@/lib/utils";
+import { useSidebar } from "@/store/useSidebar";
 import { DataTable } from "./dataTable";
 import { DataTableHeader } from "./dataTableHeader";
 import { DataTablePagination } from "./dataTablePagination";
-import { useSidebar } from "@/store/useSidebar";
-import { cn } from "@/lib/utils";
 
 type Props<TData, TValue> = {
     columns: ColumnDef<TData, TValue>[];

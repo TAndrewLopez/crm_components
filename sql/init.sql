@@ -4,4 +4,4 @@
 
 \copy public.deposit (email, amount, client_id, owner_id, created_at) from '/Users/tandrewlopez/Downloads/csv/crm_app_deposits.csv' DELIMITER ',' CSV HEADER;
 
-\copy public.favorite (label, user_id, submission_id, created_at) from '/Users/tandrewlopez/Downloads/csv/crm_app_favorites.csv' DELIMITER ',' CSV HEADER;
+\copy public.favorite (label, status, user_id, submission_id, created_at) from '/Users/tandrewlopez/Downloads/csv/crm_app_favorites.csv' DELIMITER ',' CSV HEADER;

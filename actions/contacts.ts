@@ -1,19 +1,23 @@
 'use server'
 
-import { db } from "@/lib/prisma"
 import { role, user } from "@prisma/client";
 
+import { db } from "@/lib/prisma";
+
 //QUERIES
-export const getUserByRole = async (role: role): Promise<user[] | null> => {
+export const getUsersByRole = async (role: role): Promise<user[]> => {
     try {
-        return await db.user.findMany({
+        const users = await db.user.findMany({
             where: {
                 role,
             }
         })
+
+        if (!users) throw new Error(`Couldn't get users with role: ${role}.`)
+
+        return users
     } catch (error) {
-        console.log("Something went wrong", error);
-        return null
+        throw new Error("Internal Error.")
     }
 }
 
@@ -23,5 +27,3 @@ export const getAllRolesWithCount = async () => {
         _count: true
     })
 }
-
-// MUTATIONS

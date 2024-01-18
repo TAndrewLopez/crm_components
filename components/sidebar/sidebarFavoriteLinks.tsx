@@ -1,24 +1,24 @@
-import { getFavoriteSubmissionsByUserID } from "@/actions/favorites";
+import { favorite } from "@prisma/client";
+
 import { Separator } from "../separator";
 import { NavItem } from "./navItem";
+import { StatusBadgeMobile } from "../statusBadgeMobile";
 
-type Props = {};
+type Props = {
+    favorites: favorite[]
+};
 
-export const SidebarFavoriteLinks = async ({ }: Props) => {
-    const favorites = await getFavoriteSubmissionsByUserID(11);
-
-    if (!favorites) return null;
-
+export const SidebarFavoriteLinks = async ({ favorites }: Props) => {
     return (
         <>
-            <div className="flex justify-center flex-1 overflow-y-auto hidden-scrollbar">
-                <ul className="py-4 flex flex-col gap-y-1 overflow-y-auto">
-                    {favorites.map(({ label, submission_id }) => (
+            <div className="mx-2 flex justify-center flex-1 overflow-y-auto">
+                <ul className="w-full py-2 flex flex-col gap-y-1 overflow-y-auto hidden-scrollbar xl:">
+                    {favorites.map(({ label, submission_id, status }) => (
                         <NavItem
                             name={label}
                             href={`/submissions/${submission_id}`}
                             key={submission_id}>
-                            ⚪️
+                            <StatusBadgeMobile status={status} size="lg" />
                         </NavItem>
                     ))}
                 </ul>

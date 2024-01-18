@@ -1,5 +1,7 @@
+import { Metadata } from "next";
+
 import {
-    checkSubmissionViewStatusByID,
+    checkSubmissionStatusByID,
     getSubmissionByID,
 } from "@/actions/submissions";
 import { ContactHeader } from "./_components/contactHeader";
@@ -7,10 +9,9 @@ import { ActivityWidget } from "./_components/widgetActivity";
 import { AppointmentWidget } from "./_components/widgetAppointment";
 import { ContactWidget } from "./_components/widgetContact";
 import { InitialWidget } from "./_components/widgetInitialReview";
+import { NotesWidget } from "./_components/widgetNotes";
 import { ReferenceWidget } from "./_components/widgetReferences";
 import { ReviewWidget } from "./_components/widgetReview";
-import { NotesWidget } from "./_components/widgetNotes";
-import { Metadata } from "next";
 
 type Props = {
     params: {
@@ -27,7 +28,7 @@ export const generateMetadata = async ({ params: { id } }: Props): Promise<Metad
 
 const SingleSubmission = async ({ params: { id } }: Props) => {
     const submission = await getSubmissionByID(Number(id));
-    const wasViewed = await checkSubmissionViewStatusByID(Number(id));
+    const wasViewed = await checkSubmissionStatusByID(Number(id));
 
     if (!submission) return null;
 
@@ -52,8 +53,8 @@ const SingleSubmission = async ({ params: { id } }: Props) => {
                         <AppointmentWidget />
                     </div>
                     <div className="flex flex-col space-y-5 xl:w-1/2 pb-5 xl:pb-0">
-                        <NotesWidget />
                         <ReferenceWidget />
+                        <NotesWidget />
                     </div>
                 </div>
             </div>

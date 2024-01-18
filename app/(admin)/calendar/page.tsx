@@ -1,5 +1,6 @@
-import { PageWrapper } from "@/components/pageWrapper";
 import { type Metadata } from "next";
+
+import { PageWrapper } from "@/components/pageWrapper";
 
 export const metadata: Metadata = {
     title: "Calendar",

@@ -1,21 +1,54 @@
 import { db } from "@/lib/prisma";
+import { favorite } from "@prisma/client";
+import { revalidatePath } from "next/cache";
+import { getSubmissionByID } from "./submissions";
 
-export const getFavoriteSubmissionsByUserID = async (id: number) => {
+export const getFavoriteSubmissionsByUserID = async (
+    id: number
+): Promise<favorite[]> => {
     try {
-        const user = await db.user.findUnique({
+        const favorites = await db.favorite.findMany({
             where: {
-                id,
+                user_id: id,
             },
-            include: {
-                favorites: true
-            }
-        })
+            orderBy: {
+                created_at: "desc",
+            },
+        });
 
-        if (!user) throw new Error("Invalid ID.")
+        if (!favorites) throw new Error(`Couldn't find favorites with user_id: ${id}.`);
 
-        return user?.favorites
+        revalidatePath("/");
+        return favorites;
     } catch (error) {
-        console.log("Something went wrong", error)
-        return null
+        throw new Error("Internal Error.")
     }
-}
+};
+
+export const updateFavoriteStatusByID = async (submission_id: number) => {
+    try {
+        const submission = await getSubmissionByID(submission_id)
+
+        const favorite = await db.favorite.findFirst({
+            where: {
+                submission_id,
+            },
+        });
+
+        if (!favorite) throw new Error(`Couldn't find favorite with id: ${submission_id}.`);
+
+        if (submission.status !== favorite.status) {
+            await db.favorite.update({
+                where: {
+                    id: favorite.id,
+                },
+                data: {
+                    status: submission.status,
+                },
+            });
+        }
+        revalidatePath("/");
+    } catch (error) {
+        throw new Error("Internal Error.")
+    }
+};

@@ -1,6 +1,7 @@
+import { type Metadata } from "next";
+
 import { getAllRolesWithCount } from "@/actions/contacts";
 import { PageWrapper } from "@/components/pageWrapper";
-import { type Metadata } from "next";
 
 export const metadata: Metadata = {
     title: "Contacts",

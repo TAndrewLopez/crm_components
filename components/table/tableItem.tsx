@@ -21,8 +21,8 @@ export const TableItem = ({ children, href = "", status }: Props) => {
     return (
         <div
             className={cn(
-                status === "unread" && "font-bold",
-                status === "read" && "text-muted-foreground"
+                status === "new" && "font-bold",
+                status !== "new" && "text-muted-foreground"
             )}>
             {content}
         </div>

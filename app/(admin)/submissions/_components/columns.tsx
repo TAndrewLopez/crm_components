@@ -4,9 +4,9 @@ import { submission } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import {
     ArrowUpDown,
+    Copy,
     GalleryVerticalEndIcon,
     MoreHorizontal,
-    Copy,
     PlusCircle,
 } from "lucide-react";
 import Link from "next/link";
@@ -17,6 +17,7 @@ import {
     markSubAsRead,
     markSubAsUnread,
 } from "@/actions/submissions";
+import { Hint } from "@/components/hint";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -27,9 +28,9 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Hint } from "@/components/hint";
-import { TableItem } from "./tableItem";
 import { formatToUSNumber } from "@/lib/utils";
+import { TableItem } from "../../../../components/table/tableItem";
+import { StatusBadgeMobile } from "@/components/statusBadgeMobile";
 
 export const columns: ColumnDef<submission>[] = [
     {
@@ -90,18 +91,7 @@ export const columns: ColumnDef<submission>[] = [
             const { status } = row.original;
             return (
                 <div className="pl-8">
-                    {status === "new" && (
-                        <div className="w-3.5 h-3.5 bg-emerald-500 rounded-full"></div>
-                    )}
-                    {status === "read" && (
-                        <div className="w-3.5 h-3.5 border-transparent border-2 border-emerald-500 rounded-full"></div>
-                    )}
-                    {status === "pending" && (
-                        <div className="w-3.5 h-3.5 bg-amber-300 rounded-full"></div>
-                    )}
-                    {status === "closed" && (
-                        <div className="w-3.5 h-3.5 bg-neutral-500 rounded-full"></div>
-                    )}
+                    <StatusBadgeMobile status={status} />
                 </div>
             );
         },
