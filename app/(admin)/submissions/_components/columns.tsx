@@ -90,10 +90,16 @@ export const columns: ColumnDef<submission>[] = [
             const { status } = row.original;
             return (
                 <div className="pl-8">
-                    {status === "unread" && (
+                    {status === "new" && (
                         <div className="w-3.5 h-3.5 bg-emerald-500 rounded-full"></div>
                     )}
                     {status === "read" && (
+                        <div className="w-3.5 h-3.5 border-transparent border-2 border-emerald-500 rounded-full"></div>
+                    )}
+                    {status === "pending" && (
+                        <div className="w-3.5 h-3.5 bg-amber-300 rounded-full"></div>
+                    )}
+                    {status === "closed" && (
                         <div className="w-3.5 h-3.5 bg-neutral-500 rounded-full"></div>
                     )}
                 </div>

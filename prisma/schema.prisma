@@ -15,8 +15,12 @@ enum tattooColor {
 }
 
 enum submissionStatus {
-  unread
+  new
   read
+  current
+  pending
+  urgent
+  closed
 }
 
 enum role {
@@ -45,7 +49,7 @@ model submission {
 
   // ENUMS
   color      tattooColor
-  status     submissionStatus @default(unread)
+  status     submissionStatus @default(new)
   // RELATIONS
   favorite   favorite[]
   author     user?            @relation(fields: [author_id], references: [id])

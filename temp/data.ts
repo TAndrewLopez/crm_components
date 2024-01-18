@@ -4,190 +4,74 @@ type iLog = {
     createdAt: Date;
 };
 
-export const LOGS: iLog[] = [
+export const randomLogs: iLog[] = [
     {
         username: "",
         description: "New submission created.",
-        createdAt: new Date("12/31/2023"),
+        createdAt: new Date(2024, 0, 6),
     },
-    {
-        username: "tandrewlopez",
-        description: "Contact information updated.",
-        createdAt: new Date("1/06/2024"),
-    },
+
     {
         username: "tandrewlopez",
         description: "Tattoo information updated.",
-        createdAt: new Date("1/07/2024"),
+        createdAt: new Date(2024, 0, 7),
     },
-    {
-        username: "tandrewlopez",
-        description: "Consultation created.",
-        createdAt: new Date("1/08/2023"),
-    },
-    {
-        username: "",
-        description: "Reference photo updated.",
-        createdAt: new Date("1/11/2023"),
-    },
-    {
-        username: "absurbinsomniac",
-        description: "Appointment created.",
-        createdAt: new Date("1/12/2023"),
-    },
-    {
-        username: "",
-        description: "Deposit paid.",
-        createdAt: new Date("1/12/2023"),
-    },
-    {
-        username: "",
-        description: "Appointment 1 completed.",
-        createdAt: new Date("1/16/2023"),
-    },
-    {
-        username: "",
-        description: "Appointment created.",
-        createdAt: new Date("1/16/2023"),
-    },
-    {
-        username: "",
-        description: "New submission created.",
-        createdAt: new Date("12/31/2023"),
-    },
+
     {
         username: "tandrewlopez",
         description: "Contact information updated.",
-        createdAt: new Date("1/06/2024"),
+        createdAt: new Date(2024, 0, 7),
     },
+
     {
-        username: "tandrewlopez",
-        description: "Tattoo information updated.",
-        createdAt: new Date("1/07/2024"),
+        username: "",
+        description: "Appointment information updated.",
+        createdAt: new Date(2024, 0, 7),
     },
-    {
-        username: "tandrewlopez",
-        description: "Consultation created.",
-        createdAt: new Date("1/08/2023"),
-    },
+
     {
         username: "",
         description: "Reference photo updated.",
-        createdAt: new Date("1/11/2023"),
+        createdAt: new Date(2024, 0, 8),
     },
-    {
-        username: "absurbinsomniac",
-        description: "Appointment created.",
-        createdAt: new Date("1/12/2023"),
-    },
+
     {
         username: "",
         description: "Deposit paid.",
-        createdAt: new Date("1/12/2023"),
+        createdAt: new Date(2024, 0, 9),
     },
-    {
-        username: "",
-        description: "Appointment 1 completed.",
-        createdAt: new Date("1/16/2023"),
-    },
-    {
-        username: "",
-        description: "Appointment created.",
-        createdAt: new Date("1/16/2023"),
-    },
-    {
-        username: "",
-        description: "New submission created.",
-        createdAt: new Date("12/31/2023"),
-    },
-    {
-        username: "tandrewlopez",
-        description: "Contact information updated.",
-        createdAt: new Date("1/06/2024"),
-    },
-    {
-        username: "tandrewlopez",
-        description: "Tattoo information updated.",
-        createdAt: new Date("1/07/2024"),
-    },
+
     {
         username: "tandrewlopez",
         description: "Consultation created.",
-        createdAt: new Date("1/08/2023"),
+        createdAt: new Date(2024, 0, 11),
     },
-    {
-        username: "",
-        description: "Reference photo updated.",
-        createdAt: new Date("1/11/2023"),
-    },
-    {
-        username: "absurbinsomniac",
-        description: "Appointment created.",
-        createdAt: new Date("1/12/2023"),
-    },
-    {
-        username: "",
-        description: "Deposit paid.",
-        createdAt: new Date("1/12/2023"),
-    },
-    {
-        username: "",
-        description: "Appointment 1 completed.",
-        createdAt: new Date("1/16/2023"),
-    },
+
     {
         username: "",
         description: "Appointment created.",
-        createdAt: new Date("1/16/2023"),
+        createdAt: new Date(2024, 0, 1),
     },
+
     {
         username: "",
-        description: "New submission created.",
-        createdAt: new Date("12/31/2023"),
+        description: "Appointment completed.",
+        createdAt: new Date(2024, 0, 16),
     },
-    {
-        username: "tandrewlopez",
-        description: "Contact information updated.",
-        createdAt: new Date("1/06/2024"),
-    },
-    {
-        username: "tandrewlopez",
-        description: "Tattoo information updated.",
-        createdAt: new Date("1/07/2024"),
-    },
-    {
-        username: "tandrewlopez",
-        description: "Consultation created.",
-        createdAt: new Date("1/08/2024"),
-    },
+
     {
         username: "",
-        description: "Reference photo updated.",
-        createdAt: new Date("1/11/2024"),
+        description: "Appointment completed.",
+        createdAt: new Date(2024, 0, 16),
     },
-    {
-        username: "absurbinsomniac",
-        description: "Appointment created.",
-        createdAt: new Date("1/12/2024"),
-    },
-    {
-        username: "",
-        description: "Deposit paid.",
-        createdAt: new Date("1/12/2024"),
-    },
-    {
-        username: "",
-        description: "Appointment 1 completed.",
-        createdAt: new Date("1/16/2024"),
-    },
-    {
-        username: "",
-        description: "Appointment created.",
-        createdAt: new Date("1/16/2024"),
-    },
+
     {
         username: "",
         description: "Review created.",
-        createdAt: new Date("1/31/2024"),
+        createdAt: new Date(2024, 0, 18),
     },
 ];
+
+export const LOGS = randomLogs.sort((a, b) =>
+    a.createdAt > b.createdAt ? 1 : -1
+);

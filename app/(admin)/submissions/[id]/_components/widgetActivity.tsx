@@ -41,7 +41,7 @@ export const ActivityWidget = ({
 
     return (
         <WidgetWrapper title="Activity Feed">
-            <div className="flex flex-col gap-y-2 h-96 overflow-y-scroll default-scrollbar">
+            <div className="flex flex-col gap-y-2 h-96 overflow-y-scroll">
                 <div ref={div} className="space-y-3">
                     <div className="flex flex-col gap-y-3">
                         {LOGS.map(({ description, username, createdAt }, i) => (
@@ -52,7 +52,7 @@ export const ActivityWidget = ({
                                     {!!username
                                         ? username.toLowerCase()
                                         : client_name.toLowerCase()}{" "}
-                                    on {moment(createdAt).fromNow()}
+                                    {moment(createdAt).fromNow()}
                                 </p>
                             </div>
                         ))}

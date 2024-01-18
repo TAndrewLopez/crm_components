@@ -6,7 +6,7 @@ import { db } from "@/lib/prisma";
 export const getUnreadSubCount = async (): Promise<number> => {
     return await db.submission.count({
         where: {
-            status: "unread",
+            status: "new",
         },
     });
 };
