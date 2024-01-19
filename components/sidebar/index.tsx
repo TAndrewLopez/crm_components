@@ -12,6 +12,7 @@ type Props = {};
 
 export const Sidebar = async ({ }: Props) => {
     const user = await getUserByUsername('tandrewlopez')
+
     if (!user) return null
     const favorites = await getFavoriteSubmissionsByUserID(user.id)
     const imageURL = '';

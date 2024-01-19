@@ -1,4 +1,4 @@
-import { CircleUser, Bookmark } from "lucide-react";
+import { CircleUser, Bookmark, Star, Heart } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { submission } from "@prisma/client";
@@ -11,9 +11,9 @@ type Props = {
 };
 
 export const ContactHeader = async ({ submission }: Props) => {
-    const user = await getUserByUsername('tandrewlopez')
-    const favorites = await getFavoriteSubmissionsByUserID(user.id)
-
+    const user = await getUserByUsername("tandrewlopez");
+    const favorites = await getFavoriteSubmissionsByUserID(user.id);
+    const isFavorite = favorites.some((fav) => fav.id === submission.id);
 
     return (
         <div className="flex flex-col">
@@ -41,8 +41,11 @@ export const ContactHeader = async ({ submission }: Props) => {
                     </div>
                 </div>
                 <div className="flex gap-x-3">
-                    <Bookmark className="w-6 h-6 text-emerald-500 fill-emerald-500 hover:text-white cursor-pointer" />
-                    <Bookmark className="w-6 h-6 text-emerald-500 hover:text-white  cursor-pointer" />
+                    {isFavorite ? (
+                        <Bookmark className="w-6 h-6 text-emerald-500 fill-emerald-500 hover:text-white cursor-pointer" />
+                    ) : (
+                        <Bookmark className="w-6 h-6 text-emerald-500 hover:text-white  cursor-pointer" />
+                    )}
                 </div>
             </div>
             <hr className="bg-white/40 h-0.5" />

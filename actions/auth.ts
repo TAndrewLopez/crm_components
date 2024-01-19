@@ -1,14 +1,21 @@
 "use server";
 
-import { user } from "@prisma/client";
+import { favorite, user } from "@prisma/client";
 
 import { db } from "@/lib/prisma";
 
-export const getSelf = async (): Promise<user> => {
+export const getSelf = async (): Promise<
+    user & {
+        favorites: favorite[];
+    }
+> => {
     try {
-        const user = await db.user.findFirst({
+        const user = await db.user.findUnique({
             where: {
-                username: "tandrewlopez",
+                id: 11,
+            },
+            include: {
+                favorites: true,
             },
         });
 
@@ -20,11 +27,16 @@ export const getSelf = async (): Promise<user> => {
     }
 };
 
-export const getUserByUsername = async (username: string): Promise<user> => {
+export const getUserByUsername = async (username: string): Promise<user & {
+    favorites: favorite[]
+}> => {
     try {
         const user = await db.user.findFirst({
             where: {
                 username,
+            },
+            include: {
+                favorites: true,
             },
         });
 

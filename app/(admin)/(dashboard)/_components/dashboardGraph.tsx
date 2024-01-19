@@ -1,6 +1,5 @@
 import { BarGraph } from "./barGraph";
 
-
 export const DashboardGraph = () => {
     return (
         <div className="h-full flex-1 flex flex-col rounded bg-neutral-950 p-4">

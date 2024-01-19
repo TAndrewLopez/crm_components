@@ -35,9 +35,7 @@ export const ActivityWidget = ({
             div.current.scrollIntoView({ behavior: "smooth", block: "end" });
     }, []);
 
-    useEffect(() => {
-        setIsClient(true);
-    }, []);
+    useEffect(() => setIsClient(true), []);
 
     return (
         <WidgetWrapper title="Activity Feed">

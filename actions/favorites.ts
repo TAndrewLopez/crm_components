@@ -37,16 +37,15 @@ export const updateFavoriteStatusByID = async (submission_id: number) => {
 
         if (!favorite) throw new Error(`Couldn't find favorite with id: ${submission_id}.`);
 
-        if (submission.status !== favorite.status) {
-            await db.favorite.update({
-                where: {
-                    id: favorite.id,
-                },
-                data: {
-                    status: submission.status,
-                },
-            });
-        }
+        await db.favorite.update({
+            where: {
+                id: favorite.id,
+            },
+            data: {
+                status: submission.status,
+            },
+        });
+
         revalidatePath("/");
     } catch (error) {
         throw new Error("Internal Error.")

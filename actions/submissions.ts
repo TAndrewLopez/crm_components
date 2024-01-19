@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 
 import { db } from "@/lib/prisma";
 import { updateFavoriteStatusByID } from "./favorites";
+import { getSelf } from "./auth";
 
 // QUERIES
 export const getSubmissions = async (): Promise<submission[]> => {
@@ -45,6 +46,7 @@ export const checkSubmissionStatusByID = async (
 // MUTATIONS
 export const markSubAsRead = async (id: number): Promise<submission> => {
     try {
+        const self = await getSelf();
         const submission = await getSubmissionByID(id);
 
         if (submission.status === "read")
@@ -59,23 +61,26 @@ export const markSubAsRead = async (id: number): Promise<submission> => {
             },
         });
 
-        await updateFavoriteStatusByID(updatedSub.id);
+        const isFavorite = self.favorites.some((fav) => self.id === fav.user_id);
+
+        if (isFavorite) {
+            await updateFavoriteStatusByID(updatedSub.id);
+        }
 
         revalidatePath("/");
         return updatedSub;
     } catch (error) {
-        throw new Error("Internal Error.")
+        throw new Error("Internal Error.");
     }
 };
 
-export const markSubAsUnread = async (
-    id: number
-): Promise<submission> => {
+export const markSubAsUnread = async (id: number): Promise<submission> => {
     try {
+        const self = await getSelf();
         const submission = await getSubmissionByID(id);
 
-        if (submission.status === "new")
-            throw new Error("Submission is already marked as new.");
+        if (submission.status === "read")
+            throw new Error("Submission is already marked as read.");
 
         const updatedSub = await db.submission.update({
             where: {
@@ -86,12 +91,16 @@ export const markSubAsUnread = async (
             },
         });
 
-        await updateFavoriteStatusByID(updatedSub.id);
+        const isFavorite = self.favorites.some((fav) => self.id === fav.user_id);
+
+        if (isFavorite) {
+            await updateFavoriteStatusByID(updatedSub.id);
+        }
 
         revalidatePath("/");
         return updatedSub;
     } catch (error) {
-        throw new Error("Internal Error.")
+        throw new Error("Internal Error.");
     }
 };
 
@@ -109,7 +118,7 @@ export const markGivenSubsAsRead = async (ids: number[]): Promise<void> => {
 
             revalidatePath("/");
         } catch (error) {
-            throw new Error("Internal Error.")
+            throw new Error("Internal Error.");
         }
     }
 };
@@ -126,7 +135,7 @@ export const markGivenSubsAsUnread = async (ids: number[]): Promise<void> => {
             });
             revalidatePath("/");
         } catch (error) {
-            throw new Error("Internal Error.")
+            throw new Error("Internal Error.");
         }
     }
 };

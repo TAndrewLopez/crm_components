@@ -1,9 +1,8 @@
 "use client";
 
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
 
 const NotFoundPage = () => {
     const router = useRouter();
