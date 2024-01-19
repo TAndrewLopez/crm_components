@@ -1,11 +1,11 @@
 "use server";
 
-import { submission } from "@prisma/client";
+import { submission, submissionStatus } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
 import { db } from "@/lib/prisma";
-import { updateFavoriteStatusByID } from "./favorites";
 import { getSelf } from "./auth";
+import { updateFavoriteStatusByID } from "./favorites";
 
 // QUERIES
 export const getSubmissions = async (): Promise<submission[]> => {
@@ -16,11 +16,13 @@ export const getSubmissions = async (): Promise<submission[]> => {
     }
 };
 
-export const getSubmissionByID = async (id: number): Promise<submission> => {
+export const getSubmissionByID = async (
+    submission_id: number
+): Promise<submission> => {
     try {
         const submission = await db.submission.findUnique({
             where: {
-                id,
+                id: submission_id,
             },
             include: {
                 author: true,
@@ -28,7 +30,9 @@ export const getSubmissionByID = async (id: number): Promise<submission> => {
         });
 
         if (!submission)
-            throw new Error(`Couldn't find a submission with submission_id: ${id}.`);
+            throw new Error(
+                `Couldn't find a submission with submission_id: ${submission_id}.`
+            );
 
         return submission;
     } catch (error) {
@@ -36,76 +40,79 @@ export const getSubmissionByID = async (id: number): Promise<submission> => {
     }
 };
 
-export const checkSubmissionStatusByID = async (
-    id: number
+export const submissionIsRead = async (
+    submission_id: number
 ): Promise<boolean> => {
-    const submission = await getSubmissionByID(id);
+    const submission = await getSubmissionByID(submission_id);
     return submission.status === "new" ? false : true;
 };
 
 // MUTATIONS
-export const markSubAsRead = async (id: number): Promise<submission> => {
+export const setSubStatus = async (submission_id: number, status: submissionStatus): Promise<submission> => {
     try {
-        const self = await getSelf();
-        const submission = await getSubmissionByID(id);
+        const self = await getSelf()
+        const submission = await getSubmissionByID(submission_id)
 
-        if (submission.status === "read")
-            throw new Error("Submission is already marked as read.");
+        if (submission.status === status) {
+            throw new Error(`Submission is already marked as ${status}.`)
+        }
 
-        const updatedSub = await db.submission.update({
+        const updatedSubmission = await db.submission.update({
             where: {
                 id: submission.id,
             },
             data: {
-                status: "read",
+                status,
             },
         });
 
-        const isFavorite = self.favorites.some((fav) => self.id === fav.user_id);
+        const favorite = await db.favorite.findFirst({
+            where: {
+                submission_id: updatedSubmission.id,
+                user_id: self.id
+            }
+        })
 
-        if (isFavorite) {
-            await updateFavoriteStatusByID(updatedSub.id);
+        if (favorite) {
+            await updateFavoriteStatusByID(favorite.id)
         }
 
         revalidatePath("/");
-        return updatedSub;
+        return updatedSubmission;
     } catch (error) {
         throw new Error("Internal Error.");
-    }
-};
 
-export const markSubAsUnread = async (id: number): Promise<submission> => {
+    }
+}
+
+// TODO: COMPLETE LOGIC FOR SETTING ARRAY OF IDS TO A SPECIFIC STATUS
+export const setSubStatusOnArray = async (submission_ids: number[], status: submissionStatus) => {
     try {
         const self = await getSelf();
-        const submission = await getSubmissionByID(id);
 
-        if (submission.status === "read")
-            throw new Error("Submission is already marked as read.");
-
-        const updatedSub = await db.submission.update({
-            where: {
-                id: submission.id,
-            },
-            data: {
-                status: "new",
-            },
-        });
-
-        const isFavorite = self.favorites.some((fav) => self.id === fav.user_id);
-
-        if (isFavorite) {
-            await updateFavoriteStatusByID(updatedSub.id);
+        for (const id of submission_ids) {
+            await db.submission.update({
+                where: {
+                    id,
+                },
+                data: {
+                    status: "read",
+                },
+            });
         }
 
-        revalidatePath("/");
-        return updatedSub;
-    } catch (error) {
-        throw new Error("Internal Error.");
-    }
-};
+        const favorites = self.favorites.filter(fav => submission_ids.some(id => id === fav.id))
 
-export const markGivenSubsAsRead = async (ids: number[]): Promise<void> => {
-    for (const id of ids) {
+        revalidatePath("/");
+    } catch (error) {
+
+    }
+}
+
+export const markSubArrayAsRead = async (
+    submission_ids: number[]
+): Promise<void> => {
+    for (const id of submission_ids) {
         try {
             await db.submission.update({
                 where: {
@@ -122,8 +129,11 @@ export const markGivenSubsAsRead = async (ids: number[]): Promise<void> => {
         }
     }
 };
-export const markGivenSubsAsUnread = async (ids: number[]): Promise<void> => {
-    for (const id of ids) {
+
+export const markSubArrayAsUnread = async (
+    submission_ids: number[]
+): Promise<void> => {
+    for (const id of submission_ids) {
         try {
             await db.submission.update({
                 where: {

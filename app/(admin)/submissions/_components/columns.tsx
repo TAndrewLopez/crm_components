@@ -12,10 +12,9 @@ import {
 import Link from "next/link";
 
 import {
-    markGivenSubsAsRead,
-    markGivenSubsAsUnread,
-    markSubAsRead,
-    markSubAsUnread,
+    markSubArrayAsRead,
+    markSubArrayAsUnread,
+    setSubStatus,
 } from "@/actions/submissions";
 import { Hint } from "@/components/hint";
 import { Button } from "@/components/ui/button";
@@ -139,12 +138,12 @@ export const columns: ColumnDef<submission>[] = [
             const ids = allSelected.rows.map((row) => row.original.id);
 
             const handleMarkAllRead = async (ids: number[]) => {
-                await markGivenSubsAsRead(ids);
+                await markSubArrayAsRead(ids);
                 table.resetRowSelection();
             };
 
             const handleMarkAllUnread = async (ids: number[]) => {
-                await markGivenSubsAsUnread(ids);
+                await markSubArrayAsUnread(ids);
                 table.resetRowSelection();
             };
 
@@ -181,9 +180,9 @@ export const columns: ColumnDef<submission>[] = [
         },
         cell: ({ table, row }) => {
             const { id, name, email, phone_number, status } = row.original;
-            const handleClick = () => {
-                const click = status === "read" ? markSubAsUnread : markSubAsRead;
-                click(id);
+            const handleClick = async () => {
+                const label = status === "read" ? "new" : "read";
+                await setSubStatus(id, label);
                 table.resetRowSelection();
             };
             const label = status === "read" ? "unread" : "read";

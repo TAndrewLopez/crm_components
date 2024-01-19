@@ -1,19 +1,16 @@
-import { CircleUser, Bookmark, Star, Heart } from "lucide-react";
-
-import { Badge } from "@/components/ui/badge";
 import { submission } from "@prisma/client";
+import { CircleUser } from "lucide-react";
+
 import { StatusBadge } from "@/components/statusBadge";
-import { getFavoriteSubmissionsByUserID } from "@/actions/favorites";
-import { getUserByUsername } from "@/actions/auth";
+import { Badge } from "@/components/ui/badge";
+import { BookmarkToggle } from "./bookmarkToggle";
 
 type Props = {
+    isFavorite: boolean
     submission: submission;
 };
 
-export const ContactHeader = async ({ submission }: Props) => {
-    const user = await getUserByUsername("tandrewlopez");
-    const favorites = await getFavoriteSubmissionsByUserID(user.id);
-    const isFavorite = favorites.some((fav) => fav.id === submission.id);
+export const ContactHeader = async ({ isFavorite, submission }: Props) => {
 
     return (
         <div className="flex flex-col">
@@ -41,11 +38,7 @@ export const ContactHeader = async ({ submission }: Props) => {
                     </div>
                 </div>
                 <div className="flex gap-x-3">
-                    {isFavorite ? (
-                        <Bookmark className="w-6 h-6 text-emerald-500 fill-emerald-500 hover:text-white cursor-pointer" />
-                    ) : (
-                        <Bookmark className="w-6 h-6 text-emerald-500 hover:text-white  cursor-pointer" />
-                    )}
+                    <BookmarkToggle isBookmark={isFavorite} submission_id={submission.id} />
                 </div>
             </div>
             <hr className="bg-white/40 h-0.5" />

@@ -5,30 +5,30 @@ import moment from "moment";
 import { LOGS } from "@/temp/data";
 import { WidgetWrapper } from "./widgetWrapper";
 import { useEffect, useRef, useState } from "react";
-import { markSubAsRead } from "@/actions/submissions";
+import { setSubStatus } from "@/actions/submissions";
 
 type Props = {
     client_name: string;
     submissionID: number;
-    wasViewed: boolean;
+    isSeen: boolean;
 };
 
 export const ActivityWidget = ({
     client_name,
     submissionID,
-    wasViewed,
+    isSeen,
 }: Props) => {
     const [isClient, setIsClient] = useState(false);
     const div = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
-        if (isClient && wasViewed === false) {
+        if (isClient && isSeen === false) {
             const markAsRead = async () => {
-                await markSubAsRead(submissionID);
+                await setSubStatus(submissionID, 'read');
             };
             markAsRead();
         }
-    }, [isClient, submissionID, wasViewed]);
+    }, [isClient, submissionID, isSeen]);
 
     useEffect(() => {
         if (div.current)

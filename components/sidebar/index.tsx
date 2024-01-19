@@ -5,16 +5,14 @@ import { SidebarLinks } from "./sidebarLinks";
 import { SidebarUtilLinks } from "./sidebarUtilLinks";
 import { SidebarWrapper } from "./sidebarWrapper";
 import { getUserByUsername } from "@/actions/auth";
-import { getFavoriteSubmissionsByUserID } from "@/actions/favorites";
+import { getFavoriteSubmissions } from "@/actions/favorites";
 
 
 type Props = {};
 
 export const Sidebar = async ({ }: Props) => {
     const user = await getUserByUsername('tandrewlopez')
-
-    if (!user) return null
-    const favorites = await getFavoriteSubmissionsByUserID(user.id)
+    const favorites = await getFavoriteSubmissions()
     const imageURL = '';
 
     return (

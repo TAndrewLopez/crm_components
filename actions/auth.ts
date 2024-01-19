@@ -27,9 +27,13 @@ export const getSelf = async (): Promise<
     }
 };
 
-export const getUserByUsername = async (username: string): Promise<user & {
-    favorites: favorite[]
-}> => {
+export const getUserByUsername = async (
+    username: string
+): Promise<
+    user & {
+        favorites: favorite[];
+    }
+> => {
     try {
         const user = await db.user.findFirst({
             where: {

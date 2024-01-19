@@ -1,5 +1,3 @@
-import { getUserByUsername } from "@/actions/auth";
-import { getFavoriteSubmissionsByUserID } from "@/actions/favorites";
 import { Sidebar } from "@/components/sidebar";
 
 type Props = {
