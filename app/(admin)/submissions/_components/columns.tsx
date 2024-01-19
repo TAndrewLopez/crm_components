@@ -14,7 +14,7 @@ import Link from "next/link";
 import {
     markSubArrayAsRead,
     markSubArrayAsUnread,
-    setSubStatus,
+    setSubmissionStatus,
 } from "@/actions/submissions";
 import { Hint } from "@/components/hint";
 import { Button } from "@/components/ui/button";
@@ -182,7 +182,7 @@ export const columns: ColumnDef<submission>[] = [
             const { id, name, email, phone_number, status } = row.original;
             const handleClick = async () => {
                 const label = status === "read" ? "new" : "read";
-                await setSubStatus(id, label);
+                await setSubmissionStatus(id, label);
                 table.resetRowSelection();
             };
             const label = status === "read" ? "unread" : "read";

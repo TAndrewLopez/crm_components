@@ -1,34 +1,34 @@
 "use client";
 
 import moment from "moment";
+import { useEffect, useRef, useState } from "react";
 
+import { setSubmissionStatus } from "@/actions/submissions";
 import { LOGS } from "@/temp/data";
 import { WidgetWrapper } from "./widgetWrapper";
-import { useEffect, useRef, useState } from "react";
-import { setSubStatus } from "@/actions/submissions";
 
 type Props = {
     client_name: string;
     submissionID: number;
-    isSeen: boolean;
+    isNew: boolean;
 };
 
 export const ActivityWidget = ({
     client_name,
     submissionID,
-    isSeen,
+    isNew,
 }: Props) => {
     const [isClient, setIsClient] = useState(false);
     const div = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
-        if (isClient && isSeen === false) {
+        if (isClient && isNew) {
             const markAsRead = async () => {
-                await setSubStatus(submissionID, 'read');
+                await setSubmissionStatus(submissionID, 'read');
             };
             markAsRead();
         }
-    }, [isClient, submissionID, isSeen]);
+    }, [isClient, submissionID, isNew]);
 
     useEffect(() => {
         if (div.current)

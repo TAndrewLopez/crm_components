@@ -1,4 +1,4 @@
-import { type Metadata } from "next";
+import type { Metadata } from "next";
 
 import { PageWrapper } from "@/components/pageWrapper";
 import { DashboardGraph } from "./_components/dashboardGraph";

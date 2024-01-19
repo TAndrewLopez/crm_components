@@ -37,58 +37,38 @@ enum depositStatus {
 
 // SUBMISSION MODELS
 model submission {
-  id                 Int     @id @default(autoincrement())
-  name               String  @db.VarChar(255)
-  email              String  @db.VarChar(255)
-  phone_number       String  @db.VarChar(255)
-  preferred_pronouns String? @db.VarChar(255)
-  description        String
-  size               String  @db.VarChar(255)
-  placement          String  @db.VarChar(255)
+  id                 Int              @id @default(autoincrement())
   author_id          Int?
+  status             submissionStatus @default(new)
+  name               String           @db.VarChar(255)
+  email              String           @db.VarChar(255)
+  phone_number       String           @db.VarChar(255)
+  preferred_pronouns String?          @db.VarChar(255)
+  size               String           @db.VarChar(255)
+  placement          String           @db.VarChar(255)
+  color              tattooColor
+  description        String
 
-  // ENUMS
-  color      tattooColor
-  status     submissionStatus @default(new)
   // RELATIONS
-  favorite   favorite[]
-  author     user?            @relation(fields: [author_id], references: [id])
+  bookmarks  bookmark[]
+  author     user?      @relation(fields: [author_id], references: [id])
   // TIMESTAMPS
-  created_at DateTime         @default(now())
-  updated_at DateTime?        @updatedAt
-}
-
-// PAYMENT MODELS
-model deposit {
-  id        Int    @id @default(autoincrement())
-  amount    Int
-  email     String @db.VarChar(255)
-  client_id Int?
-  owner_id  Int
-
-  // ENUMS
-  status     depositStatus @default(unpaid)
-  // RELATIONS
-  client     user?         @relation("client", fields: [client_id], references: [id])
-  owner      user          @relation("owner", fields: [owner_id], references: [id])
-  // TIMESTAMPS
-  created_at DateTime      @default(now())
-  updated_at DateTime?     @updatedAt
+  created_at DateTime   @default(now())
+  updated_at DateTime?  @updatedAt
 }
 
 // USER MODELS
 model user {
-  id           Int    @id @default(autoincrement())
-  username     String @db.VarChar(255)
-  email        String @db.VarChar(255)
-  phone_number String @db.VarChar(255)
-  // image_url    String?
+  id           Int     @id @default(autoincrement())
+  username     String  @db.VarChar(255)
+  email        String  @db.VarChar(255)
+  phone_number String  @db.VarChar(255)
+  image_url    String?
+  role         role    @default(client)
 
-  // ENUMS
-  role            role         @default(client)
   // RELATIONS
   client_history  submission[]
-  favorites       favorite[]
+  bookmarks       bookmark[]
   owner_deposits  deposit[]    @relation("owner")
   client_deposits deposit[]    @relation("client")
   // TIMESTAMPS
@@ -96,18 +76,35 @@ model user {
   updated_at      DateTime?    @updatedAt
 }
 
-// USER MODEL -> FOR ADMINS & OWNERS & DEVS
-model favorite {
+// FOR ADMINS & OWNERS & DEVS
+model bookmark {
   id            Int              @id @default(autoincrement())
+  owner_id      Int
+  submission_id Int
   label         String
   status        submissionStatus @map("status")
-  user_id       Int
-  submission_id Int
 
   // RELATIONS
   submission submission @relation(fields: [submission_id], references: [id])
-  owner      user       @relation(fields: [user_id], references: [id])
+  owner      user       @relation(fields: [owner_id], references: [id])
   // TIMESTAMPS
   created_at DateTime   @default(now())
   updated_at DateTime?  @updatedAt
+}
+
+// PAYMENT MODELS
+model deposit {
+  id        Int            @id @default(autoincrement())
+  owner_id  Int
+  email     String         @db.VarChar(255)
+  amount    Int
+  status    depositStatus? @default(unpaid)
+  client_id Int?
+
+  // RELATIONS
+  client     user?     @relation("client", fields: [client_id], references: [id])
+  owner      user      @relation("owner", fields: [owner_id], references: [id])
+  // TIMESTAMPS
+  created_at DateTime  @default(now())
+  updated_at DateTime? @updatedAt
 }

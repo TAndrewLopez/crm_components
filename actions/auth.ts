@@ -1,21 +1,25 @@
 "use server";
 
-import { favorite, user } from "@prisma/client";
+import { bookmark, user } from "@prisma/client";
 
 import { db } from "@/lib/prisma";
 
-export const getSelf = async (): Promise<
-    user & {
-        favorites: favorite[];
-    }
-> => {
+interface ExtendedUser extends user {
+    bookmarks: bookmark[];
+}
+
+/**
+ * DEV IMPLEMENTATION -> RETURN USER WITH MY ID
+ * @returns ExtendedUser
+ */
+export const getSelf = async (): Promise<ExtendedUser> => {
     try {
         const user = await db.user.findUnique({
             where: {
                 id: 11,
             },
             include: {
-                favorites: true,
+                bookmarks: true,
             },
         });
 
@@ -26,21 +30,21 @@ export const getSelf = async (): Promise<
         throw new Error("Internal Error.");
     }
 };
-
+/**
+ * Fetches a user from the database by the given username.
+ * @param username 
+ * @returns ExtendedUser
+ */
 export const getUserByUsername = async (
     username: string
-): Promise<
-    user & {
-        favorites: favorite[];
-    }
-> => {
+): Promise<ExtendedUser> => {
     try {
         const user = await db.user.findFirst({
             where: {
                 username,
             },
             include: {
-                favorites: true,
+                bookmarks: true,
             },
         });
 

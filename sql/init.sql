@@ -1,7 +1,7 @@
-\copy public.user (username, email, phone_number, role, created_at) from '/Users/tandrewlopez/Downloads/csv/crm_app_users.csv' DELIMITER ',' CSV HEADER;
+\copy public.user (username, email, phone_number, image_url, role, created_at) from '/Users/tandrewlopez/Downloads/csv/crm_app_users.csv' DELIMITER ',' CSV HEADER;
 
-\copy public.submission (name, author_id, status, email, phone_number, preferred_pronouns, size, placement, color, description, created_at) from '/Users/tandrewlopez/Downloads/csv/crm_app_submissions.csv' DELIMITER ',' CSV HEADER;
+\copy public.submission (author_id, status, name, email, phone_number, preferred_pronouns, size, placement, color, description, created_at) from '/Users/tandrewlopez/Downloads/csv/crm_app_submissions.csv' DELIMITER ',' CSV HEADER;
 
-\copy public.deposit (email, amount, client_id, owner_id, created_at) from '/Users/tandrewlopez/Downloads/csv/crm_app_deposits.csv' DELIMITER ',' CSV HEADER;
+\copy public.bookmark (owner_id, submission_id, label, status, created_at) from '/Users/tandrewlopez/Downloads/csv/crm_app_bookmarks.csv' DELIMITER ',' CSV HEADER;
 
-\copy public.favorite (label, status, user_id, submission_id, created_at) from '/Users/tandrewlopez/Downloads/csv/crm_app_favorites.csv' DELIMITER ',' CSV HEADER;
+\copy public.deposit (owner_id, email, amount, status, client_id, created_at) from '/Users/tandrewlopez/Downloads/csv/crm_app_deposits.csv' DELIMITER ',' CSV HEADER;

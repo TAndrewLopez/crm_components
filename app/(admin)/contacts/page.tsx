@@ -1,4 +1,4 @@
-import { type Metadata } from "next";
+import type { Metadata } from "next";
 
 import { getAllRolesWithCount } from "@/actions/contacts";
 import { PageWrapper } from "@/components/pageWrapper";

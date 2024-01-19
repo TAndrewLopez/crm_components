@@ -6,11 +6,11 @@ import { Badge } from "@/components/ui/badge";
 import { BookmarkToggle } from "./bookmarkToggle";
 
 type Props = {
-    isFavorite: boolean
+    isBookmark: boolean
     submission: submission;
 };
 
-export const ContactHeader = async ({ isFavorite, submission }: Props) => {
+export const ContactHeader = async ({ isBookmark, submission }: Props) => {
 
     return (
         <div className="flex flex-col">
@@ -19,7 +19,6 @@ export const ContactHeader = async ({ isFavorite, submission }: Props) => {
                     <CircleUser className="w-12 h-12" />
                     <div className="flex items-end gap-x-5">
                         <div className="flex flex-col justify-between">
-                            <p className="font-extralight">Contact</p>
                             <p className="font-thin text-2xl">{submission.name}</p>
                         </div>
                         <div className="flex items-center pb-1.5 space-x-1.5">
@@ -38,7 +37,7 @@ export const ContactHeader = async ({ isFavorite, submission }: Props) => {
                     </div>
                 </div>
                 <div className="flex gap-x-3">
-                    <BookmarkToggle isBookmark={isFavorite} submission_id={submission.id} />
+                    <BookmarkToggle isBookmark={isBookmark} submission_id={submission.id} />
                 </div>
             </div>
             <hr className="bg-white/40 h-0.5" />

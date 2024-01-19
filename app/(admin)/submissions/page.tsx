@@ -1,4 +1,4 @@
-import { type Metadata } from "next";
+import type { Metadata } from "next";
 
 import { getSubmissions } from "@/actions/submissions";
 import { PageWrapper } from "@/components/pageWrapper";
