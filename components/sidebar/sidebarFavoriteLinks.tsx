@@ -12,7 +12,7 @@ export const SidebarFavoriteLinks = async ({ bookmarks }: Props) => {
     return (
         <>
             <div className="mx-2 flex justify-center flex-1 overflow-y-auto">
-                <ul className="w-full py-2 flex flex-col gap-y-1 overflow-y-auto hidden-scrollbar xl:">
+                <ul className="w-full py-2 flex flex-col gap-y-1 overflow-y-auto hidden-scrollbar">
                     {bookmarks.map(({ label, submission_id, status }) => (
                         <NavItem
                             name={label}

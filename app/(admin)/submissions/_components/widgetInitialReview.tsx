@@ -8,8 +8,8 @@ type Props = {
 
 export const InitialWidget = ({ submission: { color, description, placement, size, } }: Props) => {
     return (
-        <WidgetWrapper className="flex-1" title="Tattoo Information" showSeparator>
-            <div className="flex-1 font-extralight bg-neutral-900 p-4 rounded-md">
+        <WidgetWrapper className="flex-1" title="Initial Information" showSeparator>
+            <div className="flex-1 font-extralight bg-primary-foreground p-4 rounded-md">
                 <div className="flex items-center gap-x-3">
                     <p>Placement: </p>
                     <p>{placement}</p>

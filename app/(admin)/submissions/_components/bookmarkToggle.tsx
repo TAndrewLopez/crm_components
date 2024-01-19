@@ -1,12 +1,11 @@
 "use client";
 
 import { Bookmark } from "lucide-react";
+import { useState, useTransition } from "react";
 
-import { addBookmark, deleteBookmarkBySubmissionID } from "@/actions/bookmark";
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Input } from "@/components/ui/input";
-import { FormEvent } from "react";
+import { BookmarkForm } from "./bookmarkForm";
+import { deleteBookmarkBySubmissionID } from "@/actions/bookmark";
 
 type Props = {
     isBookmark: boolean;
@@ -14,34 +13,39 @@ type Props = {
 };
 
 export const BookmarkToggle = ({ isBookmark, submission_id }: Props) => {
-    const defaultStyles =
-        "w-6 h-6 text-emerald-500 hover:text-white cursor-pointer";
+    const [isPending, startTransition] = useTransition();
+    const [showLabel, setShowLabel] = useState(false);
 
-    const addAsBookmark = async () => {
-        await addBookmark("new favorite", submission_id);
+    const handleClick = () => {
+        isBookmark
+            ? startTransition(() => {
+                deleteBookmarkBySubmissionID(submission_id)
+                    .then((data) => {
+                        setShowLabel(false);
+                    })
+                    .catch(() =>
+                        console.error("Something went wrong updating bookmark")
+                    );
+            })
+            : setShowLabel(true);
     };
-
-    const removeAsBookmark = async () => {
-        await deleteBookmarkBySubmissionID(submission_id);
-    };
-
-    const handleSubmit = (e: FormEvent<HTMLElement>) => {
-        e.preventDefault()
-        console.log('things')
-    }
 
     return (
-        <div className="flex items-center bg-red-200/20">
-            <form onSubmit={handleSubmit}>
-                <Input placeholder="Name of bookmark" className="" />
-            </form>
-
-            <Button
-                onClick={isBookmark ? removeAsBookmark : addAsBookmark}
-                variant="link">
-                <Bookmark className={cn(defaultStyles,
-                    isBookmark && "fill-emerald-500")} />
-            </Button>
+        <div className="flex gap-x-3 items-center relative">
+            {showLabel && (
+                <BookmarkForm
+                    className="flex flex-col xl:flex-row gap-x-3 border border-primary/30 xl:border-none absolute xl:static xl:flex right-0 top-11 bg-popover xl:bg-inherit p-4 xl:p-0"
+                    submission_id={submission_id}
+                    setShowLabel={setShowLabel}
+                />
+            )}
+            <Bookmark
+                onClick={handleClick}
+                className={cn(
+                    "h-8 w-8 text-emerald-500 hover:cursor-pointer hover:text-white",
+                    isBookmark && "fill-emerald-500"
+                )}
+            />
         </div>
     );
 };

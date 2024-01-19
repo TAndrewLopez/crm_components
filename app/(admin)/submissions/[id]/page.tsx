@@ -1,10 +1,7 @@
 import type { Metadata } from "next";
 
 import { isBookmark } from "@/actions/bookmark";
-import {
-    getSubmissionByID,
-    isSubmissionNew,
-} from "@/actions/submissions";
+import { getSubmissionByID, isSubmissionNew } from "@/actions/submissions";
 import { ContactHeader } from "../_components/contactHeader";
 import { ActivityWidget } from "../_components/widgetActivity";
 import { AppointmentWidget } from "../_components/widgetAppointment";
@@ -20,22 +17,27 @@ type Props = {
     };
 };
 
-export const generateMetadata = async ({ params: { id } }: Props): Promise<Metadata> => {
-    const submission = await getSubmissionByID(Number(id))
+export const generateMetadata = async ({
+    params: { id },
+}: Props): Promise<Metadata> => {
+    const submission = await getSubmissionByID(Number(id));
 
     return {
-        title: `${submission?.email}`
-    }
-}
+        title: `${submission?.email}`,
+    };
+};
 
 const SingleSubmission = async ({ params: { id } }: Props) => {
     const submission = await getSubmissionByID(Number(id));
     const isNew = await isSubmissionNew(Number(id));
-    const isBook = await isBookmark(submission.id)
+    const isBook = await isBookmark(submission.id);
 
     return (
         <div className="h-full flex flex-col space-y-5">
-            <ContactHeader isBookmark={isBook} submission={submission} />
+            <ContactHeader
+                isBookmark={isBook}
+                submission={submission}
+            />
 
             <div className="flex-1 flex flex-col space-y-5 xl:flex-row xl:space-x-5 xl:space-y-0">
                 <div className="flex flex-col xl:min-w-80 space-y-5">

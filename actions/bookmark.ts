@@ -6,6 +6,8 @@ import { revalidatePath } from "next/cache";
 import { db } from "@/lib/prisma";
 import { getSelf } from "./auth";
 import { getSubmissionByID } from "./submissions";
+import { z } from "zod";
+import { newBookmarkSchema } from "@/schemas/bookmark";
 
 // QUERY
 /**
@@ -16,7 +18,7 @@ import { getSubmissionByID } from "./submissions";
 export const isBookmark = async (submission_id: number): Promise<boolean> => {
     try {
         const self = await getSelf();
-        const submission = await getSubmissionByID(submission_id)
+        const submission = await getSubmissionByID(submission_id);
         const bookmark = await db.bookmark.findFirst({
             where: {
                 owner_id: self.id,
@@ -28,6 +30,30 @@ export const isBookmark = async (submission_id: number): Promise<boolean> => {
         throw new Error("Internal Error.");
     }
 };
+
+/**
+ * Fetches a bookmark record with the given submission_id for the currently logged in user.
+ * @param submission_id 
+ * @returns bookmark
+ */
+export const getBookmarkBySubmissionID = async (submission_id: number) => {
+    try {
+        const self = await getSelf();
+        const submission = await getSubmissionByID(submission_id);
+        const bookmark = await db.bookmark.findFirst({
+            where: {
+                owner_id: self.id,
+                submission_id: submission.id,
+            }
+        })
+
+        // if (!bookmark) throw new Error(`Couldn't find bookmark with id: ${submission_id}.`);
+
+        return bookmark;
+    } catch (error) {
+        throw new Error("Internal Error.")
+    }
+}
 
 /**
  * Fetches all bookmark records for the currently logged in user.
@@ -55,15 +81,19 @@ export const getBookmarks = async (): Promise<bookmark[]> => {
 // MUTATION
 /**
  * Creates a new bookmark record with the given label and submission_id.
- * @param label 
- * @param submission_id 
+ * @param label
+ * @param submission_id
  * @returns bookmark
  */
 export const addBookmark = async (
-    label: string,
-    submission_id: number
-): Promise<bookmark> => {
+    values: z.infer<typeof newBookmarkSchema>
+) => {
+
     try {
+        const validatedFields = newBookmarkSchema.safeParse(values);
+        if (!validatedFields.success) return { error: "Invalid fields." };
+
+        const { label, submission_id } = validatedFields.data;
         const self = await getSelf();
         const submission = await getSubmissionByID(submission_id);
         const bookmark = await db.bookmark.create({
@@ -74,21 +104,22 @@ export const addBookmark = async (
                 status: submission.status,
             },
         });
-
         if (!bookmark) throw new Error("Error adding favorite submission.");
         revalidatePath("/");
         return bookmark;
     } catch (error) {
-        throw new Error("Internal Error.");
+        throw new Error("Internal Error.")
     }
 };
 
 /**
  * Deletes a bookmark record with the given submission_id
- * @param submission_id 
+ * @param submission_id
  * @returns bookmark
  */
-export const deleteBookmarkBySubmissionID = async (submission_id: number): Promise<bookmark> => {
+export const deleteBookmarkBySubmissionID = async (
+    submission_id: number
+): Promise<bookmark> => {
     try {
         const self = await getSelf();
         const submission = await getSubmissionByID(submission_id);
@@ -100,7 +131,7 @@ export const deleteBookmarkBySubmissionID = async (submission_id: number): Promi
         });
 
         if (!bookmark)
-            throw new Error(`Couldn't find bookmark with id: ${submission_id}.`);
+            throw new Error(`Couldn't find bookmark with submission_id: ${submission_id}.`);
 
         const deletedBookmark = await db.bookmark.delete({
             where: {
@@ -109,7 +140,7 @@ export const deleteBookmarkBySubmissionID = async (submission_id: number): Promi
         });
 
         revalidatePath("/");
-        return deletedBookmark
+        return deletedBookmark;
     } catch (error) {
         throw new Error("Internal Error.");
     }
@@ -117,14 +148,14 @@ export const deleteBookmarkBySubmissionID = async (submission_id: number): Promi
 
 /**
  * Updates the status of a bookmark record with the given submission_id
- * @param submission_id 
+ * @param submission_id
  * @returns bookmark
  */
 export const updateBookmarkStatusBySubmissionID = async (
     submission_id: number
 ): Promise<bookmark> => {
     try {
-        const self = await getSelf()
+        const self = await getSelf();
         const submission = await getSubmissionByID(submission_id);
         const bookmark = await db.bookmark.findFirst({
             where: {
@@ -134,7 +165,7 @@ export const updateBookmarkStatusBySubmissionID = async (
         });
 
         if (!bookmark)
-            throw new Error(`Couldn't find bookmark with id: ${submission_id}.`);
+            throw new Error(`Couldn't find bookmark with submission_id: ${submission_id}.`);
 
         const updatedBookmark = await db.bookmark.update({
             where: {

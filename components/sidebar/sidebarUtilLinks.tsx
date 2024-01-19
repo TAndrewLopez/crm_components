@@ -14,7 +14,7 @@ const FOOTER = [
     {
         name: "Integration",
         Icon: Plug,
-        href: "/somewhere",
+        href: "/integration",
     },
     {
         name: "Settings",
@@ -27,7 +27,7 @@ export const SidebarUtilLinks = ({ }: Props) => {
     return (
         <>
             <div className="mx-2">
-                <ul className="py-4">
+                <ul className="w-full py-2 flex flex-col gap-y-1">
                     {FOOTER.map(({ href, Icon, name }) => (
                         <NavItem href={href} name={name} key={href}>
                             <Icon className="w-5 h-5" />
