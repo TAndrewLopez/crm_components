@@ -1,3 +1,4 @@
+import { ChevronLeft } from "lucide-react";
 import type { Metadata } from "next";
 
 import { isBookmark } from "@/actions/bookmark";
@@ -38,7 +39,6 @@ const SingleSubmission = async ({ params: { id } }: Props) => {
                 isBookmark={isBook}
                 submission={submission}
             />
-
             <div className="flex-1 flex flex-col space-y-5 xl:flex-row xl:space-x-5 xl:space-y-0">
                 <div className="flex flex-col xl:min-w-80 space-y-5">
                     <ContactWidget submission={submission} />

@@ -115,32 +115,6 @@ export const setSubmissionStatus = async (
 };
 
 // TODO: COMPLETE LOGIC FOR SETTING ARRAY OF IDS TO A SPECIFIC STATUS
-export const setSubStatusOnArray = async (
-    submission_ids: number[],
-    status: submissionStatus
-) => {
-    try {
-        const self = await getSelf();
-
-        for (const id of submission_ids) {
-            await db.submission.update({
-                where: {
-                    id,
-                },
-                data: {
-                    status: "read",
-                },
-            });
-        }
-
-        const favorites = self.bookmarks.filter((mark) =>
-            submission_ids.some((id) => id === mark.id)
-        );
-
-        revalidatePath("/");
-    } catch (error) { }
-};
-
 export const markSubArrayAsRead = async (
     submission_ids: number[]
 ): Promise<void> => {
@@ -155,26 +129,6 @@ export const markSubArrayAsRead = async (
                 },
             });
 
-            revalidatePath("/");
-        } catch (error) {
-            throw new Error("Internal Error.");
-        }
-    }
-};
-
-export const markSubArrayAsUnread = async (
-    submission_ids: number[]
-): Promise<void> => {
-    for (const id of submission_ids) {
-        try {
-            await db.submission.update({
-                where: {
-                    id,
-                },
-                data: {
-                    status: "new",
-                },
-            });
             revalidatePath("/");
         } catch (error) {
             throw new Error("Internal Error.");
