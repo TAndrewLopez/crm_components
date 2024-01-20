@@ -1,8 +1,13 @@
+import { PageWrapper } from "@/components/pageWrapper"
+
 const SupportPage = () => {
     return (
-        <div>
-            Support Page
-        </div>
+        <PageWrapper>
+            <h1 className="text-4xl font-semibold">Support</h1>
+            Contact Dev?
+            Submit Bug?
+
+        </PageWrapper>
     )
 }
 

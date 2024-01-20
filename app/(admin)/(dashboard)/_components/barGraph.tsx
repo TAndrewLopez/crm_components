@@ -10,9 +10,9 @@ export const BarGraph = () => {
     const months = moment.monthsShort();
 
     return (
-        <div className="flex flex-1 items-end gap-x-2">
+        <ul className="flex flex-1 items-end gap-x-2">
             {heights.map((height, i) => (
-                <div className="flex flex-col justify-end flex-1 h-full" key={i}>
+                <li className="flex flex-col justify-end flex-1 h-full" key={i}>
                     <div
                         className="bg-emerald-500 rounded-t"
                         style={{ height: `${height}%` }}
@@ -20,8 +20,8 @@ export const BarGraph = () => {
                     <p className="text-white text-center">
                         {months[i][0]}
                     </p>
-                </div>
+                </li>
             ))}
-        </div>
+        </ul>
     )
 }

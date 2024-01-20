@@ -135,3 +135,23 @@ export const markSubArrayAsRead = async (
         }
     }
 };
+
+export const markSubArrayAsUnread = async (
+    submission_ids: number[]
+): Promise<void> => {
+    for (const id of submission_ids) {
+        try {
+            await db.submission.update({
+                where: {
+                    id,
+                },
+                data: {
+                    status: "new",
+                },
+            });
+            revalidatePath("/");
+        } catch (error) {
+            throw new Error("Internal Error.");
+        }
+    }
+};

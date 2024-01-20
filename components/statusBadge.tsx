@@ -1,70 +1,51 @@
-import { submissionStatus } from "@prisma/client";
+import { submissionStatus as Status } from "@prisma/client";
 
 import { Badge } from "./ui/badge";
 
-export const StatusBadge = ({ status }: { status: submissionStatus }) => {
-    switch (status) {
-        case "new":
-            return (
-                <>
-                    <Badge variant="primary" className="hidden xl:block">
-                        New
-                    </Badge>
-                    <Badge
-                        variant="primary"
-                        className="xl:hidden rounded-full h-5"></Badge>
-                </>
-            );
-        case "current":
-            return (
-                <>
-                    <Badge variant="primary" className="hidden xl:block">
-                        Current
-                    </Badge>
-                    <Badge
-                        variant="primary"
-                        className="xl:hidden rounded-full h-5"></Badge>
-                </>
-            );
-        case "pending":
-            return (
-                <>
-                    <Badge variant="highlight" className="hidden xl:block">
-                        Pending
-                    </Badge>
-                    <Badge
-                        variant="highlight"
-                        className="xl:hidden rounded-full h-5"></Badge>
-                </>
-            );
-        case "urgent":
-            return (
-                <>
-                    <Badge variant="destructive" className="hidden xl:block">
-                        Urgent
-                    </Badge>
-                    <Badge
-                        variant="destructive"
-                        className="xl:hidden rounded-full h-5"></Badge>
-                </>
-            );
-        case "closed":
-            return (
-                <>
-                    <Badge variant="grey" className="hidden xl:block">
-                        Closed
-                    </Badge>
-                    <Badge variant="grey" className="xl:hidden rounded-full h-5"></Badge>
-                </>
-            );
-        case "read":
-            return (
-                <>
-                    <Badge variant="invisible" />
-                </>
-            );
+type Props = {
+    status: Status | 'contact',
+};
 
+export const StatusBadge = ({ status }: Props) => {
+    let label = status !== "read" ? status : null;
+    let variant:
+        | "default"
+        | "grey"
+        | "primary"
+        | "highlight"
+        | "invisible"
+        | "destructive"
+        | null
+        | undefined;
+
+    switch (status) {
+        case "closed":
+            variant = "grey";
+            break;
+        case "new":
+        case "current":
+            variant = "primary";
+            break;
+        case "pending":
+            variant = "highlight";
+            break;
+        case "read":
+            variant = "invisible";
+            break;
+        case "urgent":
+            variant = "destructive";
+            break;
         default:
-            return null
+            variant = 'default'
+            break;
     }
+
+    return (
+        <>
+            <Badge variant={variant} className="hidden sm:block capitalize">
+                {label}
+            </Badge>
+            <Badge variant={variant} className="sm:hidden rounded-full h-5"></Badge>
+        </>
+    );
 };

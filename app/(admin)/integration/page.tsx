@@ -1,8 +1,11 @@
+import { PageWrapper } from "@/components/pageWrapper"
+
 const IntegrationPage = () => {
     return (
-        <div>
-            Integration Page
-        </div>
+        <PageWrapper>
+            <h1 className="text-4xl font-semibold">Integration</h1>
+            Spotify Integration?
+        </PageWrapper>
     )
 }
 

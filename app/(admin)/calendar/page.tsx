@@ -9,7 +9,10 @@ export const metadata: Metadata = {
 const CalendarPage = () => {
     return (
         <PageWrapper>
-            thing
+            <h1 className="text-4xl font-semibold">Calendar</h1>
+
+            Something will be here. Promise.
+
         </PageWrapper>
     );
 };
