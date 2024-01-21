@@ -1,4 +1,3 @@
-import { ChevronLeft } from "lucide-react";
 import type { Metadata } from "next";
 
 import { isBookmark } from "@/actions/bookmark";
@@ -29,8 +28,10 @@ export const generateMetadata = async ({
 };
 
 const SingleSubmission = async ({ params: { id } }: Props) => {
-    const submission = await getSubmissionByID(Number(id));
-    const isNew = await isSubmissionNew(Number(id));
+    const submissionPromise = await getSubmissionByID(Number(id));
+    const isNewPromise = await isSubmissionNew(Number(id));
+    const [submission, isNew] = await Promise.all([submissionPromise, isNewPromise])
+
     const isBook = await isBookmark(submission.id);
 
     return (

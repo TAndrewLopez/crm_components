@@ -2,7 +2,10 @@
 
 import { db } from "@/lib/prisma";
 
-// QUERIES
+/*
+    These counts are used for the nav bar notification count.
+*/
+
 export const getUnreadSubCount = async (): Promise<number> => {
     try {
         return await db.submission.count({

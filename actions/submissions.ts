@@ -7,11 +7,10 @@ import { db } from "@/lib/prisma";
 import { getSelf } from "./auth";
 import { updateBookmarkStatusBySubmissionID } from "./bookmark";
 
-
-// QUERIES
+// BOOLEANS
 
 /**
- * Fetches the status of the given submission_id and returns boolean if submission is new
+ * Check if the status for the given submission_id is new.
  * @param submission_id 
  * @returns boolean
  */
@@ -22,13 +21,15 @@ export const isSubmissionNew = async (
     return submission.status === "new" ? true : false;
 };
 
+// QUERIES
 
 /**
- * Fetches all the submission records from the database
+ * Fetch all of the submission records.
  * @returns Submission[]
  */
 export const getSubmissions = async (): Promise<submission[]> => {
     try {
+        const self = await getSelf();
         return await db.submission.findMany({
             orderBy: {
                 created_at: 'desc'
@@ -40,7 +41,7 @@ export const getSubmissions = async (): Promise<submission[]> => {
 };
 
 /**
- * Fetches a submission record with the given submission_id
+ * Fetch a single submission record with the given submission_id for the logged in user.
  * @param submission_id 
  * @returns 
  */
@@ -48,6 +49,7 @@ export const getSubmissionByID = async (
     submission_id: number
 ): Promise<submission> => {
     try {
+        const self = await getSelf();
         const submission = await db.submission.findUnique({
             where: {
                 id: submission_id,
@@ -69,8 +71,9 @@ export const getSubmissionByID = async (
 };
 
 // MUTATIONS
+
 /**
- * Updates the status of a submission record with the given submission_id to the given status.
+ * Update the status of a submission record with the given submission_id to the given status. Revalidate Path: '/'Revalidate Path: '/'
  * @param submission_id 
  * @param status 
  * @returns submission
@@ -80,8 +83,9 @@ export const setSubmissionStatus = async (
     status: submissionStatus
 ): Promise<submission> => {
     try {
-        const self = await getSelf();
-        const submission = await getSubmissionByID(submission_id);
+        const selfPromise = getSelf();
+        const submissionPromise = getSubmissionByID(submission_id);
+        const [self, submission] = await Promise.all([selfPromise, submissionPromise])
 
         if (submission.status === status) {
             throw new Error(`Submission is already marked as ${status}.`);

@@ -31,7 +31,7 @@ export const getRandomNumBetween = (maxValue: number, minValue: number = 0): num
 }
 
 /**
- * Returns a random date from 2023-2024
+ * Returns a random date from 2023-2024. Primarily used for developing.
  * @returns Date
  */
 export const getRandomDate = () => {
@@ -43,3 +43,7 @@ export const getRandomDate = () => {
   let randomSecond = getRandomNumBetween(59)
   return new Date(randomYear, randomMonth, randomDay, randomHour, randomMinute, randomSecond)
 };
+
+export const removeSpecialCharacters = (str: string): string => {
+  return str.trim().replace(/[^\w\s]|_/g, "")
+}

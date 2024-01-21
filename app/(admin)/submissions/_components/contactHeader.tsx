@@ -3,7 +3,6 @@ import { CircleUser } from "lucide-react";
 
 import { Separator } from "@/components/separator";
 import { StatusBadge } from "@/components/statusBadge";
-import { Badge } from "@/components/ui/badge";
 import { BookmarkToggle } from "./bookmarkToggle";
 import { BackButton } from "./backButton";
 

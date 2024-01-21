@@ -3,27 +3,30 @@
 import { role, user } from "@prisma/client";
 
 import { db } from "@/lib/prisma";
-import { getSelf } from "./auth";
+import { ExtendedUser, getSelf } from "./auth";
 
 //QUERIES
-export const getUsersByRole = async (role: role): Promise<user[]> => {
+export const getContactRoles = async (role: role): Promise<user[]> => {
     try {
-        const users = await db.user.findMany({
+        const contacts = await db.user.findMany({
             where: {
                 role,
             },
         });
 
-        if (!users) throw new Error(`Couldn't get users with role: ${role}.`);
+        if (!contacts) throw new Error(`Couldn't get users with role: ${role}.`);
 
-        return users;
+        return contacts;
     } catch (error) {
         throw new Error("Internal Error.");
     }
 };
 
 /**
- *  Fetches all contacts from the database that is not the current user. In the future this will only return the appropriate contacts based on the user role.
+ *  Fetches all contacts that are not the logged in user.
+ *  
+ *  In the future this will only return the appropriate contacts based on the user role.
+ *  ie client and admins shouldn't have dev contact info but owners of the organization should.
  */
 export const getContacts = async (): Promise<user[]> => {
     try {
@@ -39,12 +42,67 @@ export const getContacts = async (): Promise<user[]> => {
                     },
                 ],
             },
+            include: {
+
+            },
             orderBy: {
                 username: "asc",
             },
         });
+
         return contacts;
     } catch (error) {
         throw new Error("Internal Error.");
     }
 };
+
+/**
+ *  Fetches a single user record with the given user_id.
+ *  @param user_id 
+ *  @returns ExtendedUser
+ */
+export const getContactByID = async (user_id: number): Promise<ExtendedUser> => {
+    try {
+        const self = await getSelf();
+        const contact = await db.user.findUnique({
+            where: {
+                id: user_id,
+            },
+            include: {
+                bookmarks: true,
+            }
+        });
+
+        if (!contact)
+            throw new Error(`Couldn't find user with an id of ${user_id}.`);
+
+        return contact;
+    } catch (error) {
+        throw new Error("Internal Error.");
+    }
+};
+
+/**
+ *  Fetches a single user record with the given username.
+ *  @param username 
+ *  @returns ExtendedUser
+ */
+export const getContactByUsername = async (username: string) => {
+    try {
+        const self = await getSelf();
+        const contact = await db.user.findFirst({
+            where: {
+                username,
+            },
+            include: {
+                bookmarks: true
+            }
+        })
+
+        if (!contact) throw new Error(`Couldn't find a contact with the username ${username}.`)
+
+        return contact
+    } catch (error) {
+        throw new Error("Internal Error.")
+    }
+}

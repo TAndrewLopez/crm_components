@@ -2,61 +2,44 @@
 
 import { bookmark } from "@prisma/client";
 import { revalidatePath } from "next/cache";
+import { z } from "zod";
 
 import { db } from "@/lib/prisma";
+import { newBookmarkSchema } from "@/schemas/bookmark";
 import { getSelf } from "./auth";
 import { getSubmissionByID } from "./submissions";
-import { z } from "zod";
-import { newBookmarkSchema } from "@/schemas/bookmark";
 
-// QUERY
+
+// BOOLEANS
+
 /**
- * Checks if the given submission_id is a bookmark record of the currently logged in user.
- * @param submission_id
- * @returns boolean
- */
+ *  Check if the given submission_id is a bookmark record of the logged in user.
+ *  @param submission_id
+ *  @returns boolean
+*/
 export const isBookmark = async (submission_id: number): Promise<boolean> => {
     try {
-        const self = await getSelf();
-        const submission = await getSubmissionByID(submission_id);
+        const selfPromise = getSelf();
+        const submissionPromise = getSubmissionByID(submission_id);
+        const [self, submission] = await Promise.all([selfPromise, submissionPromise])
+
         const bookmark = await db.bookmark.findFirst({
             where: {
                 owner_id: self.id,
                 submission_id: submission.id,
             },
         });
+
         return bookmark ? true : false;
     } catch (error) {
         throw new Error("Internal Error.");
     }
 };
 
-/**
- * Fetches a bookmark record with the given submission_id for the currently logged in user.
- * @param submission_id 
- * @returns bookmark
- */
-export const getBookmarkBySubmissionID = async (submission_id: number) => {
-    try {
-        const self = await getSelf();
-        const submission = await getSubmissionByID(submission_id);
-        const bookmark = await db.bookmark.findFirst({
-            where: {
-                owner_id: self.id,
-                submission_id: submission.id,
-            }
-        })
-
-        // if (!bookmark) throw new Error(`Couldn't find bookmark with id: ${submission_id}.`);
-
-        return bookmark;
-    } catch (error) {
-        throw new Error("Internal Error.")
-    }
-}
+// QUERIES
 
 /**
- * Fetches all bookmark records for the currently logged in user.
+ * Fetch all of the logged in user's bookmark records. Revalidate Path: '/'
  * @returns bookmark[]
  */
 export const getBookmarks = async (): Promise<bookmark[]> => {
@@ -78,9 +61,10 @@ export const getBookmarks = async (): Promise<bookmark[]> => {
     }
 };
 
-// MUTATION
+// MUTATIONS
+
 /**
- * Creates a new bookmark record with the given label and submission_id.
+ * Create a new bookmark record for the logged in user with the given label and submission_id. Revalidate Path: '/'
  * @param label
  * @param submission_id
  * @returns bookmark
@@ -92,10 +76,12 @@ export const addBookmark = async (
     try {
         const validatedFields = newBookmarkSchema.safeParse(values);
         if (!validatedFields.success) return { error: "Invalid fields." };
-
         const { label, submission_id } = validatedFields.data;
-        const self = await getSelf();
-        const submission = await getSubmissionByID(submission_id);
+
+        const selfPromise = getSelf();
+        const submissionPromise = getSubmissionByID(submission_id);
+        const [self, submission] = await Promise.all([selfPromise, submissionPromise])
+
         const bookmark = await db.bookmark.create({
             data: {
                 owner_id: self.id,
@@ -104,7 +90,9 @@ export const addBookmark = async (
                 status: submission.status,
             },
         });
+
         if (!bookmark) throw new Error("Error adding favorite submission.");
+
         revalidatePath("/");
         return bookmark;
     } catch (error) {
@@ -113,7 +101,7 @@ export const addBookmark = async (
 };
 
 /**
- * Deletes a bookmark record with the given submission_id
+ * Delete the logged in user's bookmark with the given submission_id. Revalidate Path: '/'.
  * @param submission_id
  * @returns bookmark
  */
@@ -121,8 +109,10 @@ export const deleteBookmarkBySubmissionID = async (
     submission_id: number
 ): Promise<bookmark> => {
     try {
-        const self = await getSelf();
-        const submission = await getSubmissionByID(submission_id);
+        const selfPromise = getSelf();
+        const submissionPromise = getSubmissionByID(submission_id);
+        const [self, submission] = await Promise.all([selfPromise, submissionPromise])
+
         const bookmark = await db.bookmark.findFirst({
             where: {
                 owner_id: self.id,
@@ -146,8 +136,9 @@ export const deleteBookmarkBySubmissionID = async (
     }
 };
 
+// SIDE EFFECTS
 /**
- * Updates the status of a bookmark record with the given submission_id
+ *  Update the logged in user's bookmark status with the given submission_id. This is used as a side effect for when a user visit a 'new' submission. If they have it as a bookmark, it will that status. Revalidate Path: '/'
  * @param submission_id
  * @returns bookmark
  */
@@ -155,8 +146,10 @@ export const updateBookmarkStatusBySubmissionID = async (
     submission_id: number
 ): Promise<bookmark> => {
     try {
-        const self = await getSelf();
-        const submission = await getSubmissionByID(submission_id);
+        const selfPromise = getSelf();
+        const submissionPromise = getSubmissionByID(submission_id);
+        const [self, submission] = await Promise.all([selfPromise, submissionPromise])
+
         const bookmark = await db.bookmark.findFirst({
             where: {
                 owner_id: self.id,
