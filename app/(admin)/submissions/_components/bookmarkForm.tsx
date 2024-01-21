@@ -24,8 +24,12 @@ type Props = {
     submission_id: number;
 };
 
-export const BookmarkForm = ({ className, setShowLabel, submission_id }: Props) => {
-    const [isPending, startTransition] = useTransition()
+export const BookmarkForm = ({
+    className,
+    setShowLabel,
+    submission_id,
+}: Props) => {
+    const [isPending, startTransition] = useTransition();
 
     const form = useForm<z.infer<typeof newBookmarkSchema>>({
         resolver: zodResolver(newBookmarkSchema),
@@ -36,21 +40,22 @@ export const BookmarkForm = ({ className, setShowLabel, submission_id }: Props) 
     });
 
     const onSubmit = async (values: z.infer<typeof newBookmarkSchema>) => {
-        if (!values.label) return
+        if (!values.label) return;
 
         startTransition(() => {
-            addBookmark(values).then(data => {
-                form.reset()
-                setShowLabel(false)
-            }).catch(() => console.error("Something went wrong updating bookmark"));
-        })
+            addBookmark(values)
+                .then((data) => {
+                    form.reset();
+                    setShowLabel(false);
+                })
+                .catch(() => console.error("Something went wrong updating bookmark"));
+        });
     };
 
     const onCancel = () => {
-        form.reset()
-        setShowLabel(false)
+        form.reset();
+        setShowLabel(false);
     };
-
 
     return (
         <Form {...form}>
@@ -63,7 +68,7 @@ export const BookmarkForm = ({ className, setShowLabel, submission_id }: Props) 
                             <FormLabel className="xl:hidden">Bookmark Label</FormLabel>
                             <FormControl>
                                 <Input
-                                    className="w-60"
+                                    className="w-60 bg-primary-foreground"
                                     placeholder="Enter bookmark label"
                                     {...field}
                                 />
@@ -72,14 +77,20 @@ export const BookmarkForm = ({ className, setShowLabel, submission_id }: Props) 
                     )}
                 />
                 <div className="flex flex-col xl:flex-row xl:items-center gap-y-3 justify-center mt-3 xl:mt-0 gap-x-3">
-                    <Button
-                        disabled={isPending}
-                        className="bg-emerald-500 hover:bg-emerald-500/50 h-8 xl:h-6"
-                        variant="link"
-                        type="submit">
-                        <p className="xl:hidden pr-2">Submit</p>
-                        <Check className="w-4 h-4" />
-                    </Button>
+                    <FormField
+                        control={form.control}
+                        name="label"
+                        render={({ field }) => (
+                            <Button
+                                disabled={isPending || !field.value}
+                                className="bg-emerald-500 hover:bg-emerald-500/50 h-8 xl:h-6"
+                                variant="link"
+                                type="submit">
+                                <p className="xl:hidden pr-2">Submit</p>
+                                <Check className="w-4 h-4" />
+                            </Button>
+                        )}
+                    />
 
                     <Button
                         disabled={isPending}

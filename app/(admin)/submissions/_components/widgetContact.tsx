@@ -2,7 +2,7 @@ import moment from "moment";
 import { submission, user } from "@prisma/client";
 
 import { formatToUSNumber } from "@/lib/utils";
-import { WidgetWrapper } from "../../../../components/widgetWrapper";
+import { WidgetWrapper } from "@/components/widgetWrapper";
 
 type Props = {
     submission: submission & {

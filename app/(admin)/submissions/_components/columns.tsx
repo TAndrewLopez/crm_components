@@ -28,7 +28,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { formatToUSNumber } from "@/lib/utils";
-import { TableItem } from "../../../../components/table/tableItem";
+import { TableItem } from "@/components/table/tableItem";
 import { StatusBadgeMobile } from "@/components/statusBadgeMobile";
 
 export const columns: ColumnDef<submission>[] = [

@@ -7,7 +7,6 @@ type Props = {
 };
 
 export const StatusBadge = ({ status }: Props) => {
-    let label = status !== "read" ? status : null;
     let variant:
         | "default"
         | "grey"
@@ -15,6 +14,7 @@ export const StatusBadge = ({ status }: Props) => {
         | "highlight"
         | "invisible"
         | "destructive"
+        | "outlinePrimary"
         | null
         | undefined;
 
@@ -30,7 +30,7 @@ export const StatusBadge = ({ status }: Props) => {
             variant = "highlight";
             break;
         case "read":
-            variant = "invisible";
+            variant = "outlinePrimary";
             break;
         case "urgent":
             variant = "destructive";
@@ -43,7 +43,7 @@ export const StatusBadge = ({ status }: Props) => {
     return (
         <>
             <Badge variant={variant} className="hidden sm:block capitalize">
-                {label}
+                {status}
             </Badge>
             <Badge variant={variant} className="sm:hidden rounded-full h-5"></Badge>
         </>

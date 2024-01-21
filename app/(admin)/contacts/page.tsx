@@ -1,13 +1,11 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
 
 import { PageWrapper } from "@/components/pageWrapper";
 import { Separator } from "@/components/separator";
-import { ContactDetailsSkeleton } from "./_components/contactDetails";
 import { ContactList } from "./_components/contactList";
 import { getContacts } from "@/actions/contacts";
-import { Wrapper } from "./_components/wrapper";
 import { getAdminContactCount } from "@/actions/count";
+import { ContactDetails } from "./_components/contactDetails";
 
 export const metadata: Metadata = {
     title: "Contacts",
@@ -28,17 +26,21 @@ const ContactPage = async () => {
                 {/* LEFT COLUMN */}
                 <div className="border-r border-white/40 w-full md:w-auto md:min-w-80">
                     <h1 className="text-4xl font-semibold">Contacts</h1>
-                    <Separator className="bg-white/40 h-0.5 mt-2" />
-                    Contact Filter
-                    <ContactList contacts={contacts} />
+                    <Separator className="bg-white/40 h-0.5 my-2" />
+                    <div className="px-4 py-4 mr-4 bg-popover rounded-md">
+                        Disabled Contact Filter
+                    </div>
+                    <div className="pr-4 mt-3 overflow-y-auto h-[calc(100%-200px)]">
+                        <ContactList contacts={contacts} />
+                    </div>
                     <p className="pt-2 px-8 flex items-end justify-end">
                         {contactCount} {label}
                     </p>
                 </div>
 
                 {/* RIGHT COLUMN */}
-                <div className="hidden md:block flex-1 pl-4 overflow-x-auto ">
-                    <Wrapper />
+                <div className="hidden md:block flex-1 sm:pl-4 overflow-x-auto ">
+                    <ContactDetails />
                 </div>
             </div>
         </PageWrapper>

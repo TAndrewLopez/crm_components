@@ -1,27 +1,12 @@
 "use server";
 
-import { role, submission, user } from "@prisma/client";
+import { user } from "@prisma/client";
 
 import { db } from "@/lib/prisma";
 import { getSelf } from "./auth";
 import { getSubmissionsByAuthorID } from "./submissions";
 
 //QUERIES
-export const getContactRoles = async (role: role): Promise<user[]> => {
-    try {
-        const contacts = await db.user.findMany({
-            where: {
-                role,
-            },
-        });
-
-        if (!contacts) throw new Error(`Couldn't get users with role: ${role}.`);
-
-        return contacts;
-    } catch (error) {
-        throw new Error("Internal Error.");
-    }
-};
 
 /**
  *  Fetches all contacts that are not the logged in user.
@@ -50,6 +35,7 @@ export const getContacts = async (orderBy: string = 'last_name'): Promise<user[]
 
 
         return contacts;
+        // return [...contacts, ...contacts, ...contacts, ...contacts, ...contacts,];
     } catch (error) {
         throw new Error("Internal Error.");
     }

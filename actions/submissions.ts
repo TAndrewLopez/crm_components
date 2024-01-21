@@ -17,6 +17,7 @@ import { updateBookmarkStatusBySubmissionID } from "./bookmark";
 export const isSubmissionNew = async (
     submission_id: number
 ): Promise<boolean> => {
+    const self = await getSelf()
     const submission = await getSubmissionByID(submission_id);
     return submission.status === "new" ? true : false;
 };
@@ -71,15 +72,19 @@ export const getSubmissionByID = async (
 };
 
 /**
- * Fetch all submission records for given author_id.
+ * Fetch all submission records for given author_id. 
  * @param author_id 
  * @returns submission[]
  */
 export const getSubmissionsByAuthorID = async (author_id: number) => {
     try {
+        const self = await getSelf()
         return await db.submission.findMany({
             where: {
                 author_id,
+            },
+            orderBy: {
+                created_at: 'desc'
             }
         })
     } catch (error) {
@@ -139,8 +144,9 @@ export const setSubmissionStatus = async (
 export const markSubArrayAsRead = async (
     submission_ids: number[]
 ): Promise<void> => {
-    for (const id of submission_ids) {
-        try {
+    try {
+        const self = await getSelf()
+        for (const id of submission_ids) {
             await db.submission.update({
                 where: {
                     id,
@@ -149,19 +155,34 @@ export const markSubArrayAsRead = async (
                     status: "read",
                 },
             });
-
-            revalidatePath("/");
-        } catch (error) {
-            throw new Error("Internal Error.");
         }
+        revalidatePath("/");
+    } catch (error) {
+        throw new Error("Internal Error.");
     }
+    // for (const id of submission_ids) {
+    //     try {
+    //         await db.submission.update({
+    //             where: {
+    //                 id,
+    //             },
+    //             data: {
+    //                 status: "read",
+    //             },
+    //         });
+    //         revalidatePath("/");
+    //     } catch (error) {
+    //         throw new Error("Internal Error.");
+    //     }
+    // }
 };
 
 export const markSubArrayAsUnread = async (
     submission_ids: number[]
 ): Promise<void> => {
-    for (const id of submission_ids) {
-        try {
+    try {
+        const self = await getSelf()
+        for (const id of submission_ids) {
             await db.submission.update({
                 where: {
                     id,
@@ -170,9 +191,24 @@ export const markSubArrayAsUnread = async (
                     status: "new",
                 },
             });
-            revalidatePath("/");
-        } catch (error) {
-            throw new Error("Internal Error.");
         }
+        revalidatePath("/");
+    } catch (error) {
+        throw new Error("Internal Error.");
     }
+    // for (const id of submission_ids) {
+    //     try {
+    //         await db.submission.update({
+    //             where: {
+    //                 id,
+    //             },
+    //             data: {
+    //                 status: "new",
+    //             },
+    //         });
+    //         revalidatePath("/");
+    //     } catch (error) {
+    //         throw new Error("Internal Error.");
+    //     }
+    // }
 };

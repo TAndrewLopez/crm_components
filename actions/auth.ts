@@ -1,18 +1,13 @@
 "use server";
 
-import { bookmark, user } from "@prisma/client";
-
 import { db } from "@/lib/prisma";
-
-export interface ExtendedUser extends user {
-    bookmarks: bookmark[];
-}
+import { AuthUser } from "@/lib/types";
 
 /**
  *  DEV IMPLEMENTATION -> RETURN USER WITH MY ID
- *  @returns ExtendedUser
+ *  @returns AuthUser
  */
-export const getSelf = async (): Promise<ExtendedUser> => {
+export const getSelf = async (): Promise<AuthUser> => {
     try {
         const user = await db.user.findUnique({
             where: {

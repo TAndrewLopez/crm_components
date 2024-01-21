@@ -23,6 +23,11 @@ enum submissionStatus {
   closed
 }
 
+enum appointmentStatus {
+  accepted
+  rejected
+}
+
 enum role {
   client
   admin

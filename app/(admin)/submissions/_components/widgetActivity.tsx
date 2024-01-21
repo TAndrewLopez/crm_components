@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 
 import { setSubmissionStatus } from "@/actions/submissions";
 import { LOGS } from "@/temp/data";
-import { WidgetWrapper } from "../../../../components/widgetWrapper";
+import { WidgetWrapper } from "@/components/widgetWrapper";
 
 type Props = {
     client_name: string;

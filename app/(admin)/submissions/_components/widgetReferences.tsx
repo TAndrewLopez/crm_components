@@ -1,4 +1,4 @@
-import { WidgetWrapper } from "../../../../components/widgetWrapper"
+import { WidgetWrapper } from "@/components/widgetWrapper"
 
 export const ReferenceWidget = () => {
     return (

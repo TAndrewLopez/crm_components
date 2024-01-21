@@ -31,13 +31,12 @@ const SingleSubmission = async ({ params: { id } }: Props) => {
     const submissionPromise = await getSubmissionByID(Number(id));
     const isNewPromise = await isSubmissionNew(Number(id));
     const [submission, isNew] = await Promise.all([submissionPromise, isNewPromise])
-
-    const isBook = await isBookmark(submission.id);
+    const isBookmarkBool = await isBookmark(submission.id);
 
     return (
         <div className="h-full flex flex-col space-y-5">
             <ContactHeader
-                isBookmark={isBook}
+                isBookmark={isBookmarkBool}
                 submission={submission}
             />
             <div className="flex-1 flex flex-col space-y-5 xl:flex-row xl:space-x-5 xl:space-y-0">
