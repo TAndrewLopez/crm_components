@@ -1,9 +1,10 @@
 "use server";
 
-import { role, user } from "@prisma/client";
+import { role, submission, user } from "@prisma/client";
 
 import { db } from "@/lib/prisma";
-import { ExtendedUser, getSelf } from "./auth";
+import { getSelf } from "./auth";
+import { getSubmissionsByAuthorID } from "./submissions";
 
 //QUERIES
 export const getContactRoles = async (role: role): Promise<user[]> => {
@@ -28,7 +29,7 @@ export const getContactRoles = async (role: role): Promise<user[]> => {
  *  In the future this will only return the appropriate contacts based on the user role.
  *  ie client and admins shouldn't have dev contact info but owners of the organization should.
  */
-export const getContacts = async (): Promise<user[]> => {
+export const getContacts = async (orderBy: string = 'last_name'): Promise<user[]> => {
     try {
         const self = await getSelf();
         const contacts = await db.user.findMany({
@@ -42,13 +43,11 @@ export const getContacts = async (): Promise<user[]> => {
                     },
                 ],
             },
-            include: {
-
-            },
             orderBy: {
-                username: "asc",
+                [orderBy]: "asc",
             },
         });
+
 
         return contacts;
     } catch (error) {
@@ -57,26 +56,25 @@ export const getContacts = async (): Promise<user[]> => {
 };
 
 /**
- *  Fetches a single user record with the given user_id.
+ *  Fetches a single user record with the given user_id for single contact view. Depending on the user's role, it fetches additional information such as the client payment history or admin recent activities.
  *  @param user_id 
  *  @returns ExtendedUser
  */
-export const getContactByID = async (user_id: number): Promise<ExtendedUser> => {
+export const getContactByID = async (user_id: number) => {
     try {
         const self = await getSelf();
         const contact = await db.user.findUnique({
             where: {
                 id: user_id,
-            },
-            include: {
-                bookmarks: true,
             }
         });
 
         if (!contact)
             throw new Error(`Couldn't find user with an id of ${user_id}.`);
 
-        return contact;
+        const submissions = await getSubmissionsByAuthorID(contact.id);
+
+        return { ...contact, submissions };
     } catch (error) {
         throw new Error("Internal Error.");
     }

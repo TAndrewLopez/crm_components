@@ -1,17 +1,17 @@
 import { create } from "zustand";
 
 interface SelectedContactProps {
-    contact_id: number | null;
-    setContactID: (id: number) => void
-    resetContactID: () => void
+    selected_contact_id: number | null;
+    setSelectedContactID: (id: number) => void
+    resetSelectedContactID: () => void
 }
 
-export const useSelectedContact = create<SelectedContactProps>((set) => ({
-    contact_id: null,
-    setContactID: (contact_id) => set(() => ({
-        contact_id,
+export const useContacts = create<SelectedContactProps>((set) => ({
+    selected_contact_id: null,
+    setSelectedContactID: (selected_contact_id) => set(() => ({
+        selected_contact_id,
     })),
-    resetContactID: () => set(() => ({
-        contact_id: null
+    resetSelectedContactID: () => set(() => ({
+        selected_contact_id: null
     }))
 }));

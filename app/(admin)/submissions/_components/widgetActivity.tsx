@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 
 import { setSubmissionStatus } from "@/actions/submissions";
 import { LOGS } from "@/temp/data";
-import { WidgetWrapper } from "./widgetWrapper";
+import { WidgetWrapper } from "../../../../components/widgetWrapper";
 
 type Props = {
     client_name: string;
@@ -41,13 +41,17 @@ export const ActivityWidget = ({ client_name, submissionID, isNew }: Props) => {
                         {LOGS.map(({ description, username, createdAt }, i) => (
                             <li className="bg-primary-foreground p-2 rounded-sm" key={i}>
                                 <p className="text-sm font-extralight">{description}</p>
-                                <p className="text-right text-xs text-neutral-300 font-extralight">
-                                    by{" "}
-                                    {!!username
-                                        ? username.toLowerCase()
-                                        : client_name.toLowerCase()}{" "}
-                                    {moment(createdAt).fromNow()}
-                                </p>
+                                <div className="flex flex-nowrap gap-x-3">
+                                    <p className="text-right text-xs text-neutral-300 font-extralight truncate">
+                                        by{" "}
+                                        {!!username
+                                            ? username.toLowerCase()
+                                            : client_name.toLowerCase()}{" "}
+                                    </p>
+                                    <p className="text-right text-xs text-neutral-300 font-extralight">
+                                        {moment(createdAt).fromNow()}
+                                    </p>
+                                </div>
                             </li>
                         ))}
                     </ul>

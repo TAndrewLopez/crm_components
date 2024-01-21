@@ -1,6 +1,6 @@
 import { submission } from "@prisma/client";
 
-import { WidgetWrapper } from "./widgetWrapper";
+import { WidgetWrapper } from "../../../../components/widgetWrapper";
 
 type Props = {
     submission: submission

@@ -1,22 +1,26 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 
 import { PageWrapper } from "@/components/pageWrapper";
 import { Separator } from "@/components/separator";
-import {
-    ContactDetails,
-    ContactDetailsSkeleton,
-} from "./_components/contactDetails";
+import { ContactDetailsSkeleton } from "./_components/contactDetails";
 import { ContactList } from "./_components/contactList";
 import { getContacts } from "@/actions/contacts";
-import { Suspense } from "react";
 import { Wrapper } from "./_components/wrapper";
+import { getAdminContactCount } from "@/actions/count";
 
 export const metadata: Metadata = {
     title: "Contacts",
 };
 
 const ContactPage = async () => {
-    const contacts = await getContacts();
+    const contactsPromise = getContacts("first_name");
+    const contactCountPromise = getAdminContactCount();
+    const [contacts, contactCount] = await Promise.all([
+        contactsPromise,
+        contactCountPromise,
+    ]);
+    const label = contactCount > 1 ? "Total Contacts" : "Contact";
 
     return (
         <PageWrapper className="flex flex-col gap-y-5 font-extralight h-full">
@@ -27,15 +31,14 @@ const ContactPage = async () => {
                     <Separator className="bg-white/40 h-0.5 mt-2" />
                     Contact Filter
                     <ContactList contacts={contacts} />
+                    <p className="pt-2 px-8 flex items-end justify-end">
+                        {contactCount} {label}
+                    </p>
                 </div>
 
                 {/* RIGHT COLUMN */}
                 <div className="hidden md:block flex-1 pl-4 overflow-x-auto ">
-                    <Suspense fallback={<ContactDetailsSkeleton />}>
-                        <Wrapper />
-                    </Suspense>
-                    {/* Admin - ContactActivityFeed, Availability/Calendar Client - Submission
-                    History & Payment/Deposit History */}
+                    <Wrapper />
                 </div>
             </div>
         </PageWrapper>

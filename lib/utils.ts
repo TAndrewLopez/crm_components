@@ -45,5 +45,9 @@ export const getRandomDate = () => {
 };
 
 export const removeSpecialCharacters = (str: string): string => {
-  return str.trim().replace(/[^\w\s]|_/g, "")
+  return str.trim().toLowerCase().replace(/[^\w\s]|_/g, "")
+}
+
+export const getFullName = (first_name: string, last_name: string) => {
+  return `${removeSpecialCharacters(first_name)} ${removeSpecialCharacters(last_name)}`
 }

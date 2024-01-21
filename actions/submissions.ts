@@ -70,6 +70,23 @@ export const getSubmissionByID = async (
     }
 };
 
+/**
+ * Fetch all submission records for given author_id.
+ * @param author_id 
+ * @returns submission[]
+ */
+export const getSubmissionsByAuthorID = async (author_id: number) => {
+    try {
+        return await db.submission.findMany({
+            where: {
+                author_id,
+            }
+        })
+    } catch (error) {
+        throw new Error("Internal Error.")
+    }
+}
+
 // MUTATIONS
 
 /**

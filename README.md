@@ -23,8 +23,10 @@ Then run seed file.
 ```
 npm run seed
 ```
+Any time you update prisma models, you'll need to run the two following commands and then restart your development server.
 
-## Run Application
 ```
+npx prisma db push
+npx prisma generate
 npm run dev
 ```
