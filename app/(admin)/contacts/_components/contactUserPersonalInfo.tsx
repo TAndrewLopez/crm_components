@@ -9,11 +9,11 @@ export const ContactUserPersonalInfo = ({ contact }: Props) => {
     const { birthday } = contact;
 
     return (
-        // <WidgetWrapper title="Personal Information" showSeparator>
-        <div className="flex gap-x-3">
-            <p>Birthday:</p>
-            <p>{birthday ?? "Not Provided"}</p>
-        </div>
-        // </WidgetWrapper>
+        <WidgetWrapper title="Personal Information" showSeparator>
+            <div className="flex gap-x-3">
+                <p>Birthday:</p>
+                <p>{birthday ?? "Not Provided"}</p>
+            </div>
+        </WidgetWrapper>
     )
 }

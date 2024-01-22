@@ -5,11 +5,11 @@ import { useEffect, useState } from "react";
 import { getContactByID } from "@/actions/contacts";
 import { ContactUser } from "@/lib/types";
 import { useContacts } from "@/store/useContacts";
-import { ContactSubHistory } from "./contactSubHistory";
+import { ContactUserSubHistory } from "./constUserSubHistory";
+import { ContactDepositHistory } from "./contactDepositHistory";
 import { ContactUserHeader } from "./contactUserHeader";
 import { ContactUserInformation } from "./contactUserInformation";
 import { ContactUserPersonalInfo } from "./contactUserPersonalInfo";
-import { ContactDepositHistory } from "./contactDepositHistory";
 
 export const ContactDetails = () => {
     const [contact, setContact] = useState<ContactUser | null>(null);
@@ -32,13 +32,12 @@ export const ContactDetails = () => {
     if (!contact || !selected_contact_id) return null;
 
     return (
-        <div className="">
-            <div className="mb-4">
-                <ContactUserHeader contact={contact} />
-            </div>
+        <div className="space-y-6">
+
+            <ContactUserHeader contact={contact} />
             <ContactUserInformation contact={contact} />
             <ContactUserPersonalInfo contact={contact} />
-            <ContactSubHistory contact={contact} />
+            <ContactUserSubHistory contact={contact} />
             <ContactDepositHistory contact={contact} />
 
             {contact.role === "admin" && (
