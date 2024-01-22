@@ -10,6 +10,7 @@ import { ContactSubHistory } from "./contactSubHistory";
 import { ContactUserHeader } from "./contactUserHeader";
 import { ContactUserInformation } from "./contactUserInformation";
 import { ContactUserPersonalInfo } from "./contactUserPersonalInfo";
+import { ContactDepositHistory } from "./contactDepositHistory";
 
 export const ContactDetails = () => {
     const [contact, setContact] = useState<ContactUser | null>(null);
@@ -38,11 +39,8 @@ export const ContactDetails = () => {
             </div>
             <div className="space-y-5">
                 <ContactUserInformation contact={contact} />
-                <ContactUserPersonalInfo contact={contact} />
-                {!!contact.submissions.length && (
-                    <ContactSubHistory contact={contact} />
-                )}
-                <p>Payment/Deposit History</p>
+                <ContactUserPersonalInfo contact={contact} />                    <ContactSubHistory contact={contact} />
+                <ContactDepositHistory contact={contact} />
                 <p>Join organization {moment(contact.created_at).fromNow()}</p>
             </div>
 

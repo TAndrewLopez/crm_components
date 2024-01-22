@@ -43,7 +43,7 @@ enum depositStatus {
 // SUBMISSION MODELS
 model submission {
   id                 Int              @id @default(autoincrement())
-  author_id          Int?
+  user_id            Int?
   status             submissionStatus @default(new)
   name               String           @db.VarChar(255)
   email              String           @db.VarChar(255)
@@ -56,7 +56,7 @@ model submission {
 
   // RELATIONS
   bookmarks  bookmark[]
-  author     user?      @relation(fields: [author_id], references: [id])
+  user       user?      @relation(fields: [user_id], references: [id])
   // TIMESTAMPS
   created_at DateTime   @default(now())
   updated_at DateTime?  @updatedAt
@@ -102,16 +102,16 @@ model bookmark {
 
 // PAYMENT MODELS
 model deposit {
-  id        Int            @id @default(autoincrement())
-  owner_id  Int
-  email     String         @db.VarChar(255)
-  amount    Int
-  status    depositStatus? @default(unpaid)
-  client_id Int?
+  id         Int            @id @default(autoincrement())
+  paid_to_id Int
+  email      String         @db.VarChar(255)
+  amount     Int
+  status     depositStatus? @default(unpaid)
+  client_id  Int?
 
   // RELATIONS
   client     user?     @relation("client", fields: [client_id], references: [id])
-  owner      user      @relation("owner", fields: [owner_id], references: [id])
+  owner      user      @relation("owner", fields: [paid_to_id], references: [id])
   // TIMESTAMPS
   created_at DateTime  @default(now())
   updated_at DateTime? @updatedAt

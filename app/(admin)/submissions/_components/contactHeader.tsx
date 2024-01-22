@@ -22,7 +22,7 @@ export const ContactHeader = ({ isBookmark, submission }: Props) => {
 
     const handleClick = () => {
         router.push('/contacts')
-        setSelectedContactID(submission.author_id)
+        setSelectedContactID(submission.user_id)
     }
 
     return (
@@ -45,7 +45,7 @@ export const ContactHeader = ({ isBookmark, submission }: Props) => {
                                 </p>
                             </div>
                             <div className="flex items-center space-x-1.5">
-                                {submission.author_id && (
+                                {submission.user_id && (
                                     <button onClick={handleClick}>
                                         <StatusBadge status="contact" />
                                     </button>

@@ -6,13 +6,13 @@ import { SidebarUtilLinks } from "./sidebarUtilLinks";
 import { SidebarWrapper } from "./sidebarWrapper";
 
 import { getBookmarks } from "@/actions/bookmark";
-import { getContactByUsername } from "@/actions/contacts";
+import { getSelf } from "@/actions/auth";
 
 
 type Props = {};
 
 export const Sidebar = async ({ }: Props) => {
-    const user = await getContactByUsername('tandrewlopez')
+    const user = await getSelf()
     const bookmarks = await getBookmarks()
 
     return (

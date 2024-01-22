@@ -56,7 +56,7 @@ export const getSubmissionByID = async (
                 id: submission_id,
             },
             include: {
-                author: true,
+                user: true,
             },
         });
 
@@ -72,16 +72,16 @@ export const getSubmissionByID = async (
 };
 
 /**
- * Fetch all submission records for given author_id. 
- * @param author_id 
+ * Fetch all submission records for given user_id. 
+ * @param user_id 
  * @returns submission[]
  */
-export const getSubmissionsByAuthorID = async (author_id: number) => {
+export const getSubmissionsByAuthorID = async (user_id: number): Promise<submission[]> => {
     try {
         const self = await getSelf()
         return await db.submission.findMany({
             where: {
-                author_id,
+                user_id,
             },
             orderBy: {
                 created_at: 'desc'
@@ -130,13 +130,13 @@ export const setSubmissionStatus = async (
         });
 
         if (bookmark) {
-            await updateBookmarkStatusBySubmissionID(bookmark.id);
+            await updateBookmarkStatusBySubmissionID(bookmark.id, updatedSubmission.status);
         }
 
         revalidatePath("/");
         return updatedSubmission;
-    } catch (error) {
-        throw new Error("Internal Error.");
+    } catch (error: any) {
+        throw new Error("Internal Error.", error.message);
     }
 };
 

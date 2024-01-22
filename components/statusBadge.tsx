@@ -1,9 +1,9 @@
-import { submissionStatus as Status } from "@prisma/client";
+import { submissionStatus } from "@prisma/client";
 
 import { Badge } from "./ui/badge";
 
 type Props = {
-    status: Status | 'contact',
+    status: submissionStatus | 'contact',
 };
 
 export const StatusBadge = ({ status }: Props) => {

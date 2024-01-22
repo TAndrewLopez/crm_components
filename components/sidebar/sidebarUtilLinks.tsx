@@ -1,4 +1,4 @@
-import { BadgeHelpIcon, CogIcon, Plug } from "lucide-react";
+import { BadgeHelpIcon, CogIcon } from "lucide-react";
 
 import { NavItem } from "./navItem";
 import { Separator } from "../separator";
@@ -10,11 +10,6 @@ const FOOTER = [
         name: "Support & FAQs",
         Icon: BadgeHelpIcon,
         href: "/support",
-    },
-    {
-        name: "Integration",
-        Icon: Plug,
-        href: "/integration",
     },
     {
         name: "Settings",
