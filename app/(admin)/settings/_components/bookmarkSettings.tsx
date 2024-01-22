@@ -61,7 +61,7 @@ export const BookmarkSettings = () => {
                     </FormItem>
                     <FormItem>
                       <FormControl>
-                        <RadioGroupItem value="create_at" />
+                        <RadioGroupItem value="created_at" />
                       </FormControl>
                       <FormLabel>Created At</FormLabel>
                     </FormItem>

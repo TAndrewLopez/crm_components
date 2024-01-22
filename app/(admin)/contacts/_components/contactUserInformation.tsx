@@ -1,29 +1,29 @@
-import moment from "moment"
+import moment from "moment";
 
-import { WidgetWrapper } from "@/components/widgetWrapper"
-import { ContactUser } from "@/lib/types"
-import { formatToUSNumber } from "@/lib/utils"
+import { WidgetWrapper } from "@/components/widgetWrapper";
+import { ContactUser } from "@/lib/types";
+import { formatToUSNumber } from "@/lib/utils";
 
 type Props = {
-    contact: ContactUser
-}
+    contact: ContactUser;
+};
 
 export const ContactUserInformation = ({ contact }: Props) => {
     const { created_at, email, phone_number } = contact;
     return (
         <WidgetWrapper title="Contact Information" showSeparator>
-            <div className="flex gap-x-3">
+            <div className="flex flex-col sm:flex-row gap-x-3">
                 <p>Phone Number: </p>
                 <p>{formatToUSNumber(phone_number)}</p>
             </div>
-            <div className="flex gap-x-3">
+            <div className="flex flex-col sm:flex-row gap-x-3">
                 <p>Email: </p>
-                <p>{email}</p>
+                <p className="truncate">{email}</p>
             </div>
-            <div className="flex gap-x-3">
+            <div className="flex flex-col sm:flex-row gap-x-3">
                 <p>Hire Date: </p>
-                <p>{moment(created_at).format('MM/DD/yyyy')}</p>
+                <p>{moment(created_at).format("MM/DD/yyyy")}</p>
             </div>
         </WidgetWrapper>
-    )
-}
+    );
+};

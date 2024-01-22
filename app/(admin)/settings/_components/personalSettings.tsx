@@ -24,7 +24,8 @@ export const PersonalSettings = () => {
         console.log("things", values);
     };
     return (
-        <WidgetWrapper title="Personal Settings" showSeparator>
+        <WidgetWrapper
+            title="Personal Settings" showSeparator>
             <Form {...form}>
                 <form
                     className="flex items-center justify-between"

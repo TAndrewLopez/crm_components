@@ -22,7 +22,7 @@ export const ContactDetails = () => {
                     const user = await getContactByID(selected_contact_id);
                     setContact(user);
                 } catch (error) {
-                    console.log("SOMETHING WENT WRONG", { error, selected_contact_id });
+                    console.log(`Something went wrong with fetching user with user_id: ${selected_contact_id}`, error);
                 }
             };
             fetchUser();
@@ -32,15 +32,14 @@ export const ContactDetails = () => {
     if (!contact || !selected_contact_id) return null;
 
     return (
-        <div>
-            <div className="py-4">
+        <div className="">
+            <div className="mb-4">
                 <ContactUserHeader contact={contact} />
             </div>
-            <div className="space-y-5">
-                <ContactUserInformation contact={contact} />
-                <ContactUserPersonalInfo contact={contact} />                    <ContactSubHistory contact={contact} />
-                <ContactDepositHistory contact={contact} />
-            </div>
+            <ContactUserInformation contact={contact} />
+            <ContactUserPersonalInfo contact={contact} />
+            <ContactSubHistory contact={contact} />
+            <ContactDepositHistory contact={contact} />
 
             {contact.role === "admin" && (
                 <>
@@ -48,6 +47,7 @@ export const ContactDetails = () => {
                     <p>Calendar/Availability</p>
                 </>
             )}
+
         </div>
     );
 };

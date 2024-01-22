@@ -21,10 +21,10 @@ const ContactPage = async () => {
     const label = contactCount > 1 ? "Total Contacts" : "Contact";
 
     return (
-        <PageWrapper className="flex flex-col gap-y-5 font-extralight h-full">
+        <PageWrapper className="flex flex-col gap-y-5 font-extralight p-4">
             <div className="h-full flex">
                 {/* LEFT COLUMN */}
-                <div className="border-r border-white/40 w-full md:w-auto md:min-w-80">
+                <div className="hidden border-r border-white/40 w-full md:w-auto md:min-w-80">
                     <h1 className="text-4xl font-semibold">Contacts</h1>
                     <Separator className="bg-white/40 h-0.5 my-2" />
                     <div className="px-4 py-4 mr-4 bg-popover rounded-md">
@@ -39,7 +39,9 @@ const ContactPage = async () => {
                 </div>
 
                 {/* RIGHT COLUMN */}
-                <div className="md:block flex-1 sm:px-4 overflow-x-auto ">
+                <div className="flex-1 overflow-y-auto">
+                    <ContactDetails />
+                    <ContactDetails />
                     <ContactDetails />
                 </div>
             </div>

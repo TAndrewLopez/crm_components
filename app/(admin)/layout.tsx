@@ -6,9 +6,9 @@ type Props = {
 
 const AdminViewLayout = ({ children }: Props) => {
     return (
-        <div className="flex h-full">
+        <div className="flex h-full w-full">
             <Sidebar />
-            <div className="w-full h-full p-4 overflow-y-auto">
+            <div className="w-full h-full overflow-y-auto">
                 {children}
             </div>
         </div>

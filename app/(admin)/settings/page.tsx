@@ -11,19 +11,33 @@ const SettingsPage = async () => {
     const self = await getSelf();
     const contact = await getContactByID(self.id);
     return (
-        <PageWrapper className="flex flex-col gap-y-5 font-extralight">
+        <PageWrapper className="flex flex-col gap-y-5 font-extralight overflow-y-hidden">
             <h1 className="text-4xl font-semibold">Settings</h1>
             <UserDetails contact={contact} />
             <div className="flex-1 flex flex-col gap-y-5">
+
+
                 <h1 className="text-xl font-semibold">Update Contact Information.</h1>
                 <PersonalSettings />
-                <BookmarkSettings />
+                {/* <BookmarkSettings /> */}
+                <ContactSettings />
+                <ContactSettings />
+                <ContactSettings />
+                <ContactSettings />
+                <ContactSettings />
+                <ContactSettings />
+                <ContactSettings />
+                <ContactSettings />
+                <ContactSettings />
+                <ContactSettings />
                 <ContactSettings />
 
-                <WidgetWrapper title="Spotify Integration:" showSeparator>
-                    Pending Integration
-                </WidgetWrapper>
 
+                <WidgetWrapper title="Spotify Integration:" showSeparator>
+                    <p className="font-bold text-emerald-500">
+                        Pending Integration ...
+                    </p>
+                </WidgetWrapper>
             </div>
         </PageWrapper>
     );

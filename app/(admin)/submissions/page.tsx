@@ -14,6 +14,9 @@ const SubmissionPage = async () => {
     return (
         <PageWrapper>
             <TableWrapper columns={columns} data={submissionData} />
+            <TableWrapper columns={columns} data={submissionData} />
+            <TableWrapper columns={columns} data={submissionData} />
+            <TableWrapper columns={columns} data={submissionData} />
         </PageWrapper>
     );
 };
