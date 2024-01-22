@@ -19,17 +19,7 @@ const SettingsPage = async () => {
 
                 <h1 className="text-xl font-semibold">Update Contact Information.</h1>
                 <PersonalSettings />
-                {/* <BookmarkSettings /> */}
-                <ContactSettings />
-                <ContactSettings />
-                <ContactSettings />
-                <ContactSettings />
-                <ContactSettings />
-                <ContactSettings />
-                <ContactSettings />
-                <ContactSettings />
-                <ContactSettings />
-                <ContactSettings />
+                <BookmarkSettings />
                 <ContactSettings />
 
 

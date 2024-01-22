@@ -41,8 +41,6 @@ const ContactPage = async () => {
                 {/* RIGHT COLUMN */}
                 <div className="flex-1 overflow-y-auto">
                     <ContactDetails />
-                    <ContactDetails />
-                    <ContactDetails />
                 </div>
             </div>
         </PageWrapper>

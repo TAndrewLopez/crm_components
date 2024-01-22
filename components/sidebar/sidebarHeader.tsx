@@ -7,7 +7,7 @@ type Props = {
 
 export const SidebarHeader = ({ imageURL, username }: Props) => {
     return (
-        <header className="h-[75px] flex items-center justify-between bg-popover">
+        <header className="h-[75px] min-h-[75px] flex items-center justify-between bg-popover">
             <UserAvatar
                 imageURL={imageURL}
                 username={username}

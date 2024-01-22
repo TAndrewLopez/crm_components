@@ -5,14 +5,14 @@ import { NavItem } from "./navItem";
 import { StatusBadgeMobile } from "../statusBadgeMobile";
 
 type Props = {
-    bookmarks: bookmark[]
+    bookmarks: bookmark[];
 };
 
-export const SidebarFavoriteLinks = async ({ bookmarks }: Props) => {
+export const SidebarFavoriteLinks = ({ bookmarks }: Props) => {
     return (
         <>
-            <div className="mx-2 flex justify-center flex-1">
-                <ul className="w-full py-2 flex flex-col gap-y-1">
+            <div className="flex-1 mx-2 flex">
+                <ul className="w-full py-2 flex flex-col gap-y-1 overflow-y-auto">
                     {bookmarks.map(({ label, submission_id, status }) => (
                         <NavItem
                             name={label}
