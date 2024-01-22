@@ -6,7 +6,7 @@ type Props = {
     status: submissionStatus | 'contact',
 };
 
-export const StatusBadge = ({ status }: Props) => {
+export const SubStatusBadge = ({ status }: Props) => {
     let variant:
         | "default"
         | "grey"
@@ -45,7 +45,7 @@ export const StatusBadge = ({ status }: Props) => {
             <Badge variant={variant} className="hidden sm:block capitalize">
                 {status}
             </Badge>
-            <Badge variant={variant} className="sm:hidden rounded-full h-5"></Badge>
+            <Badge variant={variant} className="sm:hidden rounded-full h-5"/>
         </>
     );
 };

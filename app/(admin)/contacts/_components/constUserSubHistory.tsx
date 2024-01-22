@@ -3,7 +3,7 @@
 import { Link2 } from "lucide-react"
 import { useRouter } from "next/navigation"
 
-import { StatusBadge } from "@/components/statusBadge"
+import { SubStatusBadge } from "@/components/subStatusBadge"
 import { WidgetWrapper } from "@/components/widgetWrapper"
 import { ContactUser } from "@/lib/types"
 
@@ -22,7 +22,7 @@ export const ContactUserSubHistory = ({ contact }: Props) => {
                         onClick={() => router.push(`/submissions/${id}`)}
                         className="flex items-center justify-between gap-x-3 bg-primary-foreground hover:bg-primary-foreground/50 p-4 rounded-md group" key={id}>
                         <div className='flex gap-x-3'>
-                            <StatusBadge status={status} />
+                            <SubStatusBadge status={status} />
                             <p className='flex items-center text-xs group-hover:font-bold'>
                                 Appointment # {contact.submissions.length - i}
                             </p>
@@ -30,6 +30,7 @@ export const ContactUserSubHistory = ({ contact }: Props) => {
                         <Link2 />
                     </button>
                 ))}
+
                 {!contact.submissions.length && 'No Previous Submissions.'}
             </div>
         </WidgetWrapper>

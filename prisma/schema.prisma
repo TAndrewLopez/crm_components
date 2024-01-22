@@ -106,7 +106,7 @@ model deposit {
   paid_to_id Int
   email      String         @db.VarChar(255)
   amount     Int
-  status     depositStatus? @default(unpaid)
+  status     depositStatus @default(unpaid)
   client_id  Int?
 
   // RELATIONS

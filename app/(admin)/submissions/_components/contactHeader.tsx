@@ -5,7 +5,7 @@ import { CircleUser } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import { Separator } from "@/components/separator";
-import { StatusBadge } from "@/components/statusBadge";
+import { SubStatusBadge } from "@/components/subStatusBadge";
 import { BookmarkToggle } from "./bookmarkToggle";
 import { BackButton } from "./backButton";
 import { useContacts } from "@/store/useContacts";
@@ -49,10 +49,10 @@ export const ContactHeader = ({ isBookmark, submission }: Props) => {
                             <div className="flex items-center space-x-1.5">
                                 {submission.user_id && (
                                     <button onClick={handleClick}>
-                                        <StatusBadge status="contact" />
+                                        <SubStatusBadge status="contact" />
                                     </button>
                                 )}
-                                <StatusBadge status={submission.status} />
+                                <SubStatusBadge status={submission.status} />
                             </div>
                         </div>
                     </div>
