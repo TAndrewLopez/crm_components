@@ -25,7 +25,7 @@ export const SidebarUtilLinks = ({ }: Props) => {
                 <ul className="w-full py-2 flex flex-col gap-y-1">
                     {FOOTER.map(({ href, Icon, name }) => (
                         <NavItem href={href} name={name} key={href}>
-                            <Icon className="w-5 h-5" />
+                            <Icon className="flex-none w-5 h-5" />
                         </NavItem>
                     ))}
                 </ul>

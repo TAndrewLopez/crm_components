@@ -11,7 +11,7 @@ const SettingsPage = async () => {
     const self = await getSelf();
     const contact = await getContactByID(self.id);
     return (
-        <PageWrapper className="flex flex-col gap-y-5 font-extralight overflow-y-hidden">
+        <PageWrapper className="flex flex-col gap-y-5 font-extralight p-4">
             <h1 className="text-4xl font-semibold">Settings</h1>
             <UserDetails contact={contact} />
             <div className="flex-1 flex flex-col gap-y-5">

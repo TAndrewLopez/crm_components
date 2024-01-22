@@ -8,11 +8,8 @@ export const metadata: Metadata = {
 
 const CalendarPage = () => {
     return (
-        <PageWrapper>
+        <PageWrapper className="flex flex-col gap-y-5 font-extralight p-4">
             <h1 className="text-4xl font-semibold">Calendar</h1>
-
-            Something will be here. Promise.
-
         </PageWrapper>
     );
 };

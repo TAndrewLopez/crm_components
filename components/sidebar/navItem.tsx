@@ -34,7 +34,7 @@ export const NavItem = ({ children, count, name, href }: Props) => {
             {isOpen ? (
                 <Link href={href} className={defaultStyles + " rounded-3xl"}>
                     <div className="flex justify-between w-full">
-                        <div className="flex justify-center items-center gap-x-3">
+                        <div className="flex justify-center items-center gap-x-3 overflow-y-hidden">
                             {children}
                             {isOpen && <p className="line-clamp-1">{name}</p>}
                         </div>

@@ -7,9 +7,8 @@ export const metadata: Metadata = {
 };
 const MessagePage = () => {
     return (
-        <PageWrapper>
+        <PageWrapper className="flex flex-col gap-y-5 font-extralight p-4">
             <h1 className="text-4xl font-semibold">Messages</h1>
-            Something will be here. Promise.
         </PageWrapper>
     );
 };

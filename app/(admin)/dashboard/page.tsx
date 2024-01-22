@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 const DashboardPage = async () => {
 
   return (
-    <PageWrapper className="flex flex-col gap-y-6">
+    <PageWrapper className="flex flex-col gap-y-5 font-extralight p-4">
       <h1 className="text-4xl font-semibold">Dashboard</h1>
       <p>Total Sales for the current day.</p>
       <p>Total Sales for the last 7 days.</p>

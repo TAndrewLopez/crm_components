@@ -13,7 +13,7 @@ export const StatusBadgeMobile = ({ size = "sm", status }: Props) => {
             return (
                 <div
                     className={cn(
-                        "bg-neutral-500 rounded-full",
+                        "flex-none bg-neutral-500 rounded-full",
                         size === "sm" ? "w-3.5 h-3.5" : "w-5 h-5"
                     )}
                 />
@@ -22,7 +22,7 @@ export const StatusBadgeMobile = ({ size = "sm", status }: Props) => {
             return (
                 <div
                     className={cn(
-                        "border-2 border-emerald-500 rounded-full",
+                        "flex-none border-emerald-500 rounded-full border-2",
                         size === "sm" ? "w-3.5 h-3.5" : "w-5 h-5"
                     )}
                 />
@@ -31,7 +31,7 @@ export const StatusBadgeMobile = ({ size = "sm", status }: Props) => {
             return (
                 <div
                     className={cn(
-                        "bg-emerald-500 rounded-full",
+                        "flex-none bg-emerald-500 rounded-full",
                         size === "sm" ? "w-3.5 h-3.5" : "w-5 h-5"
                     )}
                 />
@@ -40,7 +40,7 @@ export const StatusBadgeMobile = ({ size = "sm", status }: Props) => {
             return (
                 <div
                     className={cn(
-                        "border-2 border-amber-300 rounded-full",
+                        "flex-none border-amber-300 rounded-full border-2",
                         size === "sm" ? "w-3.5 h-3.5" : "w-5 h-5"
                     )}
                 />
@@ -49,7 +49,7 @@ export const StatusBadgeMobile = ({ size = "sm", status }: Props) => {
             return (
                 <div
                     className={cn(
-                        "border-2 border-neutral-500 rounded-full",
+                        "flex-none border-neutral-500 rounded-full border-2",
                         size === "sm" ? "w-3.5 h-3.5" : "w-5 h-5"
                     )}
                 />
@@ -58,7 +58,7 @@ export const StatusBadgeMobile = ({ size = "sm", status }: Props) => {
             return (
                 <div
                     className={cn(
-                        "border-2 border-destructive rounded-full",
+                        "flex-none border-destructive rounded-full border-2",
                         size === "sm" ? "w-3.5 h-3.5" : "w-5 h-5"
                     )}
                 />
