@@ -6,11 +6,13 @@ type Props = {
 }
 
 export const ContactUserPersonalInfo = ({ contact }: Props) => {
+    const { birthday } = contact;
+
     return (
         <WidgetWrapper title="Personal Information" showSeparator>
             <div className="flex gap-x-3">
                 <p>Birthday:</p>
-                <p>{contact.birthday ?? "Not Provided"}</p>
+                <p>{birthday ?? "Not Provided"}</p>
             </div>
         </WidgetWrapper>
     )

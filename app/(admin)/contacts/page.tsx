@@ -24,7 +24,7 @@ const ContactPage = async () => {
         <PageWrapper className="flex flex-col gap-y-5 font-extralight h-full">
             <div className="h-full flex">
                 {/* LEFT COLUMN */}
-                <div className="hidden border-r border-white/40 w-full md:w-auto md:min-w-80">
+                <div className="border-r border-white/40 w-full md:w-auto md:min-w-80">
                     <h1 className="text-4xl font-semibold">Contacts</h1>
                     <Separator className="bg-white/40 h-0.5 my-2" />
                     <div className="px-4 py-4 mr-4 bg-popover rounded-md">

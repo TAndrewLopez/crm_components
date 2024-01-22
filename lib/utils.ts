@@ -37,7 +37,7 @@ export const getRandomNumBetween = (maxValue: number, minValue: number = 0): num
 export const getRandomDate = () => {
   let randomMonth = getRandomNumBetween(11)
   let randomDay = getRandomNumBetween(30)
-  let randomYear = getRandomNumBetween(2023, 2023)
+  let randomYear = getRandomNumBetween(2020, 2024)
   let randomHour = getRandomNumBetween(23)
   let randomMinute = getRandomNumBetween(59)
   let randomSecond = getRandomNumBetween(59)

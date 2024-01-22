@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 import { db } from "@/lib/prisma";
-import { newBookmarkSchema } from "@/schemas/bookmark";
+import { newBookmarkSchema } from "@/schemas";
 import { getSelf } from "./auth";
 import { getSubmissionByID } from "./submissions";
 

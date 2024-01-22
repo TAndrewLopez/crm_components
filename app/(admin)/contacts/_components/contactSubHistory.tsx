@@ -9,7 +9,7 @@ type Props = {
 export const ContactSubHistory = ({ contact }: Props) => {
     return (
         <WidgetWrapper title="Submission History" showSeparator>
-            <div className="flex flex-col gap-y-2 max-h-64 xl:h-64 overflow-y-auto">
+            <div className="flex flex-col gap-y-2 max-h-64 overflow-y-auto">
                 {contact.submissions.map((sub) => (
                     <ContactHistoryItem
                         id={sub.id}
@@ -18,6 +18,7 @@ export const ContactSubHistory = ({ contact }: Props) => {
                         key={sub.id}
                     />
                 ))}
+                {!contact.submissions.length && 'No Previous Submissions.'}
             </div>
         </WidgetWrapper>
     )

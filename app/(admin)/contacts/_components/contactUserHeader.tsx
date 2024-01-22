@@ -11,18 +11,19 @@ type Props = {
 };
 
 export const ContactUserHeader = ({ contact }: Props) => {
+    const { first_name, last_name, role, username } = contact;
     return (
         <div className="flex flex-col items-center gap-y-3">
             <div className="flex flex-col items-center justify-center">
                 <CircleUser className="hidden md:block md:w-10 md:h-10 xl:w-12 xl:h-12" />
                 <p className="capitalize font-semibold text-2xl">
-                    {getFullName(contact.first_name, contact.last_name)}
+                    {getFullName(first_name, last_name)}
                 </p>
-                <p className="text-sm font-extralight">{contact.username}</p>
+                <p className="text-sm font-extralight">{username}</p>
             </div>
 
             <Badge variant="outline" className="capitalize">
-                {contact.role}
+                {role}
             </Badge>
 
             <div className="flex gap-x-3">

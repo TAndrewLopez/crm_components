@@ -4,12 +4,12 @@ import { PageWrapper } from "@/components/pageWrapper";
 import { DashboardGraph } from "./_components/dashboardGraph";
 import { DashboardWidget } from "./_components/dashboardWidget";
 
-
 export const metadata: Metadata = {
   title: "Dashboard",
-}
+};
 
-const DashboardPage = () => {
+const DashboardPage = async () => {
+
   return (
     <PageWrapper className="flex flex-col gap-y-6">
       <h1 className="text-4xl font-semibold">Dashboard</h1>
@@ -31,7 +31,6 @@ const DashboardPage = () => {
       <div className="flex flex-col xl:flex-row gap-4 h-full">
         <DashboardGraph />
       </div>
-
     </PageWrapper>
   );
 };

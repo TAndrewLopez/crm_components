@@ -4,7 +4,7 @@ type Props = {
     children: React.ReactNode
 }
 
-const AdminViewLayout = async ({ children }: Props) => {
+const AdminViewLayout = ({ children }: Props) => {
     return (
         <div className="flex h-full">
             <Sidebar />

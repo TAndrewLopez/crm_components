@@ -1,8 +1,8 @@
-import { Bookmark, CircleUser, Mail, MessageCircle } from "lucide-react";
+import { CircleUser } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { ContactUser } from "@/lib/types";
-import { cn, getFullName } from "@/lib/utils";
+import { getFullName } from "@/lib/utils";
 
 type Props = {
     contact: ContactUser

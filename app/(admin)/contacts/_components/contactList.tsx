@@ -14,7 +14,8 @@ export const ContactList = ({ contacts }: Props) => {
 
     return (
         <ul className="flex flex-col gap-y-1.5">
-            {contacts.map(({ id, first_name, last_name }) => {
+            {contacts.map((contact) => {
+                const { id, first_name, last_name } = contact;
                 return (
                     <button
                         key={id}

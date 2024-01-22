@@ -30,8 +30,10 @@ export const ContactHeader = ({ isBookmark, submission }: Props) => {
             <div className="flex flex-col sm:flex-row sm:items-center gap-y-3 sm:gap-y-0 sm:gap-x-3">
                 <div className="flex items-center gap-x-3">
                     <BackButton />
-                    <Link href='/submissions' className="text-sm hover:underline">
-                        /submissions
+                    <Link href='/submissions' className="text-sm">
+                        / <span className="text-emerald-500 font-semibold hover:underline underline-offset-4">
+                            submissions
+                        </span>
                     </Link>
                 </div>
 

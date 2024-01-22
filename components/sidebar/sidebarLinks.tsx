@@ -18,7 +18,7 @@ export const SidebarLinks = async ({ }: Props) => {
     const LINKS = [
         {
             name: "Dashboard",
-            href: "/",
+            href: "/dashboard",
             Icon: FingerprintIcon,
         },
         {

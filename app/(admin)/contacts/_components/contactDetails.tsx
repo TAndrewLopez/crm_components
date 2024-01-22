@@ -1,6 +1,5 @@
 "use client";
 
-import moment from "moment";
 import { useEffect, useState } from "react";
 
 import { getContactByID } from "@/actions/contacts";
@@ -41,7 +40,6 @@ export const ContactDetails = () => {
                 <ContactUserInformation contact={contact} />
                 <ContactUserPersonalInfo contact={contact} />                    <ContactSubHistory contact={contact} />
                 <ContactDepositHistory contact={contact} />
-                <p>Join organization {moment(contact.created_at).fromNow()}</p>
             </div>
 
             {contact.role === "admin" && (
