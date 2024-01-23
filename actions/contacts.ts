@@ -35,7 +35,7 @@ export const getContacts = async (orderBy: string = 'last_name'): Promise<user[]
             },
         });
 
-        // return [...contacts, ...contacts, ...contacts, ...contacts, ...contacts,];
+        return [...contacts, ...contacts, ...contacts, ...contacts, ...contacts,];
         return contacts;
     } catch (error) {
         throw new Error("Internal Error.");

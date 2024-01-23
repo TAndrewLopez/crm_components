@@ -12,10 +12,7 @@ export const metadata: Metadata = {
 const SubmissionPage = async () => {
     const submissionData = await getSubmissions()
     return (
-        <PageWrapper>
-            <TableWrapper columns={columns} data={submissionData} />
-            <TableWrapper columns={columns} data={submissionData} />
-            <TableWrapper columns={columns} data={submissionData} />
+        <PageWrapper className="flex flex-col gap-y-5 font-extralight p-4">
             <TableWrapper columns={columns} data={submissionData} />
         </PageWrapper>
     );

@@ -10,7 +10,7 @@ export const PageWrapper = ({ children, className }: Props) => {
     return (
         <div
             className={cn(
-                "w-full mx-auto]",
+                "w-full h-full",
                 className,
                 poppins.className
             )}>

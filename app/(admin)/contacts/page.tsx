@@ -21,16 +21,16 @@ const ContactPage = async () => {
     const label = contactCount > 1 ? "Total Contacts" : "Contact";
 
     return (
-        <PageWrapper className="flex flex-col gap-y-5 font-extralight p-4">
-            <div className="h-full flex">
+        <PageWrapper>
+            <div className="w-full h-full grid grid-cols-12 overflow-y-auto p-4">
                 {/* LEFT COLUMN */}
-                <div className="hidden border-r border-white/40 w-full md:w-auto md:min-w-80">
+                <div className="pr-4 col-span-12 md:col-span-4 border-r border-white/40 overflow-y-auto">
                     <h1 className="text-4xl font-semibold">Contacts</h1>
                     <Separator className="bg-white/40 h-0.5 my-2" />
-                    <div className="px-4 py-4 mr-4 bg-popover rounded-md">
+                    <div className="px-4 py-4 bg-popover rounded-md">
                         Disabled Contact Filter
                     </div>
-                    <div className="pr-4 mt-3 overflow-y-auto h-[calc(100%-200px)]">
+                    <div className="mt-2">
                         <ContactList contacts={contacts} />
                     </div>
                     <p className="pt-2 px-8 flex items-end justify-end">
@@ -39,7 +39,7 @@ const ContactPage = async () => {
                 </div>
 
                 {/* RIGHT COLUMN */}
-                <div className="flex-1 overflow-y-auto">
+                <div className="hidden lg:block col-span-8 overflow-y-auto pl-4">
                     <ContactDetails />
                 </div>
             </div>
@@ -48,3 +48,4 @@ const ContactPage = async () => {
 };
 
 export default ContactPage;
+

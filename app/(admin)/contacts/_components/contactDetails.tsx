@@ -33,7 +33,6 @@ export const ContactDetails = () => {
 
     return (
         <div className="space-y-6">
-
             <ContactUserHeader contact={contact} />
             <ContactUserInformation contact={contact} />
             <ContactUserPersonalInfo contact={contact} />
