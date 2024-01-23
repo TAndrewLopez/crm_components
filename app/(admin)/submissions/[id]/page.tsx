@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import { isBookmark } from "@/actions/bookmarks";
 import { getSubmissionByID, isSubmissionNew } from "@/actions/submissions";
-import { ContactHeader } from "../_components/contactHeader";
+import { SubmissionHeader } from "../_components/submissionHeader";
 import { ActivityWidget } from "../_components/widgetActivity";
 import { AppointmentWidget } from "../_components/widgetAppointment";
 import { ContactWidget } from "../_components/widgetContact";
@@ -37,7 +37,7 @@ const SingleSubmission = async ({ params: { id } }: Props) => {
     return (
         <PageWrapper className="flex flex-col gap-y-5 font-extralight p-4">
             <div className="h-full flex flex-col space-y-5">
-                <ContactHeader
+                <SubmissionHeader
                     isBookmark={isBookmarkBool}
                     submission={submission}
                 />
