@@ -1,4 +1,4 @@
-\copy public.user (first_name, last_name, username, email, role, phone_number, image_url, birthday, created_at) from '/Users/tandrewlopez/Downloads/csv/crm_app_users.csv' DELIMITER ',' CSV HEADER;
+\copy public.user (first_name, last_name, username, email, role, phone_number, image_url, birthday, profile_settings, created_at) from '/Users/tandrewlopez/Downloads/csv/crm_app_users.csv' DELIMITER ',' CSV HEADER;
 
 \copy public.submission (user_id, status, name, email, phone_number, preferred_pronouns, size, placement, color, description, created_at) from '/Users/tandrewlopez/Downloads/csv/crm_app_submissions.csv' DELIMITER ',' CSV HEADER;
 

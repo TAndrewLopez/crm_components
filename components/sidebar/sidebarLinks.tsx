@@ -6,7 +6,7 @@ import {
     User,
 } from "lucide-react";
 
-import { getUnreadSubCount } from "@/actions/count";
+import { getUnreadSubCount } from "@/actions/counts";
 import { NavItem } from "./navItem";
 import { Separator } from "../separator";
 

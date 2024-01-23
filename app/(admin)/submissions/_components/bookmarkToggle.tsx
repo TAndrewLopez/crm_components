@@ -5,7 +5,7 @@ import { useState, useTransition } from "react";
 
 import { cn } from "@/lib/utils";
 import { BookmarkForm } from "./bookmarkForm";
-import { deleteBookmarkBySubmissionID } from "@/actions/bookmark";
+import { deleteBookmarkBySubmissionID } from "@/actions/bookmarks";
 
 type Props = {
     isBookmark: boolean;
@@ -34,7 +34,7 @@ export const BookmarkToggle = ({ isBookmark, submission_id }: Props) => {
         <div className="flex gap-x-3 items-center relative">
             {showLabel && (
                 <BookmarkForm
-                    className="flex flex-col xl:flex-row gap-x-3 border border-primary/30 xl:border-none absolute xl:static xl:flex right-0 top-11 bg-popover xl:bg-inherit p-4 xl:p-0"
+                    className="flex flex-col 2xl:flex-row gap-x-3 border border-primary/30 2xl:border-none absolute 2xl:static 2xl:flex right-0 top-11 bg-popover 2xl:bg-inherit p-4 2xl:p-0"
                     submission_id={submission_id}
                     setShowLabel={setShowLabel}
                 />

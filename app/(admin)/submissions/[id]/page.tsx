@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { isBookmark } from "@/actions/bookmark";
+import { isBookmark } from "@/actions/bookmarks";
 import { getSubmissionByID, isSubmissionNew } from "@/actions/submissions";
 import { ContactHeader } from "../_components/contactHeader";
 import { ActivityWidget } from "../_components/widgetActivity";

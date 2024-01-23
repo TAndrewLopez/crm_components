@@ -32,7 +32,7 @@ export const ContactDetails = () => {
     if (!contact || !selected_contact_id) return null;
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-6 px-4">
             <ContactUserHeader contact={contact} />
             <ContactUserInformation contact={contact} />
             <ContactUserPersonalInfo contact={contact} />

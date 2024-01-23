@@ -5,7 +5,7 @@ import { SidebarLinks } from "./sidebarLinks";
 import { SidebarUtilLinks } from "./sidebarUtilLinks";
 import { SidebarWrapper } from "./sidebarWrapper";
 
-import { getBookmarks } from "@/actions/bookmark";
+import { getBookmarks } from "@/actions/bookmarks";
 import { getSelf } from "@/actions/auth";
 
 type Props = {};

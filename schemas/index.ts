@@ -5,16 +5,14 @@ export const newBookmarkSchema = z.object({
     label: z.string(),
 });
 
-export const bookmarkSortingSchema = z.object({
-    sort_by: z.enum(['created_at', 'status', 'label']),
-    direction: z.enum(['asc', 'desc'])
-})
-
-export const contactSortingSchema = z.object({
-    sort_by: z.enum(['first_name', 'last_name', 'username', 'role']),
-    direction: z.enum(['asc', 'desc'])
-})
-
-export const personalSettingSchema = z.object({
-    showBirthday: z.boolean().default(true)
-})
+export const userSettingsSchema = z.object({
+    showBirthday: z.boolean().default(true),
+    contactSortOption: z
+    .enum(["first_name", "last_name", "username", "role"])
+    .default("last_name"),
+    contactSortDir: z.enum(["asc", "desc"]).default("asc"),
+    bookmarkSortOption: z
+        .enum(["label", "status", "created_at"])
+        .default("created_at"),
+    bookmarkSortDir: z.enum(["asc", "desc"]).default("desc"),
+});

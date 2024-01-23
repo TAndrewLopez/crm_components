@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 
 import { db } from "@/lib/prisma";
 import { getSelf } from "./auth";
-import { updateBookmarkStatusBySubmissionID } from "./bookmark";
+import { updateBookmarkStatusBySubmissionID } from "./bookmarks";
 
 // BOOLEANS
 

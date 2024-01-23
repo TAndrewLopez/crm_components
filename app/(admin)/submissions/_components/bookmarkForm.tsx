@@ -6,7 +6,7 @@ import { type Dispatch, type SetStateAction, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { addBookmark } from "@/actions/bookmark";
+import { addBookmark } from "@/actions/bookmarks";
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -64,11 +64,11 @@ export const BookmarkForm = ({
                     control={form.control}
                     name="label"
                     render={({ field }) => (
-                        <FormItem className="xl:space-y-0 text-center">
-                            <FormLabel className="xl:hidden">Bookmark Label</FormLabel>
+                        <FormItem className="2xl:space-y-0 text-center">
+                            <FormLabel className="2xl:hidden">Bookmark Label</FormLabel>
                             <FormControl>
                                 <Input
-                                    className="w-60 bg-primary-foreground"
+                                    className="w-60 bg-primary-foreground mt-3"
                                     placeholder="Enter bookmark label"
                                     {...field}
                                 />
@@ -76,17 +76,17 @@ export const BookmarkForm = ({
                         </FormItem>
                     )}
                 />
-                <div className="flex flex-col xl:flex-row xl:items-center gap-y-3 justify-center mt-3 xl:mt-0 gap-x-3">
+                <div className="flex flex-col 2xl:flex-row 2xl:items-center gap-y-3 justify-center mt-3 2xl:mt-0 gap-x-3">
                     <FormField
                         control={form.control}
                         name="label"
                         render={({ field }) => (
                             <Button
                                 disabled={isPending || !field.value}
-                                className="bg-emerald-500 hover:bg-emerald-500/50 h-8 xl:h-6"
+                                className="bg-emerald-500 hover:bg-emerald-500/50 h-8 2xl:h-6"
                                 variant="link"
                                 type="submit">
-                                <p className="xl:hidden pr-2">Submit</p>
+                                <p className="2xl:hidden pr-2">Submit</p>
                                 <Check className="w-4 h-4" />
                             </Button>
                         )}
@@ -95,10 +95,10 @@ export const BookmarkForm = ({
                     <Button
                         disabled={isPending}
                         onClick={onCancel}
-                        className="bg-destructive hover:bg-destructive/50 h-8 xl:h-6"
+                        className="bg-destructive hover:bg-destructive/50 h-8 2xl:h-6"
                         variant="link"
                         type="button">
-                        <p className="xl:hidden pr-2">Cancel</p>
+                        <p className="2xl:hidden pr-2">Cancel</p>
                         <X className="w-4 h-4" />
                     </Button>
                 </div>
