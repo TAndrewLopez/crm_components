@@ -1,18 +1,18 @@
 import type { Metadata } from "next";
 
-import { PageWrapper } from "@/components/pageWrapper";
-import { Separator } from "@/components/separator";
-import { ContactList } from "./_components/contactList";
 import { getContacts } from "@/actions/contacts";
 import { getAdminContactCount } from "@/actions/counts";
+import { PageWrapper } from "@/components/pageWrapper";
+import { Separator } from "@/components/separator";
 import { ContactDetails } from "./_components/contactDetails";
+import { ContactList } from "./_components/contactList";
 
 export const metadata: Metadata = {
     title: "Contacts",
 };
 
 const ContactPage = async () => {
-    const contactsPromise = getContacts("first_name");
+    const contactsPromise = getContacts();
     const contactCountPromise = getAdminContactCount();
     const [contacts, contactCount] = await Promise.all([
         contactsPromise,

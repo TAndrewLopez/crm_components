@@ -105,3 +105,9 @@ export const convertSettingsObject = (settingsObject: z.infer<typeof userSetting
     return acc;
   }, '')
 }
+
+export const hasShowBirthday = (settings: string | null) => {
+  if (!settings) return true
+  const settingsObject = convertSettingsString(settings)
+  return settingsObject.showBirthday
+}

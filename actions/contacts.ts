@@ -17,13 +17,10 @@ import { convertSettingsObject, convertSettingsString } from "@/lib/utils";
 /**
  *  Fetches all contacts that are not the logged in user. Revalidate Path '/'
  */
-export const getContacts = async (
-    orderBy: string = "last_name"
-): Promise<user[]> => {
+export const getContacts = async (): Promise<user[]> => {
     try {
         const self = await getSelf();
         const { contactSortOption, contactSortDir } = convertSettingsString(self.profile_settings)
-
 
         const contacts = await db.user.findMany({
             where: {
