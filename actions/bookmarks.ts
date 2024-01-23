@@ -8,6 +8,7 @@ import { db } from "@/lib/prisma";
 import { newBookmarkSchema } from "@/schemas";
 import { getSelf } from "./auth";
 import { getSubmissionByID } from "./submissions";
+import { convertSettingsString } from "@/lib/utils";
 
 // BOOLEANS
 
@@ -47,12 +48,14 @@ export const isBookmark = async (submission_id: number): Promise<boolean> => {
 export const getBookmarks = async (): Promise<bookmark[]> => {
     try {
         const self = await getSelf();
+        const { bookmarkSortOption, bookmarkSortDir } = convertSettingsString(self.profile_settings)
+
         const bookmarks = await db.bookmark.findMany({
             where: {
                 owner_id: self.id,
             },
             orderBy: {
-                created_at: "desc",
+                [bookmarkSortOption]: bookmarkSortDir,
             },
         });
 

@@ -1,8 +1,8 @@
-import { type ClassValue, clsx } from "clsx";
+import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { ProfileSettings } from "./types";
-import { string } from "zod";
-import { flightRouterStateSchema } from "next/dist/server/app-render/types";
+import * as z from "zod";
+
+import { userSettingsSchema } from "@/schemas";
 
 export const cn = (...inputs: ClassValue[]) => {
   return twMerge(clsx(inputs));
@@ -68,25 +68,40 @@ export const getFullName = (first_name: string, last_name: string) => {
   return `${removeSpecialCharacters(first_name)} ${removeSpecialCharacters(last_name)}`;
 };
 
-export const convertSettingString = (settings: string | null) => {
-  const defaultSettings: ProfileSettings = {
-    showBirthday: 'true',
-    bookmarkSortDir: 'desc',
-    bookmarkSortOption: "created_at",
-    contactSortOption: "last_name",
-    contactSortDir: 'asc',
+/**
+ * Converts a setting string into a settings object.
+ * @param settings 
+ */
+export const convertSettingsString = (settings: string | null) => {
+  const settingsObject: Record<string, string> = {};
+
+  if (!settings) return userSettingsSchema.parse(settingsObject);
+
+  const parsedSettings =
+    settings
+      .split(",")
+      .map((line) => line.split("="))
+      .reduce((acc, el) => {
+        acc[el[0]] = el[1];
+        return acc;
+      }, settingsObject)
+
+  const convertedSettings = {
+    ...parsedSettings,
+    showBirthday: parsedSettings.showBirthday === 'true',
   }
 
-  if (!settings) return defaultSettings;
-
-  const settingsObject = settings
-    .split(",")
-    .map((line) => line.split("="))
-    .reduce((acc, el) => {
-      acc[el[0]] = el[1]
-      return acc;
-    }, defaultSettings);
-
-
-  return settingsObject;
+  return userSettingsSchema.parse(convertedSettings);
 };
+
+/**
+ * Converts a setting object into a settings string.
+ * @param settingsObject 
+ */
+export const convertSettingsObject = (settingsObject: z.infer<typeof userSettingsSchema>) => {
+  const entries = Object.entries(settingsObject)
+  return entries.reduce((acc, el, i) => {
+    i === entries.length - 1 ? acc += `${el[0]}=${el[1]}` : acc += `${el[0]}=${el[1]},`
+    return acc;
+  }, '')
+}

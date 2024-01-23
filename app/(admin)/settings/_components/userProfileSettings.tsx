@@ -1,10 +1,13 @@
 "use client";
 
-import { Tag, Tags, Clock, ArrowUpNarrowWide, User, LockKeyhole } from "lucide-react";
-import { startTransition, useTransition } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ArrowUpNarrowWide, Clock, LockKeyhole, Tag, Tags, User } from "lucide-react";
+import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
+import { updateUserSettings } from "@/actions/contacts";
+import { Button } from "@/components/ui/button";
 import {
     Form,
     FormControl,
@@ -12,17 +15,13 @@ import {
     FormItem,
     FormLabel,
 } from "@/components/ui/form";
-import { ProfileSettings } from "@/lib/types";
-import { userSettingsSchema } from "@/schemas";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { updateUserSettings } from "@/actions/contacts";
-import { WidgetWrapper } from "@/components/widgetWrapper";
-import { Switch } from "@/components/ui/switch";
-import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Switch } from "@/components/ui/switch";
+import { WidgetWrapper } from "@/components/widgetWrapper";
+import { userSettingsSchema } from "@/schemas";
 
 type Props = {
-    settings: ProfileSettings;
+    settings: z.infer<typeof userSettingsSchema>;
 };
 export const UserProfileSettings = ({ settings }: Props) => {
     const {
@@ -32,7 +31,7 @@ export const UserProfileSettings = ({ settings }: Props) => {
         contactSortDir,
         showBirthday,
     } = settings;
-    const [] = useTransition();
+    const [isPending, startTransition] = useTransition();
     const form = useForm<z.infer<typeof userSettingsSchema>>({
         resolver: zodResolver(userSettingsSchema),
         defaultValues: {
@@ -40,7 +39,7 @@ export const UserProfileSettings = ({ settings }: Props) => {
             bookmarkSortDir,
             contactSortOption,
             contactSortDir,
-            showBirthday: showBirthday === "true" ? true : false,
+            showBirthday,
         },
     });
 
@@ -48,7 +47,7 @@ export const UserProfileSettings = ({ settings }: Props) => {
         startTransition(() => {
             updateUserSettings(values)
                 .then((data) => {
-                    form.reset();
+                    // form.reset();
                     // ADDITIONAL SIDE EFFECTS
                 })
                 .catch(() =>
@@ -89,7 +88,7 @@ export const UserProfileSettings = ({ settings }: Props) => {
                                     <FormLabel className="font-normal text-lg">
                                         Sort By:{" "}
                                     </FormLabel>
-                                    <FormControl>
+                                    <FormControl className="mt-3">
                                         <RadioGroup
                                             onValueChange={field.onChange}
                                             defaultValue={field.value}>
@@ -98,7 +97,7 @@ export const UserProfileSettings = ({ settings }: Props) => {
                                                     <RadioGroupItem value="label" />
                                                 </FormControl>
                                                 <FormLabel className="flex-1 flex items-center gap-x-3">
-                                                    <p className="flex-1">Label</p>
+                                                    <p className="flex-1 font-light">Label</p>
                                                     <Tag className="w-5- h-5" />
                                                 </FormLabel>
                                             </FormItem>
@@ -108,7 +107,7 @@ export const UserProfileSettings = ({ settings }: Props) => {
                                                     <RadioGroupItem value="status" />
                                                 </FormControl>
                                                 <FormLabel className="flex-1 flex items-center gap-x-3">
-                                                    <p className="flex-1">Status</p>
+                                                    <p className="flex-1 font-light">Status</p>
                                                     <Tags className="w-5- h-5" />
                                                 </FormLabel>
                                             </FormItem>
@@ -118,7 +117,7 @@ export const UserProfileSettings = ({ settings }: Props) => {
                                                     <RadioGroupItem value="created_at" />
                                                 </FormControl>
                                                 <FormLabel className="flex-1 flex items-center gap-x-3">
-                                                    <p className="flex-1">Created At</p>
+                                                    <p className="flex-1 font-light">Created At</p>
                                                     <Clock className="w-5- h-5" />
                                                 </FormLabel>
                                             </FormItem>
@@ -137,7 +136,7 @@ export const UserProfileSettings = ({ settings }: Props) => {
                                         Direction:{" "}
                                     </FormLabel>
 
-                                    <FormControl>
+                                    <FormControl className="mt-3">
                                         <RadioGroup
                                             onValueChange={field.onChange}
                                             defaultValue={field.value}>
@@ -146,7 +145,7 @@ export const UserProfileSettings = ({ settings }: Props) => {
                                                     <RadioGroupItem value="asc" />
                                                 </FormControl>
                                                 <FormLabel className="flex-1 flex items-center gap-x-3">
-                                                    <p className="w-full flex-1">Ascending</p>
+                                                    <p className="flex-1 font-light">Ascending</p>
                                                     <ArrowUpNarrowWide className="w-5- h-5" />
                                                 </FormLabel>
                                             </FormItem>
@@ -156,7 +155,7 @@ export const UserProfileSettings = ({ settings }: Props) => {
                                                     <RadioGroupItem value="desc" />
                                                 </FormControl>
                                                 <FormLabel className="flex-1 flex items-center gap-x-3">
-                                                    <p className="flex-1">Descending</p>
+                                                    <p className="flex-1 font-light">Descending</p>
                                                     <ArrowUpNarrowWide className="-scale-y-100 w-5- h-5" />
                                                 </FormLabel>
                                             </FormItem>
@@ -178,7 +177,7 @@ export const UserProfileSettings = ({ settings }: Props) => {
                                     <FormLabel className="font-normal text-lg">
                                         Sort By:{" "}
                                     </FormLabel>
-                                    <FormControl>
+                                    <FormControl className="mt-3">
                                         <RadioGroup
                                             onValueChange={field.onChange}
                                             defaultValue={field.value}>
@@ -187,7 +186,7 @@ export const UserProfileSettings = ({ settings }: Props) => {
                                                     <RadioGroupItem value="first_name" />
                                                 </FormControl>
                                                 <FormLabel className="flex-1 flex items-center gap-x-3">
-                                                    <p className="w-full flex-1">First Name</p>
+                                                    <p className="flex-1 font-light">First Name</p>
                                                 </FormLabel>
                                             </FormItem>
 
@@ -196,7 +195,7 @@ export const UserProfileSettings = ({ settings }: Props) => {
                                                     <RadioGroupItem value="last_name" />
                                                 </FormControl>
                                                 <FormLabel className="flex-1 flex items-center gap-x-3">
-                                                    <p className="w-full flex-1">Last Name</p>
+                                                    <p className="flex-1 font-light">Last Name</p>
                                                 </FormLabel>
                                             </FormItem>
 
@@ -205,7 +204,7 @@ export const UserProfileSettings = ({ settings }: Props) => {
                                                     <RadioGroupItem value="username" />
                                                 </FormControl>
                                                 <FormLabel className="flex-1 flex items-center gap-x-3">
-                                                    <p className="w-full flex-1">Username</p>
+                                                    <p className="flex-1 font-light">Username</p>
                                                     <User className="w-5- h-5" />
                                                 </FormLabel>
                                             </FormItem>
@@ -215,7 +214,7 @@ export const UserProfileSettings = ({ settings }: Props) => {
                                                     <RadioGroupItem value="role" />
                                                 </FormControl>
                                                 <FormLabel className="flex-1 flex items-center gap-x-3">
-                                                    <p className="w-full flex-1">Role</p>
+                                                    <p className="flex-1 font-light">Role</p>
                                                     <LockKeyhole className="w-5- h-5" />
                                                 </FormLabel>
                                             </FormItem>
@@ -234,7 +233,7 @@ export const UserProfileSettings = ({ settings }: Props) => {
                                         Direction:{" "}
                                     </FormLabel>
 
-                                    <FormControl>
+                                    <FormControl className="mt-3">
                                         <RadioGroup
                                             onValueChange={field.onChange}
                                             defaultValue={field.value}>
@@ -243,7 +242,7 @@ export const UserProfileSettings = ({ settings }: Props) => {
                                                     <RadioGroupItem value="asc" />
                                                 </FormControl>
                                                 <FormLabel className="flex-1 flex items-center gap-x-3">
-                                                    <p className="w-full flex-1">Ascending</p>
+                                                    <p className="flex-1 font-light">Ascending</p>
                                                     <ArrowUpNarrowWide className="w-5- h-5" />
                                                 </FormLabel>
                                             </FormItem>
@@ -253,7 +252,7 @@ export const UserProfileSettings = ({ settings }: Props) => {
                                                     <RadioGroupItem value="desc" />
                                                 </FormControl>
                                                 <FormLabel className="flex-1 flex items-center gap-x-3">
-                                                    <p className="flex-1">Descending</p>
+                                                    <p className="flex-1 font-light">Descending</p>
                                                     <ArrowUpNarrowWide className="-scale-y-100 w-5- h-5" />
                                                 </FormLabel>
                                             </FormItem>
@@ -265,7 +264,7 @@ export const UserProfileSettings = ({ settings }: Props) => {
                     </div>
                 </WidgetWrapper>
 
-                <Button size="sm" variant="primary" type="submit">
+                <Button disabled={isPending} size="sm" variant="primary" type="submit">
                     Save Changes
                 </Button>
             </form>

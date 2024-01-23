@@ -4,8 +4,7 @@ import { getSelf } from "@/actions/auth";
 import { getContactByID } from "@/actions/contacts";
 import { PageWrapper } from "@/components/pageWrapper";
 import { WidgetWrapper } from "@/components/widgetWrapper";
-import { convertSettingString } from "@/lib/utils";
-import { ProfileSettings } from '@/lib/types';
+import { convertSettingsString } from "@/lib/utils";
 import { UserProfileDetails } from "./_components/userProfileDetails";
 import { UserProfileSettings } from "./_components/userProfileSettings";
 
@@ -17,7 +16,7 @@ export const metadata: Metadata = {
 const SettingsPage = async () => {
     const self = await getSelf();
     const contact = await getContactByID(self.id);
-    const settings: ProfileSettings = convertSettingString(self.profile_settings)
+    const settings = convertSettingsString(self.profile_settings)
 
     return (
         <PageWrapper className="flex flex-col gap-y-5 font-extralight p-4">

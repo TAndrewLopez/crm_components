@@ -2,6 +2,7 @@
 
 import * as z from "zod";
 import { user } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 
 import { db } from "@/lib/prisma";
 import { ContactUser } from "@/lib/types";
@@ -9,20 +10,21 @@ import { getSelf } from "./auth";
 import { getDepositsByClientID } from "./deposits";
 import { getSubmissionsByAuthorID } from "./submissions";
 import { userSettingsSchema } from "@/schemas";
+import { convertSettingsObject, convertSettingsString } from "@/lib/utils";
 
 //QUERIES
 
 /**
- *  Fetches all contacts that are not the logged in user.
- *
- *  In the future this will only return the appropriate contacts based on the user role.
- *  ie client and admins shouldn't have dev contact info but owners of the organization should.
+ *  Fetches all contacts that are not the logged in user. Revalidate Path '/'
  */
 export const getContacts = async (
     orderBy: string = "last_name"
 ): Promise<user[]> => {
     try {
         const self = await getSelf();
+        const { contactSortOption, contactSortDir } = convertSettingsString(self.profile_settings)
+
+
         const contacts = await db.user.findMany({
             where: {
                 NOT: [
@@ -35,11 +37,9 @@ export const getContacts = async (
                 ],
             },
             orderBy: {
-                [orderBy]: "asc",
+                [contactSortOption]: contactSortDir,
             },
         });
-
-        //  return [...contacts, ...contacts, ...contacts, ...contacts, ...contacts,];
         return contacts;
     } catch (error) {
         throw new Error("Internal Error.");
@@ -125,14 +125,26 @@ export const updateUserSettings = async (
             showBirthday,
         } = validatedFields.data;
 
-        return console.log({
-            bookmarkSortDir,
+        const settingsString = convertSettingsObject({
             bookmarkSortOption,
-            contactSortDir,
+            bookmarkSortDir,
             contactSortOption,
+            contactSortDir,
             showBirthday,
         });
-        
+
+        const self = await getSelf();
+
+        await db.user.update({
+            where: {
+                id: self.id,
+            },
+            data: {
+                profile_settings: settingsString
+            }
+        });
+
+        revalidatePath('/')
     } catch (error) {
         throw new Error("Internal Error.");
     }
