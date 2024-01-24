@@ -11,7 +11,9 @@ export const metadata: Metadata = {
     title: "Contacts",
 };
 
-const ContactPage = async () => {
+type Props = {}
+
+const ContactPage = async ({ }: Props) => {
     const contactsPromise = getContacts();
     const contactCountPromise = getAdminContactCount();
     const [contacts, contactCount] = await Promise.all([

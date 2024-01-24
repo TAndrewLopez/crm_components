@@ -4,7 +4,9 @@ import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 
-const NotFoundPage = () => {
+type Props = {}
+
+const NotFoundPage = ({ }: Props) => {
     const router = useRouter();
 
     return (

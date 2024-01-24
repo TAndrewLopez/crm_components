@@ -9,7 +9,9 @@ export const metadata: Metadata = {
     title: "Submissions",
 }
 
-const SubmissionPage = async () => {
+type Props = {}
+
+const SubmissionPage = async ({ }: Props) => {
     const submissionData = await getSubmissions()
     return (
         <PageWrapper className="flex flex-col gap-y-5 font-extralight p-4">

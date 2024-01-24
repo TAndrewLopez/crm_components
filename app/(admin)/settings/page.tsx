@@ -13,7 +13,9 @@ export const metadata: Metadata = {
     title: "Settings",
 };
 
-const SettingsPage = async () => {
+type Props = {}
+
+const SettingsPage = async ({ }: Props) => {
     const self = await getSelf();
     const contact = await getContactByID(self.id);
     const settings = convertSettingsString(self.profile_settings)

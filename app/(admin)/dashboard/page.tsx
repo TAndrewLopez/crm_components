@@ -8,7 +8,9 @@ export const metadata: Metadata = {
   title: "Dashboard",
 };
 
-const DashboardPage = async () => {
+type Props = {}
+
+const DashboardPage = async ({ }: Props) => {
 
   return (
     <PageWrapper className="flex flex-col gap-y-5 font-extralight p-4">

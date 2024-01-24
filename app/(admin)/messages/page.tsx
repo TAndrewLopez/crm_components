@@ -5,7 +5,10 @@ import { PageWrapper } from "@/components/pageWrapper";
 export const metadata: Metadata = {
     title: "Messages",
 };
-const MessagePage = () => {
+
+type Props = {}
+
+const MessagePage = ({ }: Props) => {
     return (
         <PageWrapper className="flex flex-col gap-y-5 font-extralight p-4">
             <h1 className="text-4xl font-semibold">Messages</h1>
