@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 
 import { PageWrapper } from "@/components/pageWrapper"
 
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
+
 export const metadata: Metadata = {
     title: "Support",
 };

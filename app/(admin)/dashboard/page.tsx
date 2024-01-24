@@ -4,6 +4,9 @@ import { PageWrapper } from "@/components/pageWrapper";
 import { DashboardGraph } from "./_components/dashboardGraph";
 import { DashboardWidget } from "./_components/dashboardWidget";
 
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
+
 export const metadata: Metadata = {
   title: "Dashboard",
 };
