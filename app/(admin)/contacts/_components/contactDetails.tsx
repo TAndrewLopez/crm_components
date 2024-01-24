@@ -17,7 +17,7 @@ import { ContactUserPersonalInfo } from "./contactUserPersonalInfo";
 export const ContactDetails = () => {
     const [isPending, startTransition] = useTransition()
     const matches = useMediaQuery("(max-width:768px)");
-    const [contact, setContact] = useState<ContactUser | undefined>();
+    const [contact, setContact] = useState<ContactUser | null>(null);
     const { selected_contact_id, setSelectedContactID } = useContacts();
 
     useEffect(() => {
