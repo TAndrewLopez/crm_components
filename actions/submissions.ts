@@ -96,7 +96,7 @@ export const getSubmissionContactInfo = async (submission_id: number): Promise<S
         }
         // IF THERES A USER, THEY ARE A CONTACT
         if (subContact.user_id) {
-            
+
         }
 
 
@@ -178,9 +178,8 @@ export const setSubmissionStatus = async (
 
         revalidatePath("/");
         return updatedSubmission;
-    } catch (error: any) {
-        console.log(error);
-        throw new Error("Internal Error.", error.message);
+    } catch (error) {
+        throw new Error("Internal Error.");
     }
 };
 

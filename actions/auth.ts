@@ -22,7 +22,6 @@ export const getSelf = async (): Promise<AuthUser> => {
 
         return user;
     } catch (error) {
-        console.log('error', error)
         throw new Error("Internal Error.");
     }
 };
