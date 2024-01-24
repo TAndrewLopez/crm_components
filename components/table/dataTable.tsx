@@ -51,7 +51,7 @@ export const DataTable = <TData, TValue>({
                                     </TableCell>
                                 ))}
                             </TableRow>
-                        )
+                        );
                     })
                 ) : (
                     <TableRow>

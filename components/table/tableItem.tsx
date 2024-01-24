@@ -10,13 +10,13 @@ type Props = {
 
 export const TableItem = ({ children, href = "", status }: Props) => {
     let content;
-    href ? content = (
-        <Link
-            className="hover:underline"
-            href={href}>
-            {children}
-        </Link>
-    ) : content = children
+    href
+        ? (content = (
+            <Link className="hover:underline" href={href}>
+                {children}
+            </Link>
+        ))
+        : (content = children);
 
     return (
         <div

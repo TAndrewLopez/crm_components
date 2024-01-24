@@ -4,6 +4,7 @@ import { user } from "@prisma/client";
 
 import { cn, getFullName } from "@/lib/utils";
 import { useContacts } from "@/store/useContacts";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type Props = {
     contacts: user[];
@@ -33,3 +34,15 @@ export const ContactList = ({ contacts }: Props) => {
         </ul>
     );
 };
+
+export const ContactListSkeleton = () => {
+    return (
+        <ul className="flex flex-col gap-y-1.5">
+            {
+                [...new Array(5)].map((_, i) => (
+                    <Skeleton key={i} className="bg-primary-foreground h-10 w-full" />
+                ))
+            }
+        </ul>
+    )
+}

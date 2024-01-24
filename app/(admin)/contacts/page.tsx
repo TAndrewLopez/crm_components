@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 
 import { getContacts } from "@/actions/contacts";
 import { getAdminContactCount } from "@/actions/counts";
 import { PageWrapper } from "@/components/pageWrapper";
 import { Separator } from "@/components/separator";
-import { ContactDetails } from "./_components/contactDetails";
-import { ContactList } from "./_components/contactList";
+import { Skeleton } from "@/components/ui/skeleton";
+import { ContactDetails, ContactDetailsSkeleton } from "./_components/contactDetails";
+import { ContactList, ContactListSkeleton } from "./_components/contactList";
 
 export const dynamic = "force-dynamic";
 export const fetchCache = "force-no-store";
@@ -25,8 +27,6 @@ const ContactPage = async ({ }: Props) => {
     ]);
     const label = contactCount > 1 ? "Total Contacts" : "Contact";
 
-    // if (!contacts || !contactCount) return <div>Loading?</div>;
-
     return (
         <PageWrapper>
             <div className="w-full h-full grid grid-cols-12 overflow-y-auto ">
@@ -38,16 +38,22 @@ const ContactPage = async ({ }: Props) => {
                         Disabled Contact Filter
                     </div>
                     <div className="mt-2 overflow-y-auto">
-                        <ContactList contacts={contacts} />
+                        <Suspense fallback={<ContactListSkeleton />}>
+                            <ContactList contacts={contacts} />
+                        </Suspense>
                     </div>
-                    <p className="pt-2 px-8 flex items-end justify-end">
-                        {contactCount} {label}
-                    </p>
+                    <Suspense fallback={<ContactCountSkeleton />}>
+                        <p className="pt-2 px-8 flex items-end justify-end">
+                            {contactCount} {label}
+                        </p>
+                    </Suspense>
                 </div>
 
                 {/* RIGHT COLUMN */}
                 <div className="col-span-8 overflow-y-auto py-4">
-                    <ContactDetails />
+                    <Suspense fallback={<ContactDetailsSkeleton />}>
+                        <ContactDetails />
+                    </Suspense>
                 </div>
             </div>
         </PageWrapper>
@@ -55,3 +61,12 @@ const ContactPage = async ({ }: Props) => {
 };
 
 export default ContactPage;
+
+
+const ContactCountSkeleton = () => {
+    return (
+        <div className="mt-2 flex justify-end">
+            <Skeleton className="w-20 h-10 bg-primary-foreground" />
+        </div>
+    )
+}

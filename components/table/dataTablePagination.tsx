@@ -1,10 +1,10 @@
-import { Table } from "@tanstack/react-table"
+import { Table } from "@tanstack/react-table";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 
 type Props<TData> = {
-    table: Table<TData>
-}
+    table: Table<TData>;
+};
 
 export const DataTablePagination = <TData, TValue>({ table }: Props<TData>) => {
     return (
@@ -30,5 +30,5 @@ export const DataTablePagination = <TData, TValue>({ table }: Props<TData>) => {
                 </Button>
             </div>
         </div>
-    )
-}
+    );
+};

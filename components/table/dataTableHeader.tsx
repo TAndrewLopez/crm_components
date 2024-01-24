@@ -5,13 +5,13 @@ import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuCheckboxItem,
-    DropdownMenuTrigger
+    DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 
 type Props<TData> = {
-    table: Table<TData>
-}
+    table: Table<TData>;
+};
 
 export const DataTableHeader = <TData, TValue>({ table }: Props<TData>) => {
     return (
@@ -21,10 +21,8 @@ export const DataTableHeader = <TData, TValue>({ table }: Props<TData>) => {
                 className="max-w-sm"
                 value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
                 onChange={(event) => {
-                    table.getColumn("email")?.setFilterValue(event.target.value)
-
-                }
-                }
+                    table.getColumn("email")?.setFilterValue(event.target.value);
+                }}
             />
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -42,9 +40,7 @@ export const DataTableHeader = <TData, TValue>({ table }: Props<TData>) => {
                                     key={column.id}
                                     className="capitalize"
                                     checked={column.getIsVisible()}
-                                    onCheckedChange={(value) =>
-                                        column.toggleVisibility(!!value)
-                                    }>
+                                    onCheckedChange={(value) => column.toggleVisibility(!!value)}>
                                     {column.id.split("_").join(" ")}
                                 </DropdownMenuCheckboxItem>
                             );
@@ -52,5 +48,5 @@ export const DataTableHeader = <TData, TValue>({ table }: Props<TData>) => {
                 </DropdownMenuContent>
             </DropdownMenu>
         </div>
-    )
-}
+    );
+};
