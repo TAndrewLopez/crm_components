@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     title: "Contacts",
 };
 
-type Props = {}
+type Props = {};
 
 const ContactPage = async ({ }: Props) => {
     const contactsPromise = getContacts();
@@ -25,7 +25,7 @@ const ContactPage = async ({ }: Props) => {
     ]);
     const label = contactCount > 1 ? "Total Contacts" : "Contact";
 
-    if (!contacts || !contactCount) return <div>loading?</div>;
+    // if (!contacts || !contactCount) return <div>Loading?</div>;
 
     return (
         <PageWrapper>

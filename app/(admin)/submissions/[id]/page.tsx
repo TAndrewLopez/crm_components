@@ -38,7 +38,7 @@ const SingleSubmission = async ({ params: { id } }: Props) => {
     const isBookmarkBool = await isBookmark(submission.id);
 
 
-    if (!submission) return <div>Loading?</div>
+    // if (!submission) return <div>Loading?</div>
 
     return (
         <PageWrapper className="flex flex-col gap-y-5 font-extralight p-4">

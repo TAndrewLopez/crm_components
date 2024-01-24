@@ -22,7 +22,7 @@ const SettingsPage = async ({ }: Props) => {
     const contact = await getContactByID(self.id);
     const settings = convertSettingsString(self.profile_settings)
 
-    if (!self || !contact) return <div>Loading?</div>
+    // if (!self || !contact) return <div>Loading?</div>
 
     return (
         <PageWrapper className="flex flex-col gap-y-5 font-extralight p-4">
