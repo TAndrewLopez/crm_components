@@ -8,7 +8,6 @@
     "start": "next start",
     "lint": "next lint",
     "reset": "npx prisma migrate reset && npx prisma db push && npx prisma generate",
-    "_seed": "psql -U username -d db_name < path/to/init.sql",
     "seed": "psql -U tandrewlopez -d crm_app < ./sql/init.sql",
     "postinstall": "prisma generate"
   },

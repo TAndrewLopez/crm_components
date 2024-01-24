@@ -22,6 +22,8 @@ const ContactPage = async ({ }: Props) => {
     ]);
     const label = contactCount > 1 ? "Total Contacts" : "Contact";
 
+    if (!contacts || contactCount) return <div>loading?</div>;
+
     return (
         <PageWrapper>
             <div className="w-full h-full grid grid-cols-12 overflow-y-auto ">

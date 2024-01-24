@@ -10,8 +10,7 @@ export const metadata: Metadata = {
 
 type Props = {}
 
-const DashboardPage = async ({ }: Props) => {
-
+const DashboardPage = ({ }: Props) => {
   return (
     <PageWrapper className="flex flex-col gap-y-5 font-extralight p-4">
       <h1 className="text-4xl font-semibold">Dashboard</h1>

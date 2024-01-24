@@ -35,6 +35,9 @@ const SingleSubmission = async ({ params: { id } }: Props) => {
     const [submission, isNew] = await Promise.all([submissionPromise, isNewPromise])
     const isBookmarkBool = await isBookmark(submission.id);
 
+
+    if (!submission) return <div>Loading?</div>
+
     return (
         <PageWrapper className="flex flex-col gap-y-5 font-extralight p-4">
             <div className="h-full flex flex-col space-y-5">

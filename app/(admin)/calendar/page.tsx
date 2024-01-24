@@ -4,11 +4,9 @@ import { PageWrapper } from "@/components/pageWrapper";
 
 export const metadata: Metadata = {
     title: "Calendar",
-}
+};
 
-type Props = {
-
-}
+type Props = {};
 
 const CalendarPage = ({ }: Props) => {
     return (

@@ -11,7 +11,7 @@ export const getSelf = async (): Promise<AuthUser> => {
     try {
         const user = await db.user.findUnique({
             where: {
-                id: 11,
+                id: 1,
             },
             include: {
                 bookmarks: true,
@@ -22,6 +22,7 @@ export const getSelf = async (): Promise<AuthUser> => {
 
         return user;
     } catch (error) {
+        console.log('error', error)
         throw new Error("Internal Error.");
     }
 };
