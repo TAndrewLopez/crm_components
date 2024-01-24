@@ -3,6 +3,7 @@ import { CircleUser } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { ContactUser } from "@/lib/types";
 import { getFullName } from "@/lib/utils";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type Props = {
     contact: ContactUser
@@ -26,3 +27,17 @@ export const UserProfileDetails = ({ contact }: Props) => {
         </div>
     );
 };
+
+
+export const UserProfileDetailsSkeleton = () => {
+    return (
+        <div className="flex flex-col items-center gap-y-3">
+            <div className="flex flex-col items-center justify-center gap-y-2">
+                <Skeleton className="w-12 h-12 rounded-full bg-primary-foreground" />
+                <Skeleton className="w-52 h-8 rounded-md bg-primary-foreground" />
+                <Skeleton className="w-40 h-5 rounded-md bg-primary-foreground" />
+            </div>
+            <Skeleton className="w-20 h-5 rounded-md bg-primary-foreground" />
+        </div>
+    )
+}

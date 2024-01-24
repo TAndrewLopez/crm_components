@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowUpNarrowWide, Clock, LockKeyhole, Tag, Tags, User } from "lucide-react";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import * as z from "zod";
 
 import { updateUserSettings } from "@/actions/contacts";
@@ -16,10 +17,10 @@ import {
     FormLabel,
 } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Switch } from "@/components/ui/switch";
 import { WidgetWrapper } from "@/components/widgetWrapper";
 import { userSettingsSchema } from "@/schemas";
-import { toast } from "sonner";
 
 type Props = {
     settings: z.infer<typeof userSettingsSchema>;
@@ -271,3 +272,18 @@ export const UserProfileSettings = ({ settings }: Props) => {
         </Form>
     );
 };
+
+export const UserProfileSettingsSkeleton = () => {
+    return (
+        <div className="flex flex-col gap-y-5">
+            {
+                [...new Array(3)].map((_, i) => (
+                    <div className="space-y-2" key={i}>
+                        <Skeleton className="bg-primary-foreground w-60 h-8" />
+                        <Skeleton className="bg-primary-foreground w-20 h-8" />
+                    </div>
+                ))
+            }
+        </div>
+    )
+}

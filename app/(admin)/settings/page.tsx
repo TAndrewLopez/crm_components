@@ -5,8 +5,9 @@ import { getContactByID } from "@/actions/contacts";
 import { PageWrapper } from "@/components/pageWrapper";
 import { WidgetWrapper } from "@/components/widgetWrapper";
 import { convertSettingsString } from "@/lib/utils";
-import { UserProfileDetails } from "./_components/userProfileDetails";
-import { UserProfileSettings } from "./_components/userProfileSettings";
+import { UserProfileDetails, UserProfileDetailsSkeleton } from "./_components/userProfileDetails";
+import { UserProfileSettings, UserProfileSettingsSkeleton } from "./_components/userProfileSettings";
+import { Suspense } from "react";
 
 export const dynamic = "force-dynamic";
 export const fetchCache = "force-no-store";
@@ -22,15 +23,17 @@ const SettingsPage = async ({ }: Props) => {
     const contact = await getContactByID(self.id);
     const settings = convertSettingsString(self.profile_settings)
 
-    // if (!self || !contact) return <div>Loading?</div>
-
     return (
         <PageWrapper className="flex flex-col gap-y-5 font-extralight p-4">
             <h1 className="text-4xl font-semibold">Settings</h1>
-            <UserProfileDetails contact={contact} />
+            <Suspense fallback={<UserProfileDetailsSkeleton />}>
+                <UserProfileDetails contact={contact} />
+            </Suspense>
             <div className="flex-1 flex flex-col gap-y-5">
                 <h1 className="text-xl font-semibold">Update Contact Information.</h1>
-                <UserProfileSettings settings={settings} />
+                <Suspense fallback={<UserProfileSettingsSkeleton />}>
+                    <UserProfileSettings settings={settings} />
+                </Suspense>
                 <WidgetWrapper title="Spotify Integration:" showSeparator>
                     <p className="font-bold text-emerald-500">Pending Integration ...</p>
                 </WidgetWrapper>
