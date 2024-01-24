@@ -20,10 +20,13 @@ export const NavItem = ({ children, count, name, href }: Props) => {
     const { isOpen } = useSidebar();
     const notificationCount = count && count > 0 ? count : 0;
 
-    const pathArr = pathname.split('/')
-    const hrefArr = href.split("/")
+    const pathArr = pathname.split("/");
+    const hrefArr = href.split("/");
 
-    const activeNav = href === pathname || pathArr.includes(hrefArr[hrefArr.length - 1]) && href !== '/'
+    const activeNav =
+        href === pathname ||
+        (pathArr.includes(hrefArr[hrefArr.length - 1]) && href !== "/");
+
     const defaultStyles = cn(
         "relative px-4 py-3 font-extralight flex hover:bg-neutral-800 gap-x-4 items-center",
         activeNav && "bg-neutral-800 text-emerald-500 font-semibold"
@@ -55,7 +58,9 @@ export const NavItem = ({ children, count, name, href }: Props) => {
                     <Link href={href} className={defaultStyles + " rounded-2xl"}>
                         <div className="relative">
                             {!!count && (
-                                <NotificationBadge variant="notification">{notificationCount}</NotificationBadge>
+                                <NotificationBadge variant="notification">
+                                    {notificationCount}
+                                </NotificationBadge>
                             )}
                             {children}
                         </div>

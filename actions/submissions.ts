@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 
 import { db } from "@/lib/prisma";
 import { getSelf } from "./auth";
-import { updateBookmarkStatusBySubmissionID } from "./bookmarks";
+import { setBookmarkStatusBySubmissionID } from "./bookmarks";
 import { SubmissionWithUser } from "@/lib/types";
 
 // BOOLEANS
@@ -136,7 +136,7 @@ export const setSubmissionStatus = async (
         });
 
         if (bookmark) {
-            await updateBookmarkStatusBySubmissionID(
+            await setBookmarkStatusBySubmissionID(
                 bookmark.id,
                 updatedSubmission.status
             );

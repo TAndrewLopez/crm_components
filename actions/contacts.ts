@@ -108,7 +108,7 @@ export const getContactByUsername = async (
 
 // MUTATIONS
 
-export const updateUserSettings = async (
+export const setContactSettings = async (
     values: z.infer<typeof userSettingsSchema>
 ): Promise<void> => {
     try {

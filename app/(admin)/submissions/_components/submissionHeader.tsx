@@ -18,8 +18,9 @@ type Props = {
 
 export const SubmissionHeader = ({ isBookmark, submission }: Props) => {
     const router = useRouter();
-    const pathname = usePathname().split("/");
-    const crumbs = [...pathname.slice(0, -1), submission.name];
+    const pathname = usePathname()
+    const splitPathname = usePathname().split("/");
+    const crumbs = [...splitPathname.slice(0, -1), submission.name];
     const { setSelectedContactID } = useContacts();
 
     const handleClick = () => {
@@ -65,7 +66,9 @@ export const SubmissionHeader = ({ isBookmark, submission }: Props) => {
                             isBookmark={isBookmark}
                             submission_id={submission.id}
                         />
-                        <button className="bg-emerald-500 box-border border-2 hover:border-primary rounded-full p-1">
+                        <button
+                            onClick={() => router.push(`${pathname}/create`)}
+                            className="bg-emerald-500 box-border border-2 hover:border-primary rounded-full p-1">
                             <Plus
                                 className="h-4 w-4 xl:h-6 xl:w-6 text-primary"
                             />

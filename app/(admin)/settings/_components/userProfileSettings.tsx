@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
 
-import { updateUserSettings } from "@/actions/contacts";
+import { setContactSettings } from "@/actions/contacts";
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -47,7 +47,7 @@ export const UserProfileSettings = ({ settings }: Props) => {
 
     const onSubmit = (values: z.infer<typeof userSettingsSchema>) => {
         startTransition(() => {
-            updateUserSettings(values)
+            setContactSettings(values)
                 .then(() => {
                     toast.success('Changes saved.')
                 })

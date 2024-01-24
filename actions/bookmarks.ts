@@ -159,7 +159,7 @@ export const deleteBookmarkBySubmissionID = async (
  * @param bookmark_id
  * @returns bookmark
  */
-export const updateBookmarkStatusBySubmissionID = async (
+export const setBookmarkStatusBySubmissionID = async (
     bookmark_id: number,
     status: submissionStatus
 ): Promise<bookmark> => {
