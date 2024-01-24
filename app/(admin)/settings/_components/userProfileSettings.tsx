@@ -19,6 +19,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Switch } from "@/components/ui/switch";
 import { WidgetWrapper } from "@/components/widgetWrapper";
 import { userSettingsSchema } from "@/schemas";
+import { toast } from "sonner";
 
 type Props = {
     settings: z.infer<typeof userSettingsSchema>;
@@ -46,12 +47,11 @@ export const UserProfileSettings = ({ settings }: Props) => {
     const onSubmit = (values: z.infer<typeof userSettingsSchema>) => {
         startTransition(() => {
             updateUserSettings(values)
-                .then((data) => {
-                    // form.reset();
-                    // ADDITIONAL SIDE EFFECTS
+                .then(() => {
+                    toast.success('Changes saved.')
                 })
                 .catch(() =>
-                    console.error("Something went wrong updating user settings.")
+                    toast.error("Something went wrong updating user settings.")
                 );
         });
     };

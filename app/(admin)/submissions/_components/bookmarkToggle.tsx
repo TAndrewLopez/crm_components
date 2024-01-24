@@ -2,10 +2,11 @@
 
 import { Bookmark } from "lucide-react";
 import { useState, useTransition } from "react";
+import { toast } from "sonner";
 
+import { deleteBookmarkBySubmissionID } from "@/actions/bookmarks";
 import { cn } from "@/lib/utils";
 import { BookmarkForm } from "./bookmarkForm";
-import { deleteBookmarkBySubmissionID } from "@/actions/bookmarks";
 
 type Props = {
     isBookmark: boolean;
@@ -22,9 +23,10 @@ export const BookmarkToggle = ({ isBookmark, submission_id }: Props) => {
                 deleteBookmarkBySubmissionID(submission_id)
                     .then((data) => {
                         setShowLabel(false);
+                        toast.success("Bookmark deleted.")
                     })
                     .catch(() =>
-                        console.error("Something went wrong updating bookmark")
+                        toast.error("Something went wrong deleting bookmark.")
                     );
             })
             : setShowLabel(true);

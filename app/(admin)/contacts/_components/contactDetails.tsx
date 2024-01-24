@@ -1,22 +1,23 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
+import { useMediaQuery } from "usehooks-ts";
 
 import { getContactByID } from "@/actions/contacts";
+import { Skeleton } from "@/components/ui/skeleton";
 import { ContactUser } from "@/lib/types";
+import { cn } from "@/lib/utils";
 import { useContacts } from "@/store/useContacts";
 import { ContactUserSubHistory } from "./constUserSubHistory";
 import { ContactDepositHistory } from "./contactDepositHistory";
 import { ContactUserHeader } from "./contactUserHeader";
 import { ContactUserInformation } from "./contactUserInformation";
 import { ContactUserPersonalInfo } from "./contactUserPersonalInfo";
-import { useMediaQuery } from "usehooks-ts";
-import { Skeleton } from "@/components/ui/skeleton";
-import { cn } from "@/lib/utils";
 
 export const ContactDetails = () => {
+    const [isPending, startTransition] = useTransition()
     const matches = useMediaQuery("(max-width:768px)");
-    const [contact, setContact] = useState<ContactUser | null>(null);
+    const [contact, setContact] = useState<ContactUser | undefined>();
     const { selected_contact_id, setSelectedContactID } = useContacts();
 
     useEffect(() => {
@@ -24,7 +25,7 @@ export const ContactDetails = () => {
             const fetchUser = async () => {
                 try {
                     const user = await getContactByID(selected_contact_id);
-                    setContact(user);
+                    setContact(user)
                 } catch (error) {
                     console.log(
                         `Something went wrong with fetching user with user_id: ${selected_contact_id}`,
@@ -32,7 +33,7 @@ export const ContactDetails = () => {
                     );
                 }
             };
-            fetchUser();
+            fetchUser()
         }
     }, [selected_contact_id]);
 
@@ -45,7 +46,7 @@ export const ContactDetails = () => {
                 "bg-secondary fixed top-0 right-0 bottom-0 left-[75px] py-4 overflow-y-auto"
             )}>
             <div className="space-y-6 px-4">
-                <button onClick={() => setSelectedContactID(null)}>Close</button>
+                <button className="md:hidden" onClick={() => setSelectedContactID(null)}>Close</button>
                 <ContactUserHeader contact={contact} />
                 <ContactUserInformation contact={contact} />
                 <ContactUserPersonalInfo contact={contact} />

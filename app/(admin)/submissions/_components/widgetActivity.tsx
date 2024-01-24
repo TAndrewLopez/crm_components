@@ -1,11 +1,12 @@
 "use client";
 
 import moment from "moment";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
+import { toast } from "sonner";
 
 import { setSubmissionStatus } from "@/actions/submissions";
-import { LOGS } from "@/temp/data";
 import { WidgetWrapper } from "@/components/widgetWrapper";
+import { LOGS } from "@/temp/data";
 
 type Props = {
     client_name: string;
@@ -14,14 +15,22 @@ type Props = {
 };
 
 export const ActivityWidget = ({ client_name, submissionID, isNew }: Props) => {
+    const [isPending, startTransition] = useTransition();
     const [isClient, setIsClient] = useState(false);
 
     useEffect(() => {
         if (isClient && isNew) {
             const markAsRead = async () => {
-                await setSubmissionStatus(submissionID, "read");
+                return await setSubmissionStatus(submissionID, "read");
             };
-            markAsRead();
+
+            startTransition(() => {
+                markAsRead()
+                    .then(() => toast("Submission marked as read."))
+                    .catch((err) =>
+                        toast.error("Something went wrong marking submission.")
+                    );
+            });
         }
     }, [isClient, submissionID, isNew]);
 

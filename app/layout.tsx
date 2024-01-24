@@ -3,6 +3,7 @@ import './globals.css'
 import { inter } from '../fonts'
 
 import { ThemeProvider } from '@/components/themeProvider'
+import { Toaster } from '@/components/ui/sonner'
 
 
 export const metadata: Metadata = {
@@ -27,6 +28,7 @@ export default function RootLayout({
           storageKey='initial_theme'
         >
           {children}
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

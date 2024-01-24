@@ -9,7 +9,8 @@
     "lint": "next lint",
     "reset": "npx prisma migrate reset && npx prisma db push && npx prisma generate",
     "_seed": "psql -U username -d db_name < path/to/init.sql",
-    "seed": "psql -U tandrewlopez -d crm_app < ./sql/init.sql"
+    "seed": "psql -U tandrewlopez -d crm_app < ./sql/init.sql",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
@@ -32,6 +33,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.49.3",
+    "sonner": "^1.3.1",
     "tailwind-merge": "^2.2.0",
     "tailwindcss-animate": "^1.0.7",
     "usehooks-ts": "^2.9.2",

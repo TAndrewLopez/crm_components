@@ -5,6 +5,7 @@ import { Check, X } from "lucide-react";
 import { type Dispatch, type SetStateAction, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { toast } from "sonner";
 
 import { addBookmark } from "@/actions/bookmarks";
 import { Button } from "@/components/ui/button";
@@ -45,10 +46,10 @@ export const BookmarkForm = ({
         startTransition(() => {
             addBookmark(values)
                 .then((data) => {
-                    form.reset();
+                    toast.success("Bookmark added.");
                     setShowLabel(false);
                 })
-                .catch(() => console.error("Something went wrong updating bookmark"));
+                .catch(() => toast.error("Something went wrong updating bookmark."));
         });
     };
 
