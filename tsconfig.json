@@ -1,11 +1,11 @@
 {
   "compilerOptions": {
-    // "target": "es5",
-    // "module": "esnext",
-    // "moduleResolution": "bundler",
-    "target": "es2017",
+    "target": "es5",
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
+    // "target": "es2017",
+    // "module": "esnext",
+    // "moduleResolution": "node",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
