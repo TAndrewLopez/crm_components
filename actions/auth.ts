@@ -11,7 +11,7 @@ export const getSelf = async (): Promise<AuthUser> => {
     try {
         const user = await db.user.findUnique({
             where: {
-                id: 1,
+                id: 11,
             },
             include: {
                 bookmarks: true,
