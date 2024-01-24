@@ -7,6 +7,9 @@ import { Separator } from "@/components/separator";
 import { ContactDetails } from "./_components/contactDetails";
 import { ContactList } from "./_components/contactList";
 
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
+
 export const metadata: Metadata = {
     title: "Contacts",
 };

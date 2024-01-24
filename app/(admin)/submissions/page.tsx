@@ -5,6 +5,9 @@ import { PageWrapper } from "@/components/pageWrapper";
 import { TableWrapper } from "@/components/table/tableWrapper";
 import { columns } from "./_components/columns";
 
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
+
 export const metadata: Metadata = {
     title: "Submissions",
 }

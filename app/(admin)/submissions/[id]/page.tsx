@@ -11,7 +11,9 @@ import { NotesWidget } from "../_components/widgetNotes";
 import { ReferenceWidget } from "../_components/widgetReferences";
 import { ReviewWidget } from "../_components/widgetReview";
 import { PageWrapper } from "@/components/pageWrapper";
-import { Plus } from "lucide-react";
+
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
 
 type Props = {
     params: {

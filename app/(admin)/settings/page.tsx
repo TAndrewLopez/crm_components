@@ -8,6 +8,8 @@ import { convertSettingsString } from "@/lib/utils";
 import { UserProfileDetails } from "./_components/userProfileDetails";
 import { UserProfileSettings } from "./_components/userProfileSettings";
 
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
 
 export const metadata: Metadata = {
     title: "Settings",

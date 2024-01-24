@@ -4,9 +4,11 @@ import { SidebarFavoriteLinks } from "./sidebarFavoriteLinks";
 import { SidebarLinks } from "./sidebarLinks";
 import { SidebarUtilLinks } from "./sidebarUtilLinks";
 import { SidebarWrapper } from "./sidebarWrapper";
-
 import { getBookmarks } from "@/actions/bookmarks";
 import { getSelf } from "@/actions/auth";
+
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
 
 type Props = {};
 
