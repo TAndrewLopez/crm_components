@@ -7,7 +7,6 @@ import { usePathname, useRouter } from "next/navigation";
 import { Separator } from "@/components/separator";
 import { SubStatusBadge } from "@/components/subStatusBadge";
 import { BookmarkToggle } from "./bookmarkToggle";
-import { BackButton } from "./backButton";
 import { useContacts } from "@/store/useContacts";
 import { BreadCrumbs } from "@/components/breadCrumbs";
 
@@ -19,7 +18,7 @@ type Props = {
 export const SubmissionHeader = ({ isBookmark, submission }: Props) => {
     const router = useRouter();
     const pathname = usePathname()
-    const splitPathname = usePathname().split("/");
+    const splitPathname = pathname.split("/");
     const crumbs = [...splitPathname.slice(0, -1), submission.name];
     const { setSelectedContactID } = useContacts();
 
@@ -31,11 +30,7 @@ export const SubmissionHeader = ({ isBookmark, submission }: Props) => {
     return (
         <div className="flex flex-col w-full">
             <div className="flex flex-col gap-y-3">
-                <div className="flex items-center gap-x-3">
-                    <BackButton />
-                    <BreadCrumbs crumbs={crumbs} />
-                </div>
-
+                <BreadCrumbs crumbs={crumbs} hrefs={splitPathname} />
                 <div className="flex justify-between items-center w-full">
                     <div className="flex items-center gap-x-3">
                         <CircleUser className="hidden lg:block w-12 h-12" />

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 
 import { getSelf } from "@/actions/auth";
 import { getContactByID } from "@/actions/contacts";
@@ -7,7 +8,6 @@ import { WidgetWrapper } from "@/components/widgetWrapper";
 import { convertSettingsString } from "@/lib/utils";
 import { UserProfileDetails, UserProfileDetailsSkeleton } from "./_components/userProfileDetails";
 import { UserProfileSettings, UserProfileSettingsSkeleton } from "./_components/userProfileSettings";
-import { Suspense } from "react";
 
 export const dynamic = "force-dynamic";
 export const fetchCache = "force-no-store";

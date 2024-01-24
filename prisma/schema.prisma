@@ -64,16 +64,17 @@ model submission {
 
 // USER MODELS
 model user {
-  id              Int     @id @default(autoincrement())
-  first_name      String  @db.VarChar(255)
-  last_name       String  @db.VarChar(255)
-  username        String  @db.VarChar(255)
-  email           String  @db.VarChar(255)
-  role            role    @default(client)
-  phone_number    String  @db.VarChar(255)
-  image_url       String?
-  birthday        String?
-  profile_settings String? @db.VarChar(255)
+  id                 Int     @id @default(autoincrement())
+  first_name         String  @db.VarChar(255)
+  last_name          String  @db.VarChar(255)
+  username           String  @db.VarChar(255)
+  email              String  @db.VarChar(255)
+  role               role    @default(client)
+  phone_number       String  @db.VarChar(255)
+  image_url          String?
+  birthday           String?
+  profile_settings   String? @db.VarChar(255)
+  preferred_pronouns String?
 
   // RELATIONS
   client_history  submission[]

@@ -6,7 +6,7 @@ import { revalidatePath } from "next/cache";
 import { db } from "@/lib/prisma";
 import { getSelf } from "./auth";
 import { setBookmarkStatusBySubmissionID } from "./bookmarks";
-import { SubmissionWithUser } from "@/lib/types";
+import { SubContact, SubmissionWithUser } from "@/lib/types";
 
 // BOOLEANS
 
@@ -61,12 +61,46 @@ export const getSubmissionByID = async (
             },
         });
 
-        if (!submission)
+        if (!submission) {
             throw new Error(
                 `Couldn't find a submission with submission_id: ${submission_id}.`
             );
+        }
 
         return submission;
+    } catch (error) {
+        throw new Error("Internal Error.");
+    }
+};
+
+export const getSubmissionContactInfo = async (submission_id: number): Promise<SubContact> => {
+    try {
+        const self = await getSelf();
+        const subContact = await db.submission.findUnique({
+            where: {
+                id: submission_id,
+            },
+            select: {
+                name: true,
+                email: true,
+                phone_number: true,
+                preferred_pronouns: true,
+                user_id: true,
+            }
+        })
+
+        if (!subContact) {
+            throw new Error(
+                `Couldn't find a submission with submission_id: ${submission_id}.`
+            );
+        }
+        // IF THERES A USER, THEY ARE A CONTACT
+        if (subContact.user_id) {
+            
+        }
+
+
+        return subContact
     } catch (error) {
         throw new Error("Internal Error.");
     }

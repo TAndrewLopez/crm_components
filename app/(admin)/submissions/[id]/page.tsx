@@ -11,6 +11,7 @@ import { NotesWidget } from "../_components/widgetNotes";
 import { ReferenceWidget } from "../_components/widgetReferences";
 import { ReviewWidget } from "../_components/widgetReview";
 import { PageWrapper } from "@/components/pageWrapper";
+import { Read } from "../_components/read";
 
 export const dynamic = "force-dynamic";
 export const fetchCache = "force-no-store";
@@ -34,28 +35,22 @@ export const generateMetadata = async ({
 const SingleSubmission = async ({ params: { id } }: Props) => {
     const submissionPromise = await getSubmissionByID(Number(id));
     const isNewPromise = await isSubmissionNew(Number(id));
-    const [submission, isNew] = await Promise.all([submissionPromise, isNewPromise])
+    const [submission, isNew] = await Promise.all([
+        submissionPromise,
+        isNewPromise,
+    ]);
     const isBookmarkBool = await isBookmark(submission.id);
-
-
-    // if (!submission) return <div>Loading?</div>
 
     return (
         <PageWrapper className="flex flex-col gap-y-5 font-extralight p-4">
+            <Read submission_id={submission.id} status={submission.status} />
             <div className="h-full flex flex-col space-y-5">
-                <SubmissionHeader
-                    isBookmark={isBookmarkBool}
-                    submission={submission}
-                />
+                <SubmissionHeader isBookmark={isBookmarkBool} submission={submission} />
                 <div className="flex-1 flex flex-col space-y-5 xl:flex-row xl:space-x-5 xl:space-y-0">
                     <div className="flex flex-col xl:min-w-80 space-y-5">
                         <ContactWidget submission={submission} />
                         <div className="hidden xl:block">
-                            <ActivityWidget
-                                client_name={submission.name}
-                                submissionID={submission.id}
-                                isNew={isNew}
-                            />
+                            <ActivityWidget client_name={submission.name} />
                         </div>
                     </div>
 
@@ -69,11 +64,7 @@ const SingleSubmission = async ({ params: { id } }: Props) => {
                             <ReferenceWidget />
                             <NotesWidget />
                             <div className="xl:hidden">
-                                <ActivityWidget
-                                    client_name={submission.name}
-                                    submissionID={submission.id}
-                                    isNew={isNew}
-                                />
+                                <ActivityWidget client_name={submission.name} />
                             </div>
                         </div>
                     </div>

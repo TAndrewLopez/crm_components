@@ -62,6 +62,14 @@ export const UserProfileSettings = ({ settings }: Props) => {
                 className="flex flex-col gap-y-5"
                 onSubmit={form.handleSubmit(onSubmit)}>
                 <WidgetWrapper title="Personal Settings" showSeparator>
+                    <p>First Name</p>
+                    <p>Last Name</p>
+                    <p>Username</p>
+                    <p>Email</p>
+                    <p>Phone Number</p>
+                    <p>Image Url</p>
+                    <p>User Bio</p>
+                    <p>Preferred Pronouns</p>
                     <FormField
                         control={form.control}
                         name="showBirthday"
