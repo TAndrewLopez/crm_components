@@ -2,10 +2,10 @@
 
 import { ArrowRightFromLine } from "lucide-react";
 
-import { useSidebar } from "@/store/useSidebar";
-import { Hint } from "../hint";
-import { Button } from "../ui/button";
+import { Hint } from "@/components/hint";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useSidebar } from "@/store/useSidebar";
 
 type Props = {};
 

@@ -7,8 +7,9 @@ import {
 } from "lucide-react";
 
 import { getUnreadSubCount } from "@/actions/counts";
+import { Separator } from "@/components/separator";
+import { Skeleton } from "@/components/ui/skeleton";
 import { NavItem } from "./navItem";
-import { Separator } from "../separator";
 
 type Props = {};
 
@@ -60,3 +61,21 @@ export const SidebarLinks = async ({ }: Props) => {
 
     );
 };
+
+
+
+export const SidebarLinksSkeleton = () => {
+    return (
+        <>
+            <div className="mx-2.5 flex justify-center">
+                <ul className="w-full py-2 flex flex-col gap-y-1">
+                    <Skeleton className="h-12 w-12 bg-popover rounded-md" />
+                    <Skeleton className="h-12 w-12 bg-popover rounded-md" />
+                    <Skeleton className="h-12 w-12 bg-popover rounded-md" />
+                    <Skeleton className="h-12 w-12 bg-popover rounded-md" />
+                </ul>
+            </div>
+            <Separator className="bg-white/5" />
+        </>
+    )
+}

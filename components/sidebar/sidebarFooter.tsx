@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
 
+import { Skeleton } from "@/components/ui/skeleton";
 import { Toggle } from "./toggle";
 
 type Props = {};
@@ -27,3 +28,11 @@ export const SidebarFooter = ({ }: Props) => {
         </>
     );
 };
+
+export const SidebarFooterSkeleton = () => {
+    return (
+        <div className="h-[75px] mx-2.5 flex items-center justify-between">
+            <Skeleton className="h-12 w-12 bg-popover rounded-md" />
+        </div>
+    )
+}

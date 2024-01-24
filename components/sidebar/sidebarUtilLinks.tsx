@@ -1,7 +1,8 @@
 import { BadgeHelpIcon, CogIcon } from "lucide-react";
 
+import { Separator } from "@/components/separator";
+import { Skeleton } from "@/components/ui/skeleton";
 import { NavItem } from "./navItem";
-import { Separator } from "../separator";
 
 type Props = {};
 
@@ -34,3 +35,19 @@ export const SidebarUtilLinks = ({ }: Props) => {
         </>
     );
 };
+
+export const SidebarUtilLinksSkeleton = () => {
+    return (
+        <>
+            <div className="mx-2.5">
+                <ul className="w-full py-2 flex flex-col gap-y-1">
+                    <Skeleton className="h-12 w-12 bg-popover rounded-md" />
+                    <Skeleton className="h-12 w-12 bg-popover rounded-md" />
+                    <Skeleton className="h-12 w-12 bg-popover rounded-md" />
+                    <Skeleton className="h-12 w-12 bg-popover rounded-md" />
+                </ul>
+            </div>
+            <Separator className="bg-white/5" />
+        </>
+    )
+}

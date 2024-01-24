@@ -3,10 +3,10 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { cn } from "@/lib/utils";
 import { Hint } from "@/components/hint";
+import { NotificationBadge } from "@/components/notificationBadge";
+import { cn } from "@/lib/utils";
 import { useSidebar } from "@/store/useSidebar";
-import { NotificationBadge } from "../notificationBadge";
 
 type Props = {
     children: React.ReactNode;

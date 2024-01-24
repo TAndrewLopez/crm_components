@@ -1,3 +1,4 @@
+import { Skeleton } from "@/components/ui/skeleton";
 import { UserAvatar } from "./userAvatar";
 
 type Props = {
@@ -13,6 +14,14 @@ export const SidebarHeader = ({ imageURL, username }: Props) => {
                 username={username}
                 size='md'
             />
+        </header>
+    )
+}
+
+export const SidebarHeaderSkeleton = () => {
+    return (
+        <header className="h-[75px] min-h-[75px] flex justify-center items-center bg-popover">
+            <Skeleton className="h-12 w-12 bg-primary-foreground rounded-full" />
         </header>
     )
 }

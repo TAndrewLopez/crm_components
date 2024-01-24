@@ -1,11 +1,14 @@
-import { SidebarFooter } from "./sidebarFooter";
-import { SidebarHeader } from "./sidebarHeader";
-import { SidebarFavoriteLinks } from "./sidebarFavoriteLinks";
-import { SidebarLinks } from "./sidebarLinks";
-import { SidebarUtilLinks } from "./sidebarUtilLinks";
-import { SidebarWrapper } from "./sidebarWrapper";
-import { getBookmarks } from "@/actions/bookmarks";
 import { getSelf } from "@/actions/auth";
+import { getBookmarks } from "@/actions/bookmarks";
+import {
+    SidebarFavoriteLinks,
+    SidebarFavoriteLinksSkeleton,
+} from "./sidebarFavoriteLinks";
+import { SidebarFooter, SidebarFooterSkeleton } from "./sidebarFooter";
+import { SidebarHeader, SidebarHeaderSkeleton } from "./sidebarHeader";
+import { SidebarLinks, SidebarLinksSkeleton } from "./sidebarLinks";
+import { SidebarUtilLinks, SidebarUtilLinksSkeleton } from "./sidebarUtilLinks";
+import { SidebarWrapper } from "./sidebarWrapper";
 
 export const dynamic = "force-dynamic";
 export const fetchCache = "force-no-store";
@@ -26,5 +29,19 @@ export const Sidebar = async ({ }: Props) => {
             </div>
             <SidebarFooter />
         </SidebarWrapper>
+    );
+};
+
+export const SidebarSkeleton = () => {
+    return (
+        <aside className="flex flex-col w-[70px] bg-primary-foreground">
+            <SidebarHeaderSkeleton />
+            <div className="flex flex-col flex-1">
+                <SidebarLinksSkeleton />
+                <SidebarFavoriteLinksSkeleton />
+                <SidebarUtilLinksSkeleton />
+            </div>
+            <SidebarFooterSkeleton />
+        </aside>
     );
 };
