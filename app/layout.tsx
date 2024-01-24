@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
 import './globals.css'
-import { inter } from '../fonts'
 
 import { ThemeProvider } from '@/components/themeProvider'
 import { Toaster } from '@/components/ui/sonner'
@@ -13,6 +13,7 @@ export const metadata: Metadata = {
   },
   description: 'Client Relation Management',
 }
+const inter = Inter({ subsets: ['latin'] })
 
 export default function RootLayout({
   children,
