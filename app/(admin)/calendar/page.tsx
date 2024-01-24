@@ -1,10 +1,10 @@
-import type { Metadata } from "next";
+// import { type Metadata } from "next";
 
 import { PageWrapper } from "@/components/pageWrapper";
 
-export const metadata: Metadata = {
-    title: "Calendar",
-};
+// export const metadata: Metadata = {
+//     title: "Calendar",
+// };
 
 type Props = {};
 
