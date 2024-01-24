@@ -11,6 +11,7 @@ import { NotesWidget } from "../_components/widgetNotes";
 import { ReferenceWidget } from "../_components/widgetReferences";
 import { ReviewWidget } from "../_components/widgetReview";
 import { PageWrapper } from "@/components/pageWrapper";
+import { Plus } from "lucide-react";
 
 type Props = {
     params: {
@@ -44,11 +45,13 @@ const SingleSubmission = async ({ params: { id } }: Props) => {
                 <div className="flex-1 flex flex-col space-y-5 xl:flex-row xl:space-x-5 xl:space-y-0">
                     <div className="flex flex-col xl:min-w-80 space-y-5">
                         <ContactWidget submission={submission} />
-                        <ActivityWidget
-                            client_name={submission.name}
-                            submissionID={submission.id}
-                            isNew={isNew}
-                        />
+                        <div className="hidden xl:block">
+                            <ActivityWidget
+                                client_name={submission.name}
+                                submissionID={submission.id}
+                                isNew={isNew}
+                            />
+                        </div>
                     </div>
 
                     <div className="flex w-full flex-col gap-x-5 xl:flex-row space-y-5 xl:space-y-0 xl:pb-0 overflow-y-auto">
@@ -60,6 +63,13 @@ const SingleSubmission = async ({ params: { id } }: Props) => {
                         <div className="flex flex-col space-y-5 xl:w-1/2 pb-5 xl:pb-0">
                             <ReferenceWidget />
                             <NotesWidget />
+                            <div className="xl:hidden">
+                                <ActivityWidget
+                                    client_name={submission.name}
+                                    submissionID={submission.id}
+                                    isNew={isNew}
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>

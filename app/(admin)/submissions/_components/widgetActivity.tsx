@@ -1,7 +1,7 @@
 "use client";
 
 import moment from "moment";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { setSubmissionStatus } from "@/actions/submissions";
 import { LOGS } from "@/temp/data";
@@ -15,7 +15,6 @@ type Props = {
 
 export const ActivityWidget = ({ client_name, submissionID, isNew }: Props) => {
     const [isClient, setIsClient] = useState(false);
-    const div = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
         if (isClient && isNew) {
@@ -26,17 +25,12 @@ export const ActivityWidget = ({ client_name, submissionID, isNew }: Props) => {
         }
     }, [isClient, submissionID, isNew]);
 
-    useEffect(() => {
-        if (div.current)
-            div.current.scrollIntoView({ behavior: "smooth", block: "end" });
-    }, []);
-
     useEffect(() => setIsClient(true), []);
 
     return (
         <WidgetWrapper title="Activity Feed">
             <div className="flex flex-col gap-y-2 h-64 xl:h-96 overflow-y-auto">
-                <div ref={div} className="space-y-3">
+                <div className="space-y-3">
                     <ul className="flex flex-col gap-y-3">
                         {LOGS.map(({ description, username, createdAt }, i) => (
                             <li className="bg-primary-foreground p-2 rounded-sm" key={i}>

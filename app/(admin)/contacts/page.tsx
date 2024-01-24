@@ -39,7 +39,7 @@ const ContactPage = async () => {
                 </div>
 
                 {/* RIGHT COLUMN */}
-                <div className="hidden md:block col-span-8 overflow-y-auto py-4">
+                <div className="col-span-8 overflow-y-auto py-4">
                     <ContactDetails />
                 </div>
             </div>
@@ -48,4 +48,3 @@ const ContactPage = async () => {
 };
 
 export default ContactPage;
-

@@ -110,7 +110,7 @@ export const getContactByUsername = async (
 
 export const updateUserSettings = async (
     values: z.infer<typeof userSettingsSchema>
-) => {
+): Promise<void> => {
     try {
         const validatedFields = userSettingsSchema.safeParse(values);
         if (!validatedFields.success) throw new Error("Invalid fields");

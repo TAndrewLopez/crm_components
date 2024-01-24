@@ -1,7 +1,7 @@
 "use client";
 
 import { submission } from "@prisma/client";
-import { CircleUser } from "lucide-react";
+import { CircleUser, Plus } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 
 import { Separator } from "@/components/separator";
@@ -37,14 +37,19 @@ export const SubmissionHeader = ({ isBookmark, submission }: Props) => {
 
                 <div className="flex justify-between items-center w-full">
                     <div className="flex items-center gap-x-3">
-                        <CircleUser className="hidden sm:block sm:w-10 sm:h-10 lg:w-12 lg:h-12" />
+                        <CircleUser className="hidden lg:block w-12 h-12" />
                         <div className="flex items-center gap-x-2 sm:gap-x-5">
-                            <div className="flex flex-col justify-between">
-                                <p className="font-thin text-2xl max-w-48 sm:max-w-72 2xl:max-w-fit truncate">
-                                    {submission.name}
-                                </p>
-                            </div>
-                            <div className="flex items-center space-x-1.5">
+                            {/* <div className="flex flex-col justify-between"> */}
+                            <p className="hidden sm:block font-thin text-2xl max-w-48 sm:max-w-72 2xl:max-w-fit truncate">
+                                {submission.name}
+                            </p>
+                            <p className="sm:hidden font-thin text-2xl max-w-48 sm:max-w-72 2xl:max-w-fit capitalize truncate">
+                                {submission.name.split(' ')[0][0]}.{" "}
+                                {submission.name.split(' ')[1]}
+                            </p>
+
+                            {/* </div> */}
+                            <div className="flex items-center gap-x-1.5">
                                 {submission.user_id && (
                                     <button onClick={handleClick}>
                                         <SubStatusBadge status="contact" />
@@ -55,10 +60,17 @@ export const SubmissionHeader = ({ isBookmark, submission }: Props) => {
                         </div>
                     </div>
 
-                    <BookmarkToggle
-                        isBookmark={isBookmark}
-                        submission_id={submission.id}
-                    />
+                    <div className="flex gap-x-1">
+                        <BookmarkToggle
+                            isBookmark={isBookmark}
+                            submission_id={submission.id}
+                        />
+                        <button className="bg-emerald-500 box-border border-2 hover:border-primary rounded-full p-1">
+                            <Plus
+                                className="h-4 w-4 xl:h-6 xl:w-6 text-primary"
+                            />
+                        </button>
+                    </div>
                 </div>
             </div>
             <Separator className="bg-white/40 h-0.5 mt-2" />

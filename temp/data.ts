@@ -73,5 +73,5 @@ export const randomLogs: iLog[] = [
 ];
 
 export const LOGS = randomLogs.sort((a, b) =>
-    a.createdAt > b.createdAt ? 1 : -1
+    a.createdAt > b.createdAt ? -1 : 1
 );

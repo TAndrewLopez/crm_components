@@ -42,7 +42,7 @@ export const BookmarkToggle = ({ isBookmark, submission_id }: Props) => {
             <Bookmark
                 onClick={handleClick}
                 className={cn(
-                    "h-8 w-8 text-emerald-500 hover:cursor-pointer hover:text-white",
+                    "h-7 w-7 xl:w-8 xl:h-8 text-emerald-500 hover:cursor-pointer hover:text-white",
                     isBookmark && "fill-emerald-500"
                 )}
             />

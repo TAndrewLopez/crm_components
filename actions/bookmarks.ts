@@ -31,6 +31,9 @@ export const isBookmark = async (submission_id: number): Promise<boolean> => {
                 owner_id: self.id,
                 submission_id: submission.id,
             },
+            select: {
+                id: true
+            }
         });
 
         return bookmark ? true : false;
@@ -48,7 +51,9 @@ export const isBookmark = async (submission_id: number): Promise<boolean> => {
 export const getBookmarks = async (): Promise<bookmark[]> => {
     try {
         const self = await getSelf();
-        const { bookmarkSortOption, bookmarkSortDir } = convertSettingsString(self.profile_settings)
+        const { bookmarkSortOption, bookmarkSortDir } = convertSettingsString(
+            self.profile_settings
+        );
 
         const bookmarks = await db.bookmark.findMany({
             where: {
@@ -166,10 +171,11 @@ export const updateBookmarkStatusBySubmissionID = async (
             },
         });
 
-        if (!bookmark)
+        if (!bookmark) {
             throw new Error(
                 `Couldn't find bookmark with bookmark_id: ${bookmark_id}.`
             );
+        }
 
         const updatedBookmark = await db.bookmark.update({
             where: {

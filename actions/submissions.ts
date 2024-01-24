@@ -1,23 +1,24 @@
 "use server";
 
-import { submission, submissionStatus } from "@prisma/client";
+import { submission, submissionStatus, user } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
 import { db } from "@/lib/prisma";
 import { getSelf } from "./auth";
 import { updateBookmarkStatusBySubmissionID } from "./bookmarks";
+import { SubmissionWithUser } from "@/lib/types";
 
 // BOOLEANS
 
 /**
  * Check if the status for the given submission_id is new.
- * @param submission_id 
+ * @param submission_id
  * @returns boolean
  */
 export const isSubmissionNew = async (
     submission_id: number
 ): Promise<boolean> => {
-    const self = await getSelf()
+    const self = await getSelf();
     const submission = await getSubmissionByID(submission_id);
     return submission.status === "new" ? true : false;
 };
@@ -33,8 +34,8 @@ export const getSubmissions = async (): Promise<submission[]> => {
         const self = await getSelf();
         return await db.submission.findMany({
             orderBy: {
-                created_at: 'desc'
-            }
+                created_at: "desc",
+            },
         });
     } catch (error) {
         throw new Error("Internal Error.");
@@ -43,12 +44,12 @@ export const getSubmissions = async (): Promise<submission[]> => {
 
 /**
  * Fetch a single submission record with the given submission_id for the logged in user.
- * @param submission_id 
- * @returns 
+ * @param submission_id
+ * @returns
  */
 export const getSubmissionByID = async (
     submission_id: number
-): Promise<submission> => {
+): Promise<SubmissionWithUser> => {
     try {
         const self = await getSelf();
         const submission = await db.submission.findUnique({
@@ -72,32 +73,34 @@ export const getSubmissionByID = async (
 };
 
 /**
- * Fetch all submission records for given user_id. 
- * @param user_id 
+ * Fetch all submission records for given user_id.
+ * @param user_id
  * @returns submission[]
  */
-export const getSubmissionsByAuthorID = async (user_id: number): Promise<submission[]> => {
+export const getSubmissionsByAuthorID = async (
+    user_id: number
+): Promise<submission[]> => {
     try {
-        const self = await getSelf()
+        const self = await getSelf();
         return await db.submission.findMany({
             where: {
                 user_id,
             },
             orderBy: {
-                created_at: 'desc'
-            }
-        })
+                created_at: "desc",
+            },
+        });
     } catch (error) {
-        throw new Error("Internal Error.")
+        throw new Error("Internal Error.");
     }
-}
+};
 
 // MUTATIONS
 
 /**
  * Update the status of a submission record with the given submission_id to the given status. Revalidate Path: '/'Revalidate Path: '/'
- * @param submission_id 
- * @param status 
+ * @param submission_id
+ * @param status
  * @returns submission
  */
 export const setSubmissionStatus = async (
@@ -107,11 +110,14 @@ export const setSubmissionStatus = async (
     try {
         const selfPromise = getSelf();
         const submissionPromise = getSubmissionByID(submission_id);
-        const [self, submission] = await Promise.all([selfPromise, submissionPromise])
+        const [self, submission] = await Promise.all([
+            selfPromise,
+            submissionPromise,
+        ]);
 
-        if (submission.status === status) {
-            throw new Error(`Submission is already marked as ${status}.`);
-        }
+        // if (submission.status === status) {
+        //     throw new Error(`Submission is already marked as ${status}.`);
+        // }
 
         const updatedSubmission = await db.submission.update({
             where: {
@@ -130,12 +136,16 @@ export const setSubmissionStatus = async (
         });
 
         if (bookmark) {
-            await updateBookmarkStatusBySubmissionID(bookmark.id, updatedSubmission.status);
+            await updateBookmarkStatusBySubmissionID(
+                bookmark.id,
+                updatedSubmission.status
+            );
         }
 
         revalidatePath("/");
         return updatedSubmission;
     } catch (error: any) {
+        console.log(error);
         throw new Error("Internal Error.", error.message);
     }
 };
@@ -145,7 +155,7 @@ export const markSubArrayAsRead = async (
     submission_ids: number[]
 ): Promise<void> => {
     try {
-        const self = await getSelf()
+        const self = await getSelf();
         for (const id of submission_ids) {
             await db.submission.update({
                 where: {
@@ -181,7 +191,7 @@ export const markSubArrayAsUnread = async (
     submission_ids: number[]
 ): Promise<void> => {
     try {
-        const self = await getSelf()
+        const self = await getSelf();
         for (const id of submission_ids) {
             await db.submission.update({
                 where: {

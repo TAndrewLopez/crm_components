@@ -1,48 +1,48 @@
 import moment from "moment";
-import { submission, user } from "@prisma/client";
 
 import { formatToUSNumber } from "@/lib/utils";
 import { WidgetWrapper } from "@/components/widgetWrapper";
+import { SubmissionWithUser } from "@/lib/types";
 
 type Props = {
-    submission: submission & {
-        author?: user
-    };
+    submission: SubmissionWithUser;
 };
 
-export const ContactWidget = ({
-    submission,
-}: Props) => {
-    const { email, preferred_pronouns, created_at, phone_number } = submission
+export const ContactWidget = ({ submission }: Props) => {
+    const { email, preferred_pronouns, created_at, phone_number } = submission;
 
     return (
         <WidgetWrapper className="flex-1" title="Contact Information" showSeparator>
             <div className="flex flex-col gap-y-2">
-                <div>
-                    {
-                        submission.author && <div className="flex items-center gap-x-5 font-thin">
-                            <p>Username:</p>
-                            <p>{submission.author.username}</p>
+                <div className="flex flex-col gap-y-3">
+                    {submission.user && (
+                        <div className="flex items-center gap-x-5 font-thin">
+                            <p>Username: </p>
+                            <p>{submission.user.username}</p>
                         </div>
-                    }
+                    )}
                     <div className="flex items-center gap-x-5 font-thin">
-                        <p>Phone Number:</p>
-                        <p>{formatToUSNumber(String(phone_number))}</p>
+                        <p>Phone Number: </p>
+                        <p className="text-right">
+                            {formatToUSNumber(String(phone_number))}
+                        </p>
                     </div>
-                    <div className="flex items-center gap-x-3 font-thin">
-                        <p>Email Address</p>
+                    <div className="flex items-center gap-x-5 font-thin">
+                        <p>Email: </p>
                         <p>{email}</p>
                     </div>
+
                     <div className="flex items-center gap-x-5 font-thin">
                         <p>Preferred Pronouns:</p>
                         <p>{preferred_pronouns}</p>
                     </div>
-                    {
-                        submission.author && <div className="flex items-center gap-x-1 font-thin">
+
+                    {submission.user && (
+                        <div className="flex items-center gap-x-1 font-thin">
                             <p>Signed up</p>
-                            <p>{moment(submission.author.created_at).fromNow()}</p>
+                            <p>{moment(submission.user.created_at).fromNow()}</p>
                         </div>
-                    }
+                    )}
                     <div className="flex items-center gap-x-1 font-thin">
                         <p>Submission created </p>
                         <p>{moment(created_at).fromNow()}</p>
