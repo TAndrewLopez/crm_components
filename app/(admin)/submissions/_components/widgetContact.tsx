@@ -9,16 +9,16 @@ type Props = {
 };
 
 export const ContactWidget = ({ submission }: Props) => {
-    const { email, preferred_pronouns, created_at, phone_number } = submission;
+    const { email, preferred_pronouns, created_at, phone_number, user } = submission;
 
     return (
         <WidgetWrapper className="flex-1" title="Contact Information" showSeparator>
             <div className="flex flex-col gap-y-2">
                 <div className="flex flex-col gap-y-3">
-                    {submission.user && (
+                    {user && (
                         <div className="flex items-center gap-x-5 font-thin">
                             <p>Username: </p>
-                            <p>{submission.user.username}</p>
+                            <p>{user.username}</p>
                         </div>
                     )}
                     <div className="flex items-center gap-x-5 font-thin">
@@ -37,10 +37,10 @@ export const ContactWidget = ({ submission }: Props) => {
                         <p>{preferred_pronouns}</p>
                     </div>
 
-                    {submission.user && (
+                    {user && (
                         <div className="flex items-center gap-x-1 font-thin">
                             <p>Signed up</p>
-                            <p>{moment(submission.user.created_at).fromNow()}</p>
+                            <p>{moment(user.created_at).fromNow()}</p>
                         </div>
                     )}
                     <div className="flex items-center gap-x-1 font-thin">

@@ -31,7 +31,6 @@ export const BookmarkForm = ({
     submission_id,
 }: Props) => {
     const [isPending, startTransition] = useTransition();
-
     const form = useForm<z.infer<typeof newBookmarkSchema>>({
         resolver: zodResolver(newBookmarkSchema),
         defaultValues: {
@@ -42,7 +41,6 @@ export const BookmarkForm = ({
 
     const onSubmit = async (values: z.infer<typeof newBookmarkSchema>) => {
         if (!values.label) return;
-
         startTransition(() => {
             addBookmark(values)
                 .then((data) => {

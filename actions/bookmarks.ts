@@ -7,7 +7,7 @@ import { z } from "zod";
 import { db } from "@/lib/prisma";
 import { newBookmarkSchema } from "@/schemas";
 import { getSelf } from "./auth";
-import { getSubmissionByID } from "./submissions";
+import { getPartialSubmission } from "./submissions";
 import { convertSettingsString } from "@/lib/utils";
 
 // BOOLEANS
@@ -20,7 +20,7 @@ import { convertSettingsString } from "@/lib/utils";
 export const isBookmark = async (submission_id: number): Promise<boolean> => {
     try {
         const selfPromise = getSelf();
-        const submissionPromise = getSubmissionByID(submission_id);
+        const submissionPromise = getPartialSubmission(submission_id);
         const [self, submission] = await Promise.all([
             selfPromise,
             submissionPromise,
@@ -88,7 +88,7 @@ export const addBookmark = async (
         const { label, submission_id } = validatedFields.data;
 
         const selfPromise = getSelf();
-        const submissionPromise = getSubmissionByID(submission_id);
+        const submissionPromise = getPartialSubmission(submission_id);
         const [self, submission] = await Promise.all([
             selfPromise,
             submissionPromise,
@@ -122,7 +122,7 @@ export const deleteBookmarkBySubmissionID = async (
 ): Promise<bookmark> => {
     try {
         const selfPromise = getSelf();
-        const submissionPromise = getSubmissionByID(submission_id);
+        const submissionPromise = getPartialSubmission(submission_id);
         const [self, submission] = await Promise.all([
             selfPromise,
             submissionPromise,

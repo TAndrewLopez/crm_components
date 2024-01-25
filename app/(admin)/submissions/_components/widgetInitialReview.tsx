@@ -1,14 +1,14 @@
 "use client";
 
-import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { submission } from "@prisma/client";
+import { Check, Edit, X } from "lucide-react";
+import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Edit, Edit2, Edit3 } from "lucide-react";
+import * as z from "zod";
 
-import { WidgetWrapper } from "@/components/widgetWrapper";
-import { initialDataSchema } from "@/schemas";
+import { Button } from "@/components/ui/button";
 import {
     Form,
     FormControl,
@@ -24,7 +24,9 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { useState } from "react";
+import { WidgetWrapper } from "@/components/widgetWrapper";
+import { initialDataSchema } from "@/schemas";
+import { Hint } from "@/components/hint";
 
 type Props = {
     submission: submission;
@@ -33,7 +35,9 @@ type Props = {
 export const InitialWidget = ({
     submission: { color, description, placement, size },
 }: Props) => {
-    const [editEnabled, setEditEnabled] = useState(true);
+    const [editEnabled, setEditEnabled] = useState(false);
+    const [isPending, startTransition] = useTransition();
+
     const form = useForm<z.infer<typeof initialDataSchema>>({
         resolver: zodResolver(initialDataSchema),
         defaultValues: {
@@ -48,23 +52,30 @@ export const InitialWidget = ({
         const validatedFields = initialDataSchema.safeParse(values);
         if (!validatedFields.success) return toast.error("Invalid Fields");
         console.log("submit form", values);
+        handleToggle();
     };
 
-    const handleCancel = () => {
-        setEditEnabled(false);
+    const handleToggle = () => {
+        editEnabled ? setEditEnabled(false) : setEditEnabled(true);
+        form.reset();
     };
 
     return (
         <WidgetWrapper
-            action={<EditAction active={editEnabled} />}
+            action={
+                <FormAction
+                    active={editEnabled}
+                    handleToggle={handleToggle}
+                    handleSubmit={form.handleSubmit(handleSubmit)}
+                    isPending={isPending}
+                />
+            }
             className="flex-1"
             title="Initial Information"
             showSeparator>
             <div className="font-extralight rounded-md ">
                 <Form {...form}>
-                    <form
-                        className="bg-primary-foreground flex flex-col p-4 rounded-md space-y-3"
-                        onSubmit={form.handleSubmit(handleSubmit)}>
+                    <form className="bg-primary-foreground flex flex-col p-4 rounded-md space-y-3">
                         <FormField
                             control={form.control}
                             name="color"
@@ -74,7 +85,7 @@ export const InitialWidget = ({
                                     <Select
                                         disabled={!editEnabled}
                                         onValueChange={field.onChange}
-                                        defaultValue={field.value}>
+                                        value={field.value}>
                                         <FormControl>
                                             <SelectTrigger className="disabled:cursor-auto">
                                                 <SelectValue placeholder="Select color" />
@@ -82,7 +93,7 @@ export const InitialWidget = ({
                                         </FormControl>
                                         <SelectContent>
                                             <SelectItem value="color">Color</SelectItem>
-                                            <SelectItem value="black and grey">
+                                            <SelectItem value="black_and_grey">
                                                 Black and Grey
                                             </SelectItem>
                                         </SelectContent>
@@ -100,7 +111,7 @@ export const InitialWidget = ({
                                     <Select
                                         disabled={!editEnabled}
                                         onValueChange={field.onChange}
-                                        defaultValue={field.value}>
+                                        value={field.value}>
                                         <FormControl>
                                             <SelectTrigger className="disabled:cursor-auto">
                                                 <SelectValue placeholder="Select color" />
@@ -156,11 +167,55 @@ export const InitialWidget = ({
     );
 };
 
-const EditAction = ({ active }: { active: boolean }) => {
+type FormActionProps = {
+    active: boolean;
+    handleToggle: () => void;
+    handleSubmit: () => void;
+    isPending: boolean;
+};
+
+const FormAction = ({
+    active,
+    handleToggle,
+    handleSubmit,
+    isPending,
+}: FormActionProps) => {
+    if (active) {
+        return (
+            <div className="flex gap-x-3 items-center">
+                <Hint delayAmount={0} label="Submit" side="top" asChild>
+                    <Button
+                        onClick={handleSubmit}
+                        disabled={!active || isPending}
+                        className="bg-emerald-500 hover:bg-emerald-500/50 h-8 2xl:h-6"
+                        variant="link"
+                        type="submit">
+                        <Check className="w-4 h-4" />
+                    </Button>
+                </Hint>
+
+                <Hint delayAmount={0} label="Cancel" side="top" asChild>
+                    <Button
+                        onClick={handleToggle}
+                        disabled={!active || isPending}
+                        className="bg-destructive hover:bg-destructive/50 h-8 2xl:h-6"
+                        variant="link"
+                        type="button">
+                        <X className="w-4 h-4" />
+                    </Button>
+                </Hint>
+            </div>
+        );
+    }
+
     return (
-        <button className="group flex items-center gap-x-3 justify-end hover:bg-emerald-500 transition-all rounded-md py-1 px-3">
-            <p className="font-semibold">{active ? "Cancel" : "Edit"}</p>
+        <Button
+            onClick={handleToggle}
+            className="flex gap-x-3 bg-emerald-500 hover:bg-emerald-500/50 h-8 2xl:h-6"
+            variant="link"
+            type="submit">
+            <p>Edit</p>
             <Edit className="w-4 h-4" />
-        </button>
+        </Button>
     );
 };

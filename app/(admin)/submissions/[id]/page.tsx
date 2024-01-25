@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import { isBookmark } from "@/actions/bookmarks";
-import { getSubmissionByID } from "@/actions/submissions";
+import { getPartialSubmission, getSubmissionByID } from "@/actions/submissions";
 import { PageWrapper } from "@/components/pageWrapper";
 import { Read } from "../_components/read";
 import { SubmissionHeader } from "../_components/submissionHeader";
@@ -25,7 +25,7 @@ type Props = {
 export const generateMetadata = async ({
     params: { id },
 }: Props): Promise<Metadata> => {
-    const submission = await getSubmissionByID(Number(id));
+    const submission = await getPartialSubmission(Number(id));
     return {
         title: `${submission?.email}`,
     };
