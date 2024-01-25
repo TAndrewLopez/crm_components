@@ -16,8 +16,6 @@ type Props = {}
 
 const SubmissionPage = async ({ }: Props) => {
     const submissionData = await getSubmissions()
-
-    // if (!submissionData) return <div>Loading?</div>
     return (
         <PageWrapper className="flex flex-col gap-y-5 font-extralight p-4">
             <TableWrapper columns={columns} data={submissionData} />

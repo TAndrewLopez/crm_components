@@ -18,19 +18,15 @@ export const userSettingsSchema = z.object({
 });
 
 export const initialDataSchema = z.object({
+    color: z.enum(["black_and_grey", "color"]),
+    size: z.enum(["xsmall", "small", "medium", "large", "xlarge"]),
     placement: z
         .string()
         .min(1, "String must be more than 1 character.")
         .max(255, "String can't be longer than 255 characters."),
-    size: z
-        .string()
-        .min(1, "String must be more than 1 character.")
-        .max(255, "String can't be longer than 255 characters."),
-    color: z.enum(["black_and_grey", "color"]),
     description: z
         .string()
         .min(1, "String must be more than 1 character.")
-        .max(255, "String can't be longer than 255 characters."),
 });
 
 export const initialAppointmentSchema = z.object({

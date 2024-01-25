@@ -11,7 +11,9 @@ type Props = {
 const AdminViewLayout = ({ children }: Props) => {
     return (
         <div className="flex h-full w-full">
-            <Sidebar />
+            <Suspense fallback={<SidebarSkeleton />}>
+                <Sidebar />
+            </Suspense>
             <div className="w-full h-full overflow-y-auto">{children}</div>
         </div>
     );

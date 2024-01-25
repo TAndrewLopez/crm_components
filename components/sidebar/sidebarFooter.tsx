@@ -21,7 +21,7 @@ export const SidebarFooter = ({ }: Props) => {
     return (
         <>
             {!matches && (
-                <div className="h-[75px] min-h-[75px] p-4 flex items-center justify-between">
+                <div className="h-[75px] hidden md:flex p-4 items-center justify-between">
                     <Toggle />
                 </div>
             )}

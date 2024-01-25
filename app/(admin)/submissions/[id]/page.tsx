@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 
 import { isBookmark } from "@/actions/bookmarks";
-import { getSubmissionByID, isSubmissionNew } from "@/actions/submissions";
+import { getSubmissionByID } from "@/actions/submissions";
+import { PageWrapper } from "@/components/pageWrapper";
+import { Read } from "../_components/read";
 import { SubmissionHeader } from "../_components/submissionHeader";
 import { ActivityWidget } from "../_components/widgetActivity";
 import { AppointmentWidget } from "../_components/widgetAppointment";
@@ -10,8 +12,6 @@ import { InitialWidget } from "../_components/widgetInitialReview";
 import { NotesWidget } from "../_components/widgetNotes";
 import { ReferenceWidget } from "../_components/widgetReferences";
 import { ReviewWidget } from "../_components/widgetReview";
-import { PageWrapper } from "@/components/pageWrapper";
-import { Read } from "../_components/read";
 
 export const dynamic = "force-dynamic";
 export const fetchCache = "force-no-store";
@@ -26,19 +26,13 @@ export const generateMetadata = async ({
     params: { id },
 }: Props): Promise<Metadata> => {
     const submission = await getSubmissionByID(Number(id));
-
     return {
         title: `${submission?.email}`,
     };
 };
 
 const SingleSubmission = async ({ params: { id } }: Props) => {
-    const submissionPromise = await getSubmissionByID(Number(id));
-    const isNewPromise = await isSubmissionNew(Number(id));
-    const [submission, isNew] = await Promise.all([
-        submissionPromise,
-        isNewPromise,
-    ]);
+    const submission = await getSubmissionByID(Number(id));
     const isBookmarkBool = await isBookmark(submission.id);
 
     return (

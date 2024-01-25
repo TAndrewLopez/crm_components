@@ -14,6 +14,19 @@ enum tattooColor {
   color
 }
 
+// EXTRA SMALL 1x1
+// SMALL 2x2
+// MEDIUM 3x3
+// LARGE 6x6
+// XLARGE 8x8+
+enum tattooSize {
+  xsmall
+  small
+  medium
+  large
+  xlarge
+}
+
 enum submissionStatus {
   new
   read
@@ -49,9 +62,9 @@ model submission {
   email              String           @db.VarChar(255)
   phone_number       String           @db.VarChar(255)
   preferred_pronouns String?          @db.VarChar(255)
-  size               String           @db.VarChar(255)
-  placement          String           @db.VarChar(255)
   color              tattooColor
+  size               tattooSize
+  placement          String           @db.VarChar(255)
   description        String
 
   // RELATIONS
