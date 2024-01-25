@@ -69,10 +69,25 @@ model submission {
 
   // RELATIONS
   bookmarks  bookmark[]
-  user       user?      @relation(fields: [user_id], references: [id])
+  notes      submissionNote[]
+  user       user?            @relation(fields: [user_id], references: [id])
   // TIMESTAMPS
-  created_at DateTime   @default(now())
-  updated_at DateTime?  @updatedAt
+  created_at DateTime         @default(now())
+  updated_at DateTime?        @updatedAt
+}
+
+model submissionNote {
+  id           Int    @id @default(autoincrement())
+  text         String
+  submission_id Int?
+  user_id      Int?
+
+  // RELATIONS
+  submission submission? @relation(fields: [submission_id], references: [id])
+  user       user?       @relation(fields: [user_id], references: [id])
+  // TIMESTAMPS
+  created_at DateTime    @default(now())
+  updated_at DateTime?   @updatedAt
 }
 
 // USER MODELS
@@ -92,11 +107,12 @@ model user {
   // RELATIONS
   client_history  submission[]
   bookmarks       bookmark[]
-  owner_deposits  deposit[]    @relation("owner")
-  client_deposits deposit[]    @relation("client")
+  submissionNotes submissionNote[]
+  owner_deposits  deposit[]        @relation("owner")
+  client_deposits deposit[]        @relation("client")
   // TIMESTAMPS
-  created_at      DateTime     @default(now())
-  updated_at      DateTime?    @updatedAt
+  created_at      DateTime         @default(now())
+  updated_at      DateTime?        @updatedAt
 }
 
 // FOR ADMINS & OWNERS & DEVS

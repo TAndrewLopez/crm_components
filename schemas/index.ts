@@ -5,6 +5,12 @@ export const newBookmarkSchema = z.object({
     label: z.string(),
 });
 
+export const newNoteSchema = z.object({
+    text: z.string(),
+    submission_id: z.number(),
+    user_id: z.number(),
+})
+
 export const userSettingsSchema = z.object({
     showBirthday: z.boolean().default(true),
     contactSortOption: z
@@ -29,7 +35,7 @@ export const initialDataSchema = z.object({
         .min(1, "String must be more than 1 character.")
 });
 
-export const initialAppointmentSchema = z.object({
+export const initialReviewSchema = z.object({
     appointmentStatus: z.boolean().optional(),
     consultationRequired: z.boolean().optional(),
     sessionAmount: z.number().optional(),

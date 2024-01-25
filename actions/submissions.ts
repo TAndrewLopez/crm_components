@@ -7,7 +7,7 @@ import { z } from "zod";
 import { db } from "@/lib/prisma";
 import { getSelf } from "./auth";
 import { setBookmarkStatusBySubmissionID } from "./bookmarks";
-import { SubContact, PartialSubmission, SubmissionWithUser } from "@/lib/types";
+import { PartialSubmission, SubmissionWithUser } from "@/lib/types";
 import { initialDataSchema } from "@/schemas";
 
 
@@ -125,13 +125,22 @@ export const getSubmissionByID = async (
             },
         });
 
+        const notes = await db.submissionNote.findMany({
+            where: {
+                submission_id,
+            },
+            orderBy: {
+                created_at: 'desc'
+            }
+        })
+
         if (!submission) {
             throw new Error(
                 `Couldn't find a submission with submission_id: ${submission_id}.`
             );
         }
 
-        return submission;
+        return { ...submission, notes, };
     } catch (error) {
         throw new Error("Internal Error.");
     }

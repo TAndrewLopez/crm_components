@@ -14,7 +14,7 @@ const authUser = Prisma.validator<Prisma.userDefaultArgs>()({
 });
 
 const submissionWithUser = Prisma.validator<Prisma.submissionDefaultArgs>()({
-    include: { user: true },
+    include: { user: true, notes: true },
 });
 
 

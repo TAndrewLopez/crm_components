@@ -8,7 +8,7 @@ import { SubmissionHeader } from "../_components/submissionHeader";
 import { ActivityWidget } from "../_components/widgetActivity";
 import { AppointmentWidget } from "../_components/widgetAppointment";
 import { ContactWidget } from "../_components/widgetContact";
-import { InitialWidget } from "../_components/widgetInitialReview";
+import { InformationWidget } from "../_components/widgetInformation";
 import { NotesWidget } from "../_components/widgetNotes";
 import { ReferenceWidget } from "../_components/widgetReferences";
 import { ReviewWidget } from "../_components/widgetReview";
@@ -50,13 +50,13 @@ const SingleSubmission = async ({ params: { id } }: Props) => {
 
                     <div className="flex w-full flex-col gap-x-5 xl:flex-row space-y-5 xl:space-y-0 xl:pb-0 overflow-y-auto">
                         <div className="flex flex-col space-y-5 xl:min-w-96 xl:w-1/2">
-                            <InitialWidget submission={submission} />
+                            <InformationWidget submission={submission} />
                             <ReviewWidget />
                             <AppointmentWidget />
                         </div>
                         <div className="flex flex-col space-y-5 xl:w-1/2 pb-5 xl:pb-0">
                             <ReferenceWidget />
-                            <NotesWidget />
+                            <NotesWidget notes={submission.notes} />
                             <div className="xl:hidden">
                                 <ActivityWidget client_name={submission.name} />
                             </div>
