@@ -8,14 +8,14 @@ import { db } from "@/lib/prisma";
 import { ContactUser } from "@/lib/types";
 import { getSelf } from "./auth";
 import { getDepositsByClientID } from "./deposits";
-import { getSubmissionsByAuthorID } from "./submissions";
+import { getSubmissionsByUserID } from "./submissions";
 import { userSettingsSchema } from "@/schemas";
 import { convertSettingsObject, convertSettingsString } from "@/lib/utils";
 
-//QUERIES
 
+//QUERIES
 /**
- *  Fetches all contacts that are not the logged in user. Revalidate Path '/'
+ *  Fetches all contacts that are not the logged in user. Or a dev... =] Revalidate Path '/'
  */
 export const getContacts = async (): Promise<user[]> => {
     try {
@@ -60,7 +60,7 @@ export const getContactByID = async (user_id: number): Promise<ContactUser> => {
         if (!contact)
             throw new Error(`Couldn't find user with an id of ${user_id}.`);
 
-        const submissionsPromise = getSubmissionsByAuthorID(contact.id);
+        const submissionsPromise = getSubmissionsByUserID(contact.id);
         const depositsPromise = getDepositsByClientID(contact.id);
         const [submissions, deposits] = await Promise.all([
             submissionsPromise,
@@ -94,7 +94,7 @@ export const getContactByUsername = async (
         if (!contact)
             throw new Error(`Couldn't find a contact with the username ${username}.`);
 
-        const submissionsPromise = getSubmissionsByAuthorID(contact.id);
+        const submissionsPromise = getSubmissionsByUserID(contact.id);
         const depositsPromise = getDepositsByClientID(contact.id);
         const [submissions, deposits] = await Promise.all([
             submissionsPromise,
@@ -106,8 +106,8 @@ export const getContactByUsername = async (
     }
 };
 
-// MUTATIONS
 
+// MUTATIONS
 export const setContactSettings = async (
     values: z.infer<typeof userSettingsSchema>
 ): Promise<void> => {

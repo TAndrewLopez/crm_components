@@ -1,13 +1,14 @@
 'use server'
 
+import { deposit } from "@prisma/client";
+
 import { db } from "@/lib/prisma"
 import { getSelf } from "./auth"
-import { deposit } from "@prisma/client";
 
 export const getDepositsByClientID = async (user_id: number): Promise<deposit[]> => {
     try {
         const self = await getSelf();
-        return await db.deposit.findMany({
+        const deposits = await db.deposit.findMany({
             where: {
                 client_id: user_id,
             },
@@ -15,6 +16,7 @@ export const getDepositsByClientID = async (user_id: number): Promise<deposit[]>
                 created_at: 'desc'
             }
         })
+        return deposits;
     } catch (error) {
         throw new Error("Internal Error.")
     }

@@ -32,6 +32,7 @@ const subContact = Prisma.validator<Prisma.submissionDefaultArgs>()({
 const partialSubmission = Prisma.validator<Prisma.submissionDefaultArgs>()({
     select: {
         id: true,
+        name: true,
         status: true,
         email: true,
     }

@@ -1,35 +1,36 @@
 "use server";
 
-import { submission, submissionStatus, user } from "@prisma/client";
+import { submission, submissionStatus } from "@prisma/client";
 import { revalidatePath } from "next/cache";
+import { z } from "zod";
 
 import { db } from "@/lib/prisma";
 import { getSelf } from "./auth";
 import { setBookmarkStatusBySubmissionID } from "./bookmarks";
 import { SubContact, PartialSubmission, SubmissionWithUser } from "@/lib/types";
-import { z } from "zod";
 import { initialDataSchema } from "@/schemas";
 
-// BOOLEANS
 
+// BOOLEANS
 /**
- * Check if the status for the given submission_id is new.
- * @param submission_id
- * @returns boolean
+ *  Check if the status for the given submission_id is new.
+ *  @param submission_id
+ *  @returns boolean
  */
 export const isSubmissionNew = async (
     submission_id: number
 ): Promise<boolean> => {
-    const self = await getSelf();
-    const submission = await getPartialSubmission(submission_id);
+    const selfPromise = getSelf();
+    const submissionPromise = getPartialSubmissionByID(submission_id);
+    const [self, submission] = await Promise.all([selfPromise, submissionPromise])
     return submission.status === "new" ? true : false;
 };
 
-// QUERIES
 
+// QUERIES
 /**
- * Fetch all of the submission records.
- * @returns Submission[]
+ *  Fetch all of the submission records.
+ *  @returns submission[]
  */
 export const getSubmissions = async (): Promise<submission[]> => {
     try {
@@ -44,7 +45,41 @@ export const getSubmissions = async (): Promise<submission[]> => {
     }
 };
 
-export const getPartialSubmission = async (submission_id: number): Promise<PartialSubmission> => {
+/**
+ *  Fetch all submission records for given user_id.
+ *  @param user_id
+ *  @returns submission[]
+ */
+export const getSubmissionsByUserID = async (
+    user_id: number
+): Promise<submission[]> => {
+    try {
+        const self = await getSelf();
+        const submissions = await db.submission.findMany({
+            where: {
+                user_id,
+            },
+            orderBy: {
+                created_at: "desc",
+            },
+        });
+
+        if (!submissions) return []
+
+        return submissions;
+    } catch (error) {
+        throw new Error("Internal Error.");
+    }
+};
+
+/**
+ *  Fetch a trimmed version of a single submission record with the given submission_id.
+ *  @param submission_id
+ *  @returns PartialSubmission
+ */
+export const getPartialSubmissionByID = async (
+    submission_id: number
+): Promise<PartialSubmission> => {
     try {
         const self = await getSelf();
         const submission = await db.submission.findUnique({
@@ -53,6 +88,7 @@ export const getPartialSubmission = async (submission_id: number): Promise<Parti
             },
             select: {
                 id: true,
+                name: true,
                 status: true,
                 email: true,
             },
@@ -71,9 +107,9 @@ export const getPartialSubmission = async (submission_id: number): Promise<Parti
 };
 
 /**
- * Fetch a single submission record with the given submission_id for the logged in user.
- * @param submission_id
- * @returns
+ *  Fetch a single submission record with the given submission_id, includes it's user.
+ *  @param submission_id
+ *  @returns submission
  */
 export const getSubmissionByID = async (
     submission_id: number
@@ -101,69 +137,13 @@ export const getSubmissionByID = async (
     }
 };
 
-export const getSubmissionContactInfo = async (
-    submission_id: number
-): Promise<SubContact> => {
-    try {
-        const self = await getSelf();
-        const subContact = await db.submission.findUnique({
-            where: {
-                id: submission_id,
-            },
-            select: {
-                name: true,
-                email: true,
-                phone_number: true,
-                preferred_pronouns: true,
-                user_id: true,
-            },
-        });
-
-        if (!subContact) {
-            throw new Error(
-                `Couldn't find a submission with submission_id: ${submission_id}.`
-            );
-        }
-        // IF THERES A USER, THEY ARE A CONTACT
-        if (subContact.user_id) {
-        }
-
-        return subContact;
-    } catch (error) {
-        throw new Error("Internal Error.");
-    }
-};
-
-/**
- * Fetch all submission records for given user_id.
- * @param user_id
- * @returns submission[]
- */
-export const getSubmissionsByAuthorID = async (
-    user_id: number
-): Promise<submission[]> => {
-    try {
-        const self = await getSelf();
-        return await db.submission.findMany({
-            where: {
-                user_id,
-            },
-            orderBy: {
-                created_at: "desc",
-            },
-        });
-    } catch (error) {
-        throw new Error("Internal Error.");
-    }
-};
 
 // MUTATIONS
-
 /**
- * Update the status of a submission record with the given submission_id to the given status. Revalidate Path: '/'Revalidate Path: '/'
- * @param submission_id
- * @param status
- * @returns submission
+ *  Update the status of a submission record with the given submission_id to the given status. Revalidate Path: '/'Revalidate Path: '/'
+ *  @param submission_id
+ *  @param status
+ *  @returns submission
  */
 export const setSubmissionStatus = async (
     submission_id: number,
@@ -171,7 +151,7 @@ export const setSubmissionStatus = async (
 ): Promise<submission> => {
     try {
         const selfPromise = getSelf();
-        const submissionPromise = getPartialSubmission(submission_id);
+        const submissionPromise = getPartialSubmissionByID(submission_id);
         const [self, submission] = await Promise.all([
             selfPromise,
             submissionPromise,
@@ -220,7 +200,7 @@ export const setSubmissionData = async (
         if (!validatedFields.success) throw new Error("Invalid Fields");
 
         const selfPromise = getSelf();
-        const submissionPromise = getPartialSubmission(submission_id);
+        const submissionPromise = getPartialSubmissionByID(submission_id);
         const [self, submission] = await Promise.all([
             selfPromise,
             submissionPromise,
@@ -230,7 +210,9 @@ export const setSubmissionData = async (
     }
 };
 
-// TODO: COMPLETE LOGIC FOR SETTING ARRAY OF IDS TO A SPECIFIC STATUS
+
+// TODO
+// COMPLETE LOGIC FOR SETTING ARRAY OF IDS TO A SPECIFIC STATUS
 export const markSubArrayAsRead = async (
     submission_ids: number[]
 ): Promise<void> => {

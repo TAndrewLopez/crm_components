@@ -1,4 +1,4 @@
-import { getSubmissionContactInfo } from "@/actions/submissions";
+import { getPartialSubmissionByID } from "@/actions/submissions";
 import { BreadCrumbWrapper } from "./_components/breadCrumbWrapper";
 import { PageWrapper } from "@/components/pageWrapper";
 
@@ -12,11 +12,10 @@ type Props = {
 };
 
 const CreatePage = async ({ params }: Props) => {
-    const subContact = await getSubmissionContactInfo(Number(params.id));
-    //   console.log(subContact);
+    const submission = await getPartialSubmissionByID(Number(params.id));
     return (
         <PageWrapper className="flex flex-col gap-y-5 font-extralight p-4">
-            <BreadCrumbWrapper name={subContact.name} />
+            <BreadCrumbWrapper name={submission.name} />
         </PageWrapper>
     );
 };

@@ -7,11 +7,11 @@ import { z } from "zod";
 import { db } from "@/lib/prisma";
 import { newBookmarkSchema } from "@/schemas";
 import { getSelf } from "./auth";
-import { getPartialSubmission } from "./submissions";
+import { getPartialSubmissionByID } from "./submissions";
 import { convertSettingsString } from "@/lib/utils";
 
-// BOOLEANS
 
+// BOOLEANS
 /**
  *  Check if the given submission_id is a bookmark record of the logged in user.
  *  @param submission_id
@@ -20,7 +20,7 @@ import { convertSettingsString } from "@/lib/utils";
 export const isBookmark = async (submission_id: number): Promise<boolean> => {
     try {
         const selfPromise = getSelf();
-        const submissionPromise = getPartialSubmission(submission_id);
+        const submissionPromise = getPartialSubmissionByID(submission_id);
         const [self, submission] = await Promise.all([
             selfPromise,
             submissionPromise,
@@ -32,8 +32,8 @@ export const isBookmark = async (submission_id: number): Promise<boolean> => {
                 submission_id: submission.id,
             },
             select: {
-                id: true
-            }
+                id: true,
+            },
         });
 
         return bookmark ? true : false;
@@ -42,11 +42,11 @@ export const isBookmark = async (submission_id: number): Promise<boolean> => {
     }
 };
 
-// QUERIES
 
+// QUERIES
 /**
- * Fetch all of the logged in user's bookmark records. Revalidate Path: '/'
- * @returns bookmark[]
+ *  Fetch all of the logged in user's bookmark records. Revalidate Path: '/'
+ *  @returns bookmark[]
  */
 export const getBookmarks = async (): Promise<bookmark[]> => {
     try {
@@ -71,13 +71,13 @@ export const getBookmarks = async (): Promise<bookmark[]> => {
     }
 };
 
-// MUTATIONS
 
+// MUTATIONS
 /**
- * Create a new bookmark record for the logged in user with the given label and submission_id. Revalidate Path: '/'
- * @param label
- * @param submission_id
- * @returns bookmark
+ *  Create a new bookmark record for the logged in user with the given label and submission_id. Revalidate Path: '/'
+ *  @param label
+ *  @param submission_id
+ *  @returns bookmark
  */
 export const addBookmark = async (
     values: z.infer<typeof newBookmarkSchema>
@@ -88,7 +88,7 @@ export const addBookmark = async (
         const { label, submission_id } = validatedFields.data;
 
         const selfPromise = getSelf();
-        const submissionPromise = getPartialSubmission(submission_id);
+        const submissionPromise = getPartialSubmissionByID(submission_id);
         const [self, submission] = await Promise.all([
             selfPromise,
             submissionPromise,
@@ -113,16 +113,16 @@ export const addBookmark = async (
 };
 
 /**
- * Delete the logged in user's bookmark with the given submission_id. Revalidate Path: '/'.
- * @param submission_id
- * @returns bookmark
+ *  Delete the logged in user's bookmark with the given submission_id. Revalidate Path: '/'.
+ *  @param submission_id
+ *  @returns bookmark
  */
 export const deleteBookmarkBySubmissionID = async (
     submission_id: number
 ): Promise<bookmark> => {
     try {
         const selfPromise = getSelf();
-        const submissionPromise = getPartialSubmission(submission_id);
+        const submissionPromise = getPartialSubmissionByID(submission_id);
         const [self, submission] = await Promise.all([
             selfPromise,
             submissionPromise,
@@ -153,11 +153,12 @@ export const deleteBookmarkBySubmissionID = async (
     }
 };
 
+
 // SIDE EFFECTS
 /**
  *  Update the logged in user's bookmark status with the given bookmark_id. This is used as a side effect for when a user visit a 'new' submission. If they have it as a bookmark, it will that status. Revalidate Path: '/'
- * @param bookmark_id
- * @returns bookmark
+ *  @param bookmark_id
+ *  @returns bookmark
  */
 export const setBookmarkStatusBySubmissionID = async (
     bookmark_id: number,
