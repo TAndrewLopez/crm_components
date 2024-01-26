@@ -22,7 +22,7 @@ export const Sidebar = async ({ }: Props) => {
     return (
         <SidebarWrapper>
             <SidebarHeader username={self.username} imageURL={self.image_url ?? ""} />
-            <div className="flex flex-col flex-1">
+            <div className="flex-1 flex flex-col">
                 <SidebarLinks role={self.role} />
                 <SidebarFavoriteLinks bookmarks={bookmarks} />
                 <SidebarUtilLinks />

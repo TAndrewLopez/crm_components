@@ -34,7 +34,7 @@ type Props = {
 };
 
 export const AppointmentWidget = ({ submission }: Props) => {
-    const appointmentAccepted = true || submission.appointment_status;
+    const appointmentAccepted = submission.appointment_status;
     const [editEnabled, setEditEnabled] = useState(false);
     const [isPending, startTransition] = useTransition();
     const form = useForm<z.infer<typeof submissionAppointmentSchema>>({

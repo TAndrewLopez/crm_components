@@ -7,10 +7,17 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
-import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+} from "@/components/ui/form";
 import { WidgetWrapper } from "@/components/widgetWrapper";
 import { submissionReviewSchema } from "@/schemas";
 import { WidgetFormAction } from "./widgetFormAction";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 type Props = {
     submission: submission;
@@ -31,9 +38,8 @@ export const ReviewWidget = ({ submission }: Props) => {
         },
     });
 
-    const handleSubmit = (
-        values: z.infer<typeof submissionReviewSchema>
-    ) => {
+    const handleSubmit = (values: z.infer<typeof submissionReviewSchema>) => {
+        form.setValue('appointmentStatus', 'rejected')
         const validatedFields = submissionReviewSchema.safeParse(values);
         if (!validatedFields.success) return toast.error("Invalid Fields.");
         console.log("submit form", values);
@@ -60,20 +66,39 @@ export const ReviewWidget = ({ submission }: Props) => {
             }>
             <div className="flex-1 font-extralight bg-neutral-900 p-4 rounded-md">
                 <Form {...form}>
-                    <form className="bg-primary-foreground flex flex-col p-4 rounded-md space-y-3">
-                        <FormField
+                    <form className="bg-primary-foreground flex flex-col rounded-md space-y-3">
+                        {/* <FormField
                             control={form.control}
                             name="appointmentStatus"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Thing 1</FormLabel>
-                                    <FormControl>
-                                        Thing1
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
-                        <p>Accepted and Rejected buttons</p>
+                            render={({ field }) => {
+                                return (
+                                    <FormItem className="flex flex-col space-y-3">
+                                        <FormLabel>Appointment Status:</FormLabel>
+                                        <FormControl >
+                                            <Tabs defaultValue={field.value ?? ""} >
+                                                <TabsList>
+                                                    <TabsTrigger
+                                                        onClick={() => form.setValue('appointmentStatus', null)}
+                                                        value="">Unanswered</TabsTrigger>
+                                                    <TabsTrigger
+                                                        onClick={() => form.setValue('appointmentStatus', 'accepted')}
+                                                        className="data-[state=active]:bg-emerald-500"
+                                                        value="accepted">
+                                                        Accepted
+                                                    </TabsTrigger>
+                                                    <TabsTrigger
+                                                        onClick={() => form.setValue('appointmentStatus', 'rejected')}
+                                                        className="data-[state=active]:bg-destructive"
+                                                        value="rejected">
+                                                        Rejected
+                                                    </TabsTrigger>
+                                                </TabsList>
+                                            </Tabs>
+                                        </FormControl>
+                                    </FormItem>
+                                )
+                            }}
+                        /> */}
                         <p>Requires Consultation Checkbox</p>
                         <p>No of Sessions Required Input box</p>
                     </form>

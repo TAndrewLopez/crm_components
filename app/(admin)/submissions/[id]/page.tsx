@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 
 import { isBookmark } from "@/actions/bookmarks";
-import { getPartialSubmissionByID, getSubmissionByID } from "@/actions/submissions";
+import {
+    getPartialSubmissionByID,
+    getSubmissionByID,
+} from "@/actions/submissions";
 import { PageWrapper } from "@/components/pageWrapper";
 import { Read } from "../_components/read";
 import { SubmissionHeader } from "../_components/submissionHeader";
@@ -51,10 +54,8 @@ const SingleSubmission = async ({ params: { id } }: Props) => {
                     <div className="flex w-full flex-col gap-x-5 xl:flex-row space-y-5 xl:space-y-0 xl:pb-0 overflow-y-auto">
                         <div className="flex flex-col space-y-5 xl:min-w-96 xl:w-1/2">
                             <InformationWidget submission={submission} />
-                            <InformationWidget submission={submission} />
-                            <InformationWidget submission={submission} />
-                            {/* <ReviewWidget submission={submission} /> */}
-                            {/* <AppointmentWidget submission={submission} /> */}
+                            <ReviewWidget submission={submission} />
+                            <AppointmentWidget submission={submission} />
                         </div>
                         <div className="flex flex-col space-y-5 xl:w-1/2 pb-5 xl:pb-0">
                             <ReferenceWidget />

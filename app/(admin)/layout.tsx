@@ -14,7 +14,7 @@ const AdminViewLayout = ({ children }: Props) => {
             <Suspense fallback={<SidebarSkeleton />}>
                 <Sidebar />
             </Suspense>
-            <div className="w-full h-full overflow-y-auto">{children}</div>
+            <div className="w-full h-full">{children}</div>
         </div>
     );
 };

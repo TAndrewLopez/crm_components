@@ -1,6 +1,9 @@
-import { cn } from "@/lib/utils";
+'use client'
 
 import { Poppins } from "next/font/google";
+
+import { cn } from "@/lib/utils";
+import { useSidebar } from "@/store/useSidebar";
 
 export const poppins = Poppins({
     subsets: ["latin"],
@@ -13,10 +16,13 @@ type Props = {
 };
 
 export const PageWrapper = ({ children, className }: Props) => {
+    const { isOpen } = useSidebar()
     return (
         <div
             className={cn(
-                "w-full h-full",
+                "fixed top-0 bottom-0 right-0 left-[70px] overflow-y-auto z-0",
+                // "w-full h-full",
+                isOpen && 'left-80',
                 className,
                 poppins.className
             )}>

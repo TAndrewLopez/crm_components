@@ -17,7 +17,7 @@ export const BreadCrumbs = ({ crumbs, hrefs }: Props) => {
     const lastIdx = crumbs.slice(1).length - 1;
 
     return (
-        <div className="flex items-center gap-x-3">
+        <div className="flex items-center gap-x-1 md:gap-x-3">
             <BackButton />
             <div className="flex items-center">
                 {crumbs.slice(1).map((c, i) => (
@@ -29,7 +29,7 @@ export const BreadCrumbs = ({ crumbs, hrefs }: Props) => {
                         )}
                         {i !== lastIdx && (
                             <Link
-                                className="text-emerald-500 text-sm hover:text-primary font-semibold underline underline-offset-2 capitalize"
+                                className="text-emerald-500 text-sm hover:text-primary font-semibold underline underline-offset-2 capitalize truncate"
                                 href={paths[i] ?? ""}>
                                 {c}
                             </Link>

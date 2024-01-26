@@ -21,7 +21,8 @@ export const SidebarWrapper = ({ children }: Props) => {
     return (
         <aside
             className={cn(
-                "flex flex-col w-[70px] bg-primary-foreground",
+                "fixed w-[70px] top-0 bottom-0 left-0 z-10 flex flex-col bg-primary-foreground",
+                // "flex flex-col w-[70px] bg-primary-foreground",
                 isOpen && "min-w-80"
             )}>
             {children}
