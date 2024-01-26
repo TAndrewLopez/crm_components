@@ -9,10 +9,10 @@ type Props = {
 
 export const ActivityWidget = ({ client_name }: Props) => {
     return (
-        <WidgetWrapper title="Activity Feed">
+        <WidgetWrapper title="Activity Feed" showSeparator>
             <div className="flex flex-col gap-y-2 h-64 xl:h-96 overflow-y-auto">
                 <div className="space-y-3">
-                    <ul className="flex flex-col gap-y-3">
+                    <ul className="flex flex-col gap-y-3 pr-2">
                         {LOGS.map(({ description, username, createdAt }, i) => (
                             <li className="bg-primary-foreground p-2 rounded-sm" key={i}>
                                 <p className="text-sm font-extralight">{description}</p>

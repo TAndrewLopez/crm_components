@@ -37,15 +37,16 @@ export const initialDataSchema = z.object({
 
 export const initialReviewSchema = z.object({
     appointmentStatus: z.boolean().optional(),
+    rejectionReason: z.string().optional(),
+    otherReason: z.string().optional(),
+    referral: z.string().optional(),
     consultationRequired: z.boolean().optional(),
     sessionAmount: z.number().optional(),
 })
 
 export const reviewAppointmentSchema = z.object({
     consultationDate: z.date().optional(),
+    appointmentDates: z.date().array().optional(),
     depositPaid: z.boolean().default(false),
-    rejectionReason: z.string().optional(),
-    otherReason: z.string().optional(),
-    referral: z.string().optional(),
     referenceImageURL: z.string().optional(),
 })

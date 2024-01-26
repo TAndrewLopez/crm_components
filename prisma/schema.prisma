@@ -19,6 +19,7 @@ enum tattooColor {
 // MEDIUM 3x3
 // LARGE 6x6
 // XLARGE 8x8+
+
 enum tattooSize {
   xsmall
   small
@@ -37,6 +38,7 @@ enum submissionStatus {
 }
 
 enum appointmentStatus {
+  null
   accepted
   rejected
 }
@@ -55,36 +57,56 @@ enum depositStatus {
 
 // SUBMISSION MODELS
 model submission {
-  id                 Int              @id @default(autoincrement())
+  id                 Int               @id @default(autoincrement())
   user_id            Int?
-  status             submissionStatus @default(new)
-  name               String           @db.VarChar(255)
-  email              String           @db.VarChar(255)
-  phone_number       String           @db.VarChar(255)
-  preferred_pronouns String?          @db.VarChar(255)
+  status             submissionStatus  @default(new)
+  name               String            @db.VarChar(255)
+  email              String            @db.VarChar(255)
+  phone_number       String            @db.VarChar(255)
+  preferred_pronouns String?           @db.VarChar(255)
   color              tattooColor
   size               tattooSize
-  placement          String           @db.VarChar(255)
+  placement          String            @db.VarChar(255)
   description        String
+  appointmentStatus  appointmentStatus @default(null)
+  requiredSessions   Int?
 
   // RELATIONS
-  bookmarks  bookmark[]
-  notes      submissionNote[]
-  user       user?            @relation(fields: [user_id], references: [id])
+  bookmarks        bookmark[]
+  notes            submissionNote[]
+  appointmentDates calendarEvent[]
+  user             user?            @relation(fields: [user_id], references: [id])
   // TIMESTAMPS
-  created_at DateTime         @default(now())
-  updated_at DateTime?        @updatedAt
+  created_at       DateTime         @default(now())
+  updated_at       DateTime?        @updatedAt
 }
 
 model submissionNote {
-  id           Int    @id @default(autoincrement())
-  text         String
+  id            Int    @id @default(autoincrement())
+  text          String
   submission_id Int?
-  user_id      Int?
+  user_id       Int?
 
   // RELATIONS
   submission submission? @relation(fields: [submission_id], references: [id])
   user       user?       @relation(fields: [user_id], references: [id])
+  // TIMESTAMPS
+  created_at DateTime    @default(now())
+  updated_at DateTime?   @updatedAt
+}
+
+model calendarEvent {
+  id           Int       @id @default(autoincrement())
+  title        String
+  date         DateTime?
+  description  String
+  label        String
+  userId       Int?
+  submissionId Int?
+
+  // RELATIONS
+  user       user?       @relation(fields: [userId], references: [id])
+  submission submission? @relation(fields: [submissionId], references: [id])
   // TIMESTAMPS
   created_at DateTime    @default(now())
   updated_at DateTime?   @updatedAt
@@ -108,6 +130,7 @@ model user {
   client_history  submission[]
   bookmarks       bookmark[]
   submissionNotes submissionNote[]
+  appointments    calendarEvent[]
   owner_deposits  deposit[]        @relation("owner")
   client_deposits deposit[]        @relation("client")
   // TIMESTAMPS

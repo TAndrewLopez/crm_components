@@ -52,7 +52,7 @@ const SingleSubmission = async ({ params: { id } }: Props) => {
                         <div className="flex flex-col space-y-5 xl:min-w-96 xl:w-1/2">
                             <InformationWidget submission={submission} />
                             <ReviewWidget />
-                            <AppointmentWidget />
+                            <AppointmentWidget submission={submission} />
                         </div>
                         <div className="flex flex-col space-y-5 xl:w-1/2 pb-5 xl:pb-0">
                             <ReferenceWidget />

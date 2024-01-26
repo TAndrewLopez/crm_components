@@ -24,7 +24,7 @@ export const WidgetFormAction = ({
                     <Button
                         onClick={handleSubmit}
                         disabled={!active || isPending}
-                        className="bg-emerald-500 hover:bg-emerald-500/50 h-8 2xl:h-6"
+                        className="hover:bg-emerald-500 bg-emerald-500/50 h-8 2xl:h-6"
                         variant="link"
                         type="submit">
                         <Check className="w-4 h-4" />
@@ -35,7 +35,7 @@ export const WidgetFormAction = ({
                     <Button
                         onClick={handleToggle}
                         disabled={!active || isPending}
-                        className="bg-destructive hover:bg-destructive/50 h-8 2xl:h-6"
+                        className="hover:bg-destructive bg-destructive/50 h-8 2xl:h-6"
                         variant="link"
                         type="button">
                         <X className="w-4 h-4" />
@@ -48,9 +48,9 @@ export const WidgetFormAction = ({
     return (
         <Button
             onClick={handleToggle}
-            className="flex gap-x-3 bg-emerald-500 hover:bg-emerald-500/50 h-8 2xl:h-6"
+            className="flex gap-x-3 hover:bg-emerald-500 bg-emerald-500/50 h-8 2xl:h-6"
             variant="link"
-            type="submit">
+            type="button">
             <p>{label}</p>
             <Edit className="w-4 h-4" />
         </Button>

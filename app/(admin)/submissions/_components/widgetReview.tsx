@@ -9,8 +9,13 @@ import { WidgetWrapper } from "@/components/widgetWrapper";
 import { reviewAppointmentSchema } from "@/schemas";
 import { WidgetFormAction } from "./widgetFormAction";
 import { Form } from "@/components/ui/form";
+import { submission } from "@prisma/client";
 
-export const ReviewWidget = () => {
+type Props = {
+    submission: submission
+}
+
+export const ReviewWidget = ({ submission }: Props) => {
     const [editEnabled, setEditEnabled] = useState(false);
     const [isPending, startTransition] = useTransition();
 
