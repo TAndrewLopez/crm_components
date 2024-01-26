@@ -38,9 +38,14 @@ enum submissionStatus {
 }
 
 enum appointmentStatus {
-  null
   accepted
   rejected
+}
+
+enum appointmentType {
+  consultation
+  appointment
+  custom
 }
 
 enum role {
@@ -57,19 +62,24 @@ enum depositStatus {
 
 // SUBMISSION MODELS
 model submission {
-  id                 Int               @id @default(autoincrement())
+  id                 Int              @id @default(autoincrement())
   user_id            Int?
-  status             submissionStatus  @default(new)
-  name               String            @db.VarChar(255)
-  email              String            @db.VarChar(255)
-  phone_number       String            @db.VarChar(255)
-  preferred_pronouns String?           @db.VarChar(255)
+  status             submissionStatus @default(new)
+  name               String           @db.VarChar(255)
+  email              String           @db.VarChar(255)
+  phone_number       String           @db.VarChar(255)
+  preferred_pronouns String?          @db.VarChar(255)
   color              tattooColor
   size               tattooSize
-  placement          String            @db.VarChar(255)
+  placement          String           @db.VarChar(255)
   description        String
-  appointmentStatus  appointmentStatus @default(null)
-  requiredSessions   Int?
+
+  appointment_status    appointmentStatus?
+  requires_consultation Boolean?
+  required_sessions     Int?
+  rejection_reason      String?
+  other_reason          String?
+  referral              String?
 
   // RELATIONS
   bookmarks        bookmark[]
@@ -96,7 +106,8 @@ model submissionNote {
 }
 
 model calendarEvent {
-  id           Int       @id @default(autoincrement())
+  id           Int             @id @default(autoincrement())
+  type         appointmentType
   title        String
   date         DateTime?
   description  String

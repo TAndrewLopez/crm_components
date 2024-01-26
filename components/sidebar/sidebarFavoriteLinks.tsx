@@ -12,7 +12,7 @@ type Props = {
 export const SidebarFavoriteLinks = ({ bookmarks }: Props) => {
     return (
         <>
-            <div className="flex-1 mx-2 flex">
+            <nav className="flex-1 mx-2 flex">
                 <ul className="w-full py-2 flex flex-col gap-y-1 overflow-y-auto">
                     {bookmarks.map(({ label, submission_id, status }) => (
                         <NavItem
@@ -23,7 +23,7 @@ export const SidebarFavoriteLinks = ({ bookmarks }: Props) => {
                         </NavItem>
                     ))}
                 </ul>
-            </div>
+            </nav>
             <Separator className="bg-white/5" />
         </>
     );

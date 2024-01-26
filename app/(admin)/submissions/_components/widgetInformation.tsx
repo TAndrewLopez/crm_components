@@ -23,7 +23,7 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { WidgetWrapper } from "@/components/widgetWrapper";
-import { initialDataSchema } from "@/schemas";
+import { tattooInformationSchema } from "@/schemas";
 import { WidgetFormAction } from "./widgetFormAction";
 
 type Props = {
@@ -36,8 +36,8 @@ export const InformationWidget = ({
     const [editEnabled, setEditEnabled] = useState(false);
     const [isPending, startTransition] = useTransition();
 
-    const form = useForm<z.infer<typeof initialDataSchema>>({
-        resolver: zodResolver(initialDataSchema),
+    const form = useForm<z.infer<typeof tattooInformationSchema>>({
+        resolver: zodResolver(tattooInformationSchema),
         defaultValues: {
             color,
             description,
@@ -46,8 +46,8 @@ export const InformationWidget = ({
         },
     });
 
-    const handleSubmit = (values: z.infer<typeof initialDataSchema>) => {
-        const validatedFields = initialDataSchema.safeParse(values);
+    const handleSubmit = (values: z.infer<typeof tattooInformationSchema>) => {
+        const validatedFields = tattooInformationSchema.safeParse(values);
         if (!validatedFields.success) return toast.error("Invalid Fields");
         console.log("submit form", values);
         handleToggle();
@@ -72,7 +72,7 @@ export const InformationWidget = ({
                     isPending={isPending}
                 />
             }>
-            <div className="font-extralight rounded-md ">
+            <div className="font-extralight rounded-md">
                 <Form {...form}>
                     <form className="bg-primary-foreground flex flex-col p-4 rounded-md space-y-3">
                         <FormField

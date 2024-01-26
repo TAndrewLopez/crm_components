@@ -8,7 +8,7 @@ import { db } from "@/lib/prisma";
 import { getSelf } from "./auth";
 import { setBookmarkStatusBySubmissionID } from "./bookmarks";
 import { PartialSubmission, SubmissionWithUser } from "@/lib/types";
-import { initialDataSchema } from "@/schemas";
+import { tattooInformationSchema } from "@/schemas";
 
 
 // BOOLEANS
@@ -200,12 +200,17 @@ export const setSubmissionStatus = async (
     }
 };
 
-export const setSubmissionData = async (
+/**
+ *  Update the tattoo information of a submission record with the given submission_id.
+ *  @param submission_id 
+ *  @param values 
+ */
+export const setTattooInformation = async (
     submission_id: number,
-    values: z.infer<typeof initialDataSchema>
+    values: z.infer<typeof tattooInformationSchema>
 ) => {
     try {
-        const validatedFields = initialDataSchema.safeParse(values);
+        const validatedFields = tattooInformationSchema.safeParse(values);
         if (!validatedFields.success) throw new Error("Invalid Fields");
 
         const selfPromise = getSelf();

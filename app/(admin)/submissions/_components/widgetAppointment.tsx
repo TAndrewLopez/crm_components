@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/popover";
 import { WidgetWrapper } from "@/components/widgetWrapper";
 import { cn } from "@/lib/utils";
-import { reviewAppointmentSchema } from "@/schemas";
+import { submissionAppointmentSchema } from "@/schemas";
 import { WidgetFormAction } from "./widgetFormAction";
 
 type Props = {
@@ -34,16 +34,16 @@ type Props = {
 };
 
 export const AppointmentWidget = ({ submission }: Props) => {
-    const appointmentAccepted = submission.appointmentStatus;
+    const appointmentAccepted = true || submission.appointment_status;
     const [editEnabled, setEditEnabled] = useState(false);
     const [isPending, startTransition] = useTransition();
-    const form = useForm<z.infer<typeof reviewAppointmentSchema>>({
-        resolver: zodResolver(reviewAppointmentSchema),
+    const form = useForm<z.infer<typeof submissionAppointmentSchema>>({
+        resolver: zodResolver(submissionAppointmentSchema),
         defaultValues: {},
     });
 
-    const handleSubmit = (values: z.infer<typeof reviewAppointmentSchema>) => {
-        const validatedFields = reviewAppointmentSchema.safeParse(values);
+    const handleSubmit = (values: z.infer<typeof submissionAppointmentSchema>) => {
+        const validatedFields = submissionAppointmentSchema.safeParse(values);
         if (!validatedFields.success) return toast.error("Invalid Fields.");
 
         console.log("submit form", values);
@@ -113,49 +113,6 @@ export const AppointmentWidget = ({ submission }: Props) => {
                                     </FormItem>
                                 )}
                             />
-                            {/* {
-                                [...new Array(submission.requiredSessions)].map((n, i) => (
-                                    <FormField
-                                        key={i}
-                                        control={form.control}
-                                        name="appointmentDates"
-                                        render={({ field }) => (
-                                            <FormItem className="flex flex-col">
-                                                <FormLabel>Appointment #1 Date</FormLabel>
-                                                <Popover>
-                                                    <PopoverTrigger asChild>
-                                                        <FormControl>
-                                                            <Button
-                                                                disabled={!editEnabled}
-                                                                className={cn(
-                                                                    "min-w-[240px] pl-3 mt-3 text-left font-normal",
-                                                                    !field.value && "text-muted-foreground"
-                                                                )}
-                                                                variant="outline">
-                                                                {field.value ? (
-                                                                    moment().format("MM/DD/yyyy")
-                                                                ) : (
-                                                                    <span>Pick a date</span>
-                                                                )}
-                                                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                                            </Button>
-                                                        </FormControl>
-                                                    </PopoverTrigger>
-                                                    <PopoverContent className="w-auto p-0" align="start">
-                                                        <Calendar
-                                                            mode="single"
-                                                            selected={field.value}
-                                                            onSelect={field.onChange}
-                                                            initialFocus
-                                                        />
-                                                    </PopoverContent>
-                                                </Popover>
-                                            </FormItem>
-                                        )}
-                                    />
-                                ))
-                            } */}
-
                             <FormField
                                 control={form.control}
                                 name="depositPaid"

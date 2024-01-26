@@ -22,7 +22,7 @@ const FOOTER = [
 export const SidebarUtilLinks = ({ }: Props) => {
     return (
         <>
-            <div className="mx-2">
+            <nav className="mx-2">
                 <ul className="w-full py-2 flex flex-col gap-y-1">
                     {FOOTER.map(({ href, Icon, name }) => (
                         <NavItem href={href} name={name} key={href}>
@@ -30,7 +30,7 @@ export const SidebarUtilLinks = ({ }: Props) => {
                         </NavItem>
                     ))}
                 </ul>
-            </div>
+            </nav>
             <Separator className="bg-white/5" />
         </>
     );
