@@ -10,7 +10,6 @@ import { getSelf } from "./auth";
 import { getPartialSubmissionByID } from "./submissions";
 import { convertSettingsString } from "@/lib/utils";
 
-
 // BOOLEANS
 /**
  *  Check if the given submission_id is a bookmark record of the logged in user.
@@ -42,7 +41,6 @@ export const isBookmark = async (submission_id: number): Promise<boolean> => {
     }
 };
 
-
 // QUERIES
 /**
  *  Fetch all of the logged in user's bookmark records. Revalidate Path: '/'
@@ -70,7 +68,6 @@ export const getBookmarks = async (): Promise<bookmark[]> => {
         throw new Error("Internal Error.");
     }
 };
-
 
 // MUTATIONS
 /**
@@ -152,7 +149,6 @@ export const deleteBookmarkBySubmissionID = async (
         throw new Error("Internal Error.");
     }
 };
-
 
 // SIDE EFFECTS
 /**

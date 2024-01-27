@@ -65,49 +65,54 @@ export const removeSpecialCharacters = (str: string): string => {
 };
 
 export const getFullName = (first_name: string, last_name: string) => {
-  return `${removeSpecialCharacters(first_name)} ${removeSpecialCharacters(last_name)}`;
+  const firstName = removeSpecialCharacters(first_name);
+  const lastName = removeSpecialCharacters(last_name);
+  return `${firstName[0].toUpperCase() + firstName.slice(1)} ${lastName[0].toUpperCase() + lastName.slice(1)}`;
 };
 
 /**
  * Converts a setting string into a settings object.
- * @param settings 
+ * @param settings
  */
 export const convertSettingsString = (settings: string | null) => {
   const settingsObject: Record<string, string> = {};
 
   if (!settings) return userSettingsSchema.parse(settingsObject);
 
-  const parsedSettings =
-    settings
-      .split(",")
-      .map((line) => line.split("="))
-      .reduce((acc, el) => {
-        acc[el[0]] = el[1];
-        return acc;
-      }, settingsObject)
+  const parsedSettings = settings
+    .split(",")
+    .map((line) => line.split("="))
+    .reduce((acc, el) => {
+      acc[el[0]] = el[1];
+      return acc;
+    }, settingsObject);
 
   const convertedSettings = {
     ...parsedSettings,
-    showBirthday: parsedSettings.showBirthday === 'true',
-  }
+    showBirthday: parsedSettings.showBirthday === "true",
+  };
 
   return userSettingsSchema.parse(convertedSettings);
 };
 
 /**
  * Converts a setting object into a settings string.
- * @param settingsObject 
+ * @param settingsObject
  */
-export const convertSettingsObject = (settingsObject: z.infer<typeof userSettingsSchema>) => {
-  const entries = Object.entries(settingsObject)
+export const convertSettingsObject = (
+  settingsObject: z.infer<typeof userSettingsSchema>
+) => {
+  const entries = Object.entries(settingsObject);
   return entries.reduce((acc, el, i) => {
-    i === entries.length - 1 ? acc += `${el[0]}=${el[1]}` : acc += `${el[0]}=${el[1]},`
+    i === entries.length - 1
+      ? (acc += `${el[0]}=${el[1]}`)
+      : (acc += `${el[0]}=${el[1]},`);
     return acc;
-  }, '')
-}
+  }, "");
+};
 
 export const hasShowBirthday = (settings: string | null) => {
-  if (!settings) return true
-  const settingsObject = convertSettingsString(settings)
-  return settingsObject.showBirthday
-}
+  if (!settings) return true;
+  const settingsObject = convertSettingsString(settings);
+  return settingsObject.showBirthday;
+};

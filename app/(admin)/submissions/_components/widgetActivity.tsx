@@ -15,7 +15,7 @@ export const ActivityWidget = ({ client_name }: Props) => {
                     <ul className="flex flex-col gap-y-3 pr-2">
                         {LOGS.map(({ description, username, createdAt }, i) => (
                             <li className="bg-primary-foreground p-2 rounded-sm" key={i}>
-                                <p className="text-sm font-extralight">{description}</p>
+                                <p className="text-sm font-semibold">{description}</p>
                                 <div className="flex flex-nowrap gap-x-3">
                                     <p className="text-right text-xs text-neutral-300 font-extralight truncate">
                                         by{" "}

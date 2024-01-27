@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/select";
 import { WidgetWrapper } from "@/components/widgetWrapper";
 import { tattooInformationSchema } from "@/schemas";
-import { WidgetFormAction } from "./widgetFormAction";
+import { WidgetFormAction } from "../../../../components/widgetFormAction";
 
 type Props = {
     submission: submission;

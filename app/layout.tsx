@@ -1,37 +1,40 @@
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import './globals.css'
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
 
-import { ThemeProvider } from '@/components/themeProvider'
-import { Toaster } from '@/components/ui/sonner'
-
+import { ThemeProvider } from "@/components/themeProvider";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: {
     template: "CRM | %s",
-    default: "CRM"
+    default: "CRM",
   },
-  description: 'Client Relation Management',
-}
-const inter = Inter({ subsets: ['latin'] })
+  description: "Client Relation Management",
+};
+const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <ThemeProvider
-          attribute='class'
-          forcedTheme='dark'
-          storageKey='initial_theme'
-        >
+          attribute="class"
+          forcedTheme="dark"
+          storageKey="initial_theme">
           {children}
-          <Toaster />
+          <Toaster
+            position="bottom-right"
+            toastOptions={{
+              style: { background: "#FAFAFA", color: "#171717" },
+            }}
+          />
         </ThemeProvider>
       </body>
     </html>
-  )
+  );
 }

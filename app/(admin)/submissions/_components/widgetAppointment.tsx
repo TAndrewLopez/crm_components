@@ -27,7 +27,7 @@ import {
 import { WidgetWrapper } from "@/components/widgetWrapper";
 import { cn } from "@/lib/utils";
 import { submissionAppointmentSchema } from "@/schemas";
-import { WidgetFormAction } from "./widgetFormAction";
+import { WidgetFormAction } from "../../../../components/widgetFormAction";
 
 type Props = {
     submission: submission;
@@ -42,7 +42,9 @@ export const AppointmentWidget = ({ submission }: Props) => {
         defaultValues: {},
     });
 
-    const handleSubmit = (values: z.infer<typeof submissionAppointmentSchema>) => {
+    const handleSubmit = (
+        values: z.infer<typeof submissionAppointmentSchema>
+    ) => {
         const validatedFields = submissionAppointmentSchema.safeParse(values);
         if (!validatedFields.success) return toast.error("Invalid Fields.");
 
@@ -70,7 +72,7 @@ export const AppointmentWidget = ({ submission }: Props) => {
                 )
             }>
             <div className="flex-1 font-extralight bg-neutral-900 rounded-md">
-                {appointmentAccepted && (
+                {appointmentAccepted === "accepted" && (
                     <Form {...form}>
                         <form className="bg-primary-foreground flex flex-col p-4 rounded-md space-y-3">
                             <FormField
@@ -134,8 +136,8 @@ export const AppointmentWidget = ({ submission }: Props) => {
                     </Form>
                 )}
 
-                {!appointmentAccepted && (
-                    <div className="flex-1 h-full flex items-center justify-center p-4">{`Appointment hasn't been accepted.`}</div>
+                {appointmentAccepted !== "accepted" && (
+                    <div className="flex-1 h-full flex text-center items-center justify-center p-4">{`Appointment hasn't been accepted.`}</div>
                 )}
             </div>
         </WidgetWrapper>

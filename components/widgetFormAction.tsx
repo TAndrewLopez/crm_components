@@ -47,6 +47,7 @@ export const WidgetFormAction = ({
 
     return (
         <Button
+            disabled={isPending}
             onClick={handleToggle}
             className="flex gap-x-3 hover:bg-emerald-500 bg-emerald-500/50 h-8 2xl:h-6"
             variant="link"

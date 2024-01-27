@@ -7,15 +7,16 @@ import {
 } from '@/components/ui/card'
 
 type Props = {
+    className?: string,
     children: React.ReactNode
     description: string;
     title: string;
     titleIcon: string;
 }
 
-export const DashboardWidget = ({ children, description, title, titleIcon, }: Props) => {
+export const DashboardWidget = ({ className, children, description, title, titleIcon, }: Props) => {
     return (
-        <Card>
+        <Card className={className}>
             <CardHeader>
                 <CardTitle className='flex items-center justify-between text-lg font-normal'>
                     <p>{title}</p>
