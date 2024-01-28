@@ -30,6 +30,7 @@ import {
 import { formatToUSNumber } from "@/lib/utils";
 import { TableItem } from "@/components/table/tableItem";
 import { StatusBadgeMobile } from "@/components/statusBadgeMobile";
+import { toast } from "sonner";
 
 export const columns: ColumnDef<submission>[] = [
     {
@@ -111,43 +112,48 @@ export const columns: ColumnDef<submission>[] = [
             <TableItem status={row.original.status}>{row.original.email}</TableItem>
         ),
     },
-    {
-        accessorKey: "phone_number",
-        header: "Phone Number",
-        cell: ({ row }) => (
-            <TableItem status={row.original.status}>
-                {formatToUSNumber(row.getValue("phone_number"))}
-            </TableItem>
-        ),
-    },
-    {
-        accessorKey: "description",
-        header: "Description",
-        cell: ({ row }) => {
-            return (
-                <TableItem status={row.original.status}>
-                    {row.original.description}
-                </TableItem>
-            );
-        },
-    },
+    // {
+    //     accessorKey: "phone_number",
+    //     header: "Phone Number",
+    //     cell: ({ row }) => (
+    //         <TableItem status={row.original.status}>
+    //             {formatToUSNumber(row.getValue("phone_number"))}
+    //         </TableItem>
+    //     ),
+    // },
+    // {
+    //     accessorKey: "description",
+    //     header: "Description",
+    //     cell: ({ row }) => {
+    //         return (
+    //             <TableItem status={row.original.status}>
+    //                 {row.original.description}
+    //             </TableItem>
+    //         );
+    //     },
+    // },
     {
         accessorKey: "created_at",
         header: ({ column }) => {
             return (
-                <Button
-                    variant="ghost"
-                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-                    Created At
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                </Button>
+                <div className="text-right">
+                    <Button
+                        variant="ghost"
+                        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+                        Created At
+                        <ArrowUpDown className="ml-2 h-4 w-4" />
+                    </Button>
+                </div>
             );
         },
         cell: ({ row }) => {
             return (
-                <TableItem status={row.original.status}>
-                    {row.original.created_at.toLocaleDateString()}
-                </TableItem>
+                <div className="text-right">
+
+                    <TableItem status={row.original.status}>
+                        {row.original.created_at.toLocaleDateString()}
+                    </TableItem>
+                </div>
             );
         },
     },
@@ -159,11 +165,13 @@ export const columns: ColumnDef<submission>[] = [
 
             const handleMarkAllRead = async (ids: number[]) => {
                 await markSubArrayAsRead(ids);
+                toast.success("Updated selected submissions.");
                 table.resetRowSelection();
             };
 
             const handleMarkAllUnread = async (ids: number[]) => {
                 await markSubArrayAsUnread(ids);
+                toast.success("Updated selected submissions.");
                 table.resetRowSelection();
             };
 
@@ -203,6 +211,7 @@ export const columns: ColumnDef<submission>[] = [
             const handleClick = async () => {
                 const label = status === "read" ? "new" : "read";
                 await setSubmissionStatus(id, label);
+                toast.success("Updated submission status.");
                 table.resetRowSelection();
             };
             const label = status === "read" ? "unread" : "read";

@@ -8,8 +8,8 @@ import {
 
 type Props = {
     className?: string,
-    children: React.ReactNode
-    description: string;
+    children?: React.ReactNode
+    description?: string;
     title: string;
     titleIcon: string;
 }

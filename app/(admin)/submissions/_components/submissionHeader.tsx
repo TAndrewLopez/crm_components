@@ -1,7 +1,7 @@
 "use client";
 
 import { submission } from "@prisma/client";
-import { CircleUser, Plus } from "lucide-react";
+import { CircleUser, Menu } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 
 import { Separator } from "@/components/separator";
@@ -17,7 +17,7 @@ type Props = {
 
 export const SubmissionHeader = ({ isBookmark, submission }: Props) => {
     const router = useRouter();
-    const pathname = usePathname()
+    const pathname = usePathname();
     const splitPathname = pathname.split("/");
     const crumbs = [...splitPathname.slice(0, -1), submission.name];
     const { setSelectedContactID } = useContacts();
@@ -39,8 +39,8 @@ export const SubmissionHeader = ({ isBookmark, submission }: Props) => {
                                 {submission.name}
                             </p>
                             <p className="sm:hidden font-thin text-2xl max-w-48 sm:max-w-72 2xl:max-w-fit capitalize truncate">
-                                {submission.name.split(' ')[0][0]}.{" "}
-                                {submission.name.split(' ')[1]}
+                                {submission.name.split(" ")[0][0]}.{" "}
+                                {submission.name.split(" ")[1]}
                             </p>
                             <div className="flex items-center gap-x-1.5">
                                 {submission.user_id && (
@@ -58,13 +58,9 @@ export const SubmissionHeader = ({ isBookmark, submission }: Props) => {
                             isBookmark={isBookmark}
                             submission_id={submission.id}
                         />
-                        <button
-                            onClick={() => router.push(`${pathname}/create`)}
-                            className="bg-emerald-500 box-border border-2 hover:border-primary rounded-full p-1">
-                            <Plus
-                                className="h-4 w-4 xl:h-6 xl:w-6 text-primary"
-                            />
-                        </button>
+                        {/* <button>
+                            <Menu className="h-7 w-7 xl:w-8 xl:h-8 text-primary" />
+                        </button> */}
                     </div>
                 </div>
             </div>

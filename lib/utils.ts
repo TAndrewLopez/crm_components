@@ -2,7 +2,7 @@ import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import * as z from "zod";
 
-import { userSettingsSchema } from "@/schemas";
+import { userSortingSettingsSchema } from "@/schemas";
 
 export const cn = (...inputs: ClassValue[]) => {
   return twMerge(clsx(inputs));
@@ -77,7 +77,7 @@ export const getFullName = (first_name: string, last_name: string) => {
 export const convertSettingsString = (settings: string | null) => {
   const settingsObject: Record<string, string> = {};
 
-  if (!settings) return userSettingsSchema.parse(settingsObject);
+  if (!settings) return userSortingSettingsSchema.parse(settingsObject);
 
   const parsedSettings = settings
     .split(",")
@@ -92,7 +92,7 @@ export const convertSettingsString = (settings: string | null) => {
     showBirthday: parsedSettings.showBirthday === "true",
   };
 
-  return userSettingsSchema.parse(convertedSettings);
+  return userSortingSettingsSchema.parse(convertedSettings);
 };
 
 /**
@@ -100,7 +100,7 @@ export const convertSettingsString = (settings: string | null) => {
  * @param settingsObject
  */
 export const convertSettingsObject = (
-  settingsObject: z.infer<typeof userSettingsSchema>
+  settingsObject: z.infer<typeof userSortingSettingsSchema>
 ) => {
   const entries = Object.entries(settingsObject);
   return entries.reduce((acc, el, i) => {

@@ -54,7 +54,7 @@ export const TableWrapper = <TData, TValue>({
     });
 
     return (
-        <div className="relative flex flex-col px-5 w-full">
+        <div className="relative w-full flex flex-col px-5">
             <div
                 className={cn(
                     "bg-neutral-800 fixed top-0 right-0 px-5 z-20",

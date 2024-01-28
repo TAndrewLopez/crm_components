@@ -11,23 +11,28 @@ export const getClientIDWithMostSubmissions = async () => {
         const [user] = await db.submission.groupBy({
             by: ["user_id"],
             _count: {
+
                 email: true,
             },
             where: {
                 user_id: {
-                    not: {
-                        equals: undefined,
-                    },
+                    not: null,
                 },
             },
+            orderBy: {
+                _count: {
+                    email: 'desc'
+                }
+            }
         });
+
         if (!user.user_id) {
-            throw new Error("Couldn't fetch client id with most submissions.")
+            throw new Error("Couldn't fetch client id with most submissions.");
         }
 
         const client = await db.user.findUnique({
             where: {
-                id: user.user_id
+                id: user.user_id,
             },
             select: {
                 first_name: true,
@@ -36,7 +41,7 @@ export const getClientIDWithMostSubmissions = async () => {
                 role: true,
                 image_url: true,
             },
-        })
+        });
 
         return { ...client, totalSubmissions: user._count.email };
     } catch (error) {
@@ -79,6 +84,7 @@ export const getClientIDWithHighestPaidDepositAmount = async () => {
                 id: user.client_id,
             },
             select: {
+                id: true,
                 first_name: true,
                 last_name: true,
                 username: true,
@@ -93,7 +99,8 @@ export const getClientIDWithHighestPaidDepositAmount = async () => {
     }
 };
 
-export const getEmployeeIDWithHighestPaidDepositAmount = async () => {
+
+export const getEmployeeWithHighestPaidDepositAmount = async () => {
     try {
         const [user] = await db.deposit.groupBy({
             by: ["paid_to_id"],
@@ -109,11 +116,13 @@ export const getEmployeeIDWithHighestPaidDepositAmount = async () => {
                 },
             },
         });
+
         const employee = await db.user.findUnique({
             where: {
                 id: user.paid_to_id,
             },
             select: {
+                id: true,
                 first_name: true,
                 last_name: true,
                 username: true,
@@ -121,11 +130,62 @@ export const getEmployeeIDWithHighestPaidDepositAmount = async () => {
                 image_url: true,
             },
         });
+
+        if (!employee) {
+            throw new Error("Error fetching employee with highest paid deposit amount.")
+        }
+
         return { ...employee, amountPaid: user._sum.amount };
     } catch (error) {
         throw new Error("Internal Error.");
     }
 };
+
+export const getDepositsGroupedByEmployees = async () => {
+    try {
+        const employees = await db.deposit.groupBy({
+            by: ['paid_to_id'],
+            _sum: {
+                amount: true,
+            },
+            where: {
+                status: "paid",
+            },
+            orderBy: {
+                _sum: {
+                    amount: "desc",
+                },
+            },
+        })
+
+        const newEmployees = []
+
+        for (let i = 0; i < employees.length; i++) {
+            const e = employees[i];
+            const employee = await db.user.findUnique({
+                where: {
+                    id: e.paid_to_id
+                },
+                select: {
+                    id: true,
+                    first_name: true,
+                    last_name: true,
+                    username: true,
+                    role: true,
+                    image_url: true,
+                },
+            })
+
+            if (!employee) throw new Error(`Error fetching user_id ${e.paid_to_id}`)
+
+            newEmployees.push({ ...employee, totalEarned: e._sum.amount })
+        }
+
+        return newEmployees;
+    } catch (error) {
+        throw new Error("Internal Error.")
+    }
+}
 
 export const getDashboardData = async () => {
     try {
@@ -133,22 +193,29 @@ export const getDashboardData = async () => {
         const mostClientPaidDepositPromise =
             getClientIDWithHighestPaidDepositAmount();
         const mostEmployeePaidDepositPromise =
-            getEmployeeIDWithHighestPaidDepositAmount();
+            getEmployeeWithHighestPaidDepositAmount();
+        const depositsPaidGroupedPromise = getDepositsGroupedByEmployees();
+
+
         const [
             clientWithMostSubmissions,
             clientWithMostPaidDeposit,
             employeeWithMostPaidDeposit,
+            depositsPaidGroupedByEmployees,
         ] = await Promise.all([
             mostSubmissionPromise,
             mostClientPaidDepositPromise,
             mostEmployeePaidDepositPromise,
+            depositsPaidGroupedPromise
         ]);
         return {
             clientWithMostSubmissions,
             clientWithMostPaidDeposit,
             employeeWithMostPaidDeposit,
+            depositsPaidGroupedByEmployees
         };
     } catch (error) {
         throw new Error("Internal Error.");
     }
 };
+

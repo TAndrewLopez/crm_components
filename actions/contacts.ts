@@ -2,14 +2,14 @@
 
 import * as z from "zod";
 import { user } from "@prisma/client";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 import { db } from "@/lib/prisma";
 import { ContactUser } from "@/lib/types";
 import { getSelf } from "./auth";
 import { getDepositsByClientID } from "./deposits";
 import { getSubmissionsByUserID } from "./submissions";
-import { userSettingsSchema } from "@/schemas";
+import { userSortingSettingsSchema } from "@/schemas";
 import { convertSettingsObject, convertSettingsString } from "@/lib/utils";
 
 
@@ -109,10 +109,10 @@ export const getContactByUsername = async (
 
 // MUTATIONS
 export const setContactSettings = async (
-    values: z.infer<typeof userSettingsSchema>
+    values: z.infer<typeof userSortingSettingsSchema>
 ): Promise<void> => {
     try {
-        const validatedFields = userSettingsSchema.safeParse(values);
+        const validatedFields = userSortingSettingsSchema.safeParse(values);
         if (!validatedFields.success) throw new Error("Invalid fields");
         const {
             bookmarkSortDir,
@@ -141,6 +141,7 @@ export const setContactSettings = async (
             }
         });
 
+        revalidatePath('/settings')
         revalidatePath('/')
     } catch (error) {
         throw new Error("Internal Error.");

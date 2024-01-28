@@ -11,7 +11,7 @@ export const newNoteSchema = z.object({
     user_id: z.number(),
 });
 
-export const userSettingsSchema = z.object({
+export const userSortingSettingsSchema = z.object({
     showBirthday: z.boolean().default(true),
     contactSortOption: z
         .enum(["first_name", "last_name", "username", "role"])
@@ -22,6 +22,18 @@ export const userSettingsSchema = z.object({
         .default("created_at"),
     bookmarkSortDir: z.enum(["asc", "desc"]).default("desc"),
 });
+
+export const userPersonalSettingsSchema = z.object({
+    showBirthday: z.boolean().default(true),
+    firstName: z.string().min(1).max(255),
+    lastName: z.string().min(1).max(255),
+    username: z.string().min(1).max(255),
+    email: z.string().email(),
+    phoneNumber: z.number().min(1000000000).max(9999999999),
+    imageURL: z.string().nullable(),
+    userBio: z.string().nullable(),
+    preferredPronouns: z.string().nullable(),
+})
 
 export const tattooInformationSchema = z.object({
     color: z.enum(["black_and_grey", "color"]),

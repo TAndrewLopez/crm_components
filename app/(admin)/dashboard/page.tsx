@@ -20,6 +20,7 @@ const DashboardPage = async ({ }: Props) => {
     clientWithMostPaidDeposit,
     clientWithMostSubmissions,
     employeeWithMostPaidDeposit,
+    depositsPaidGroupedByEmployees,
   } = await getDashboardData();
 
   return (
@@ -69,7 +70,6 @@ const DashboardPage = async ({ }: Props) => {
         </DashboardWidget>
       </div>
 
-
       <div className="flex flex-col gap-y-5 xl:gap-x-5 xl:flex-row ">
         <DashboardWidget
           className="flex-1"
@@ -114,14 +114,54 @@ const DashboardPage = async ({ }: Props) => {
         description="+20.1% from last month">
         <div className="text-2xl font-semibold tracking-wide">$45,231.89</div>
       </DashboardWidget>
-      <div className="flex-1 flex flex-col gap-y-5 xl:gap-x-5 xl:flex-row xl:justify-between">
-        <p>Total Sales for the current day.</p>
-        <p>Total Sales for the last 7 days.</p>
-        <p>Total Sales for the last 30 days.</p>
-        <p>Total Sales for the current year.</p>
-        <p>Total Sales for the last 12 months.</p>
-      </div>
-      <div className="flex flex-col xl:flex-row gap-4 h-full">
+
+      <div className="flex flex-col 2xl:flex-row gap-5 h-full">
+        <div className="flex flex-col gap-y-5">
+          <div className="flex flex-col gap-y-5 xl:flex-row xl:gap-x-5">
+            <DashboardWidget
+              className="flex-1"
+              title="Total Sales for the current day."
+              titleIcon="$"
+              description="Total Sales for the current day."
+            />
+            <DashboardWidget
+              className="flex-1"
+              title="Total Sales for the last 7 days."
+              titleIcon="$"
+              description="Total Sales for the last 7 days."
+            />
+          </div>
+          <div className="flex flex-col gap-y-5 xl:flex-row xl:gap-x-5">
+            <DashboardWidget
+              className="flex-1"
+              title="Total Sales for the current year."
+              titleIcon="$"
+              description="Total Sales for the current year."
+            />
+            <DashboardWidget
+              className="flex-1"
+              title="Total Sales for the last 12 months."
+              titleIcon="$"
+              description="Total Sales for the last 12 months."
+            />
+          </div>
+
+          <DashboardWidget
+            title="Total In Sales"
+            titleIcon="$">
+            <div>
+              <ul>
+                {depositsPaidGroupedByEmployees.map((e, i) => (
+                  <li key={e.id} className="flex gap-x-3">
+                    <p className="text-right">{i + 1}{`.`}</p>
+                    <p>{getFullName(e.first_name, e.last_name)}</p>
+                    <p>$ {e.totalEarned?.toLocaleString()}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </DashboardWidget>
+        </div>
         <DashboardGraph />
       </div>
     </PageWrapper>

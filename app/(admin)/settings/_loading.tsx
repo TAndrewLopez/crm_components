@@ -1,5 +1,5 @@
 import { UserProfileDetailsSkeleton } from "./_components/userProfileDetails"
-import { UserProfileSettingsSkeleton } from "./_components/userProfileSettings"
+import { UserProfileSettingsSkeleton } from "./_components/userSortingSettings"
 
 const SettingsLoadingPage = () => {
     return (

@@ -17,7 +17,7 @@ type Props = {}
 const SubmissionPage = async ({ }: Props) => {
     const submissionData = await getSubmissions()
     return (
-        <PageWrapper className="flex flex-col gap-y-5 font-extralight p-4">
+        <PageWrapper className="flex bg-red-200/20 flex-col gap-y-5 font-extralight p-4">
             <TableWrapper columns={columns} data={submissionData} />
         </PageWrapper>
     );

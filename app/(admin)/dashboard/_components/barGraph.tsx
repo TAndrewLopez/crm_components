@@ -15,7 +15,7 @@ export const BarGraph = () => {
                 <li className="flex flex-col justify-end flex-1 h-full" key={i}>
                     <div
                         className="bg-emerald-500 rounded-t"
-                        style={{ height: `${height}%` }}
+                        style={{ minHeight: `${height*5}px` }}
                     />
                     <p className="text-white text-center">
                         {months[i][0]}
