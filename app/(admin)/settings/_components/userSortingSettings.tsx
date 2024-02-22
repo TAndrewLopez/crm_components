@@ -271,23 +271,6 @@ export const UserSortingSettings = ({ settings }: Props) => {
                                                         <User className="w-5- h-5" />
                                                     </FormLabel>
                                                 </FormItem>
-
-                                                <FormItem
-                                                    className={cn(
-                                                        "flex-1 flex items-center gap-x-3 p-3 rounded-md bg-primary-foreground/50",
-                                                        editEnabled && "bg-primary-foreground"
-                                                    )}>
-                                                    <FormControl>
-                                                        <RadioGroupItem
-                                                            checked={field.value === "role"}
-                                                            value="role"
-                                                        />
-                                                    </FormControl>
-                                                    <FormLabel className="flex-1 flex items-center gap-x-3">
-                                                        <p className="flex-1 font-light">Role</p>
-                                                        <LockKeyhole className="w-5- h-5" />
-                                                    </FormLabel>
-                                                </FormItem>
                                             </RadioGroup>
                                         </FormControl>
                                     </FormItem>

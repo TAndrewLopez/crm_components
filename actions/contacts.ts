@@ -2,7 +2,7 @@
 
 import * as z from "zod";
 import { user } from "@prisma/client";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidatePath } from "next/cache";
 
 import { db } from "@/lib/prisma";
 import { ContactUser } from "@/lib/types";
@@ -12,6 +12,52 @@ import { getSubmissionsByUserID } from "./submissions";
 import { userSortingSettingsSchema } from "@/schemas";
 import { convertSettingsObject, convertSettingsString } from "@/lib/utils";
 
+export const getContactsGroupedByRole = async () => {
+    try {
+        const self = await getSelf();
+        const roles = await db.user.groupBy({
+            by: ["role"],
+            _count: {
+                role: true,
+            },
+            where: {
+                role: {
+                    not: "dev",
+                },
+            },
+        });
+
+        if (!roles) throw new Error("Error fetching roles.");
+
+        const { contactSortOption, contactSortDir } = convertSettingsString(
+            self.profile_settings
+        );
+        const contactPromises = roles.map(async ({ role }) => {
+            const contacts = await db.user.findMany({
+                where: {
+                    role,
+                },
+                orderBy: [
+                    {
+                        [contactSortOption]: contactSortDir,
+                    },
+                    {
+                        last_name: "asc",
+                    },
+                ],
+            });
+
+            return {
+                contacts: contacts,
+                role: role,
+            };
+        });
+        const groupedContacts = await Promise.all(contactPromises);
+        return groupedContacts;
+    } catch (error) {
+        throw new Error("Internal Error.");
+    }
+};
 
 //QUERIES
 /**
@@ -20,7 +66,9 @@ import { convertSettingsObject, convertSettingsString } from "@/lib/utils";
 export const getContacts = async (): Promise<user[]> => {
     try {
         const self = await getSelf();
-        const { contactSortOption, contactSortDir } = convertSettingsString(self.profile_settings)
+        const { contactSortOption, contactSortDir } = convertSettingsString(
+            self.profile_settings
+        );
 
         const contacts = await db.user.findMany({
             where: {
@@ -106,7 +154,6 @@ export const getContactByUsername = async (
     }
 };
 
-
 // MUTATIONS
 export const setContactSettings = async (
     values: z.infer<typeof userSortingSettingsSchema>
@@ -137,12 +184,12 @@ export const setContactSettings = async (
                 id: self.id,
             },
             data: {
-                profile_settings: settingsString
-            }
+                profile_settings: settingsString,
+            },
         });
 
-        revalidatePath('/settings')
-        revalidatePath('/')
+        revalidatePath("/settings");
+        revalidatePath("/");
     } catch (error) {
         throw new Error("Internal Error.");
     }

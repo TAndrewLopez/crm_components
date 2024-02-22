@@ -21,9 +21,29 @@ export const ContactUserInformation = ({ contact }: Props) => {
                 <p>{email}</p>
             </div>
             <div className="flex flex-col gap-y-1 sm:flex-row gap-x-3">
-                <p>Hire Date: </p>
-                <p>{moment(created_at).format("MM/DD/yyyy")}</p>
+                {
+                    contact.role === 'client' && (
+                        <>
+                            <p>Member since: </p>
+                            <p>{moment(created_at).format("MM/DD/yyyy")}</p>
+                        </>
+                    )
+                }
+                {contact.role === 'admin' &&
+                    <>
+                        <p>Hire Date: </p>
+                        <p>{moment(created_at).format("MM/DD/yyyy")}</p>
+                    </>
+                }
+                {contact.role === 'owner' &&
+                    <>
+                        <p>Account Created: </p>
+                        <p>{moment(created_at).format("MM/DD/yyyy")}</p>
+                    </>
+                }
+
             </div>
         </WidgetWrapper>
     );
 };
+

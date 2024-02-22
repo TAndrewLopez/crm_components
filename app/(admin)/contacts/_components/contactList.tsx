@@ -7,14 +7,21 @@ import { useContacts } from "@/store/useContacts";
 import { Skeleton } from "@/components/ui/skeleton";
 
 type Props = {
+    role: string;
     contacts: user[];
 };
 
-export const ContactList = ({ contacts }: Props) => {
+export const ContactList = ({ role, contacts }: Props) => {
     const { selected_contact_id, setSelectedContactID } = useContacts();
 
     return (
         <ul className="flex flex-col gap-y-1.5">
+            <p
+                className={cn(
+                    "text-sm p-2 rounded-sm transition-all text-emerald-500 capitalize"
+                )}>
+                {role}
+            </p>
             {contacts.map((contact) => {
                 const { id, first_name, last_name } = contact;
                 return (
@@ -38,11 +45,9 @@ export const ContactList = ({ contacts }: Props) => {
 export const ContactListSkeleton = () => {
     return (
         <ul className="flex flex-col gap-y-1.5">
-            {
-                [...new Array(5)].map((_, i) => (
-                    <Skeleton key={i} className="bg-primary-foreground h-10 w-full" />
-                ))
-            }
+            {[...new Array(5)].map((_, i) => (
+                <Skeleton key={i} className="bg-primary-foreground h-10 w-full" />
+            ))}
         </ul>
-    )
-}
+    );
+};

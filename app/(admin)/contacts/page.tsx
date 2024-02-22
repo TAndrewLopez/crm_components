@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 
-import { getContacts } from "@/actions/contacts";
+import { getContactsGroupedByRole } from "@/actions/contacts";
 import { getAdminContactCount } from "@/actions/counts";
 import { PageWrapper } from "@/components/pageWrapper";
 import { Separator } from "@/components/separator";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ContactDetails, ContactDetailsSkeleton } from "./_components/contactDetails";
+import {
+    ContactDetails,
+    ContactDetailsSkeleton,
+} from "./_components/contactDetails";
 import { ContactList, ContactListSkeleton } from "./_components/contactList";
 
 export const dynamic = "force-dynamic";
@@ -19,11 +22,11 @@ export const metadata: Metadata = {
 type Props = {};
 
 const ContactPage = async ({ }: Props) => {
-    const contactsPromise = getContacts();
     const contactCountPromise = getAdminContactCount();
-    const [contacts, contactCount] = await Promise.all([
-        contactsPromise,
+    const groupedContactsPromise = getContactsGroupedByRole();
+    const [contactCount, groupedContacts] = await Promise.all([
         contactCountPromise,
+        groupedContactsPromise,
     ]);
     const label = contactCount > 1 ? "Total Contacts" : "Contact";
 
@@ -39,7 +42,13 @@ const ContactPage = async ({ }: Props) => {
                     </div>
                     <div className="mt-2 overflow-y-auto">
                         <Suspense fallback={<ContactListSkeleton />}>
-                            <ContactList contacts={contacts} />
+                            {groupedContacts.map((group) => (
+                                <ContactList
+                                    key={group.role}
+                                    role={`${group.role}s`}
+                                    contacts={group.contacts}
+                                />
+                            ))}
                         </Suspense>
                     </div>
                     <Suspense fallback={<ContactCountSkeleton />}>
@@ -62,11 +71,10 @@ const ContactPage = async ({ }: Props) => {
 
 export default ContactPage;
 
-
 const ContactCountSkeleton = () => {
     return (
         <div className="mt-2 flex justify-end">
             <Skeleton className="w-20 h-10 bg-primary-foreground" />
         </div>
-    )
-}
+    );
+};

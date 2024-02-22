@@ -17,15 +17,25 @@ type Props = {};
 
 const HomePage = ({ }: Props) => {
     return (
-        <div className="bg-primary/15 h-full flex flex-col">
+        <div className="bg-primary h-full flex flex-col">
+            {/* <div className="flex gap-x-3">
+                <Link href='/dashboard'>Dashboard</Link>
+                <Link href='/submissions'>Submissions</Link>
+                <Link href='/calendar'>Calendar</Link>
+                <Link href='/messages'>Messages</Link>
+                <Link href='/contacts'>Contacts</Link>
+            </div> */}
             <div className="h-full flex">
-                <div className="flex-1 hidden xl:block">
-                    <div className="flex gap-x-3">
-                        <Link href='/dashboard'>Dashboard</Link>
-                        <Link href='/submissions'>Submissions</Link>
-                        <Link href='/calendar'>Calendar</Link>
-                        <Link href='/messages'>Messages</Link>
-                        <Link href='/contacts'>Contacts</Link>
+                <div className="flex-1 flex items-center justify-center p-4 bg-emerald-500">
+                    <div className="flex flex-col items-center justify-center gap-y-8 max-w-[400px]">
+                        <p className="font-semibold text-4xl">New here ?</p>
+                        <p className="text-center text-lg">
+                            Create a login to submit a new request, view your history, or make
+                            a payment.
+                        </p>
+                        <button className="bg-primary p-3 text-2xl text-emerald-500 font-semibold rounded-md">
+                            Sign Up
+                        </button>
                     </div>
                 </div>
                 <div className="flex-1 flex items-center justify-center pt-4 xl:border-l xl:border-primary/20">
@@ -58,8 +68,7 @@ const HomePage = ({ }: Props) => {
                                                 type="password"
                                             />
                                         </div>
-                                        <Button
-                                            className="w-full" type="submit" variant="primary">
+                                        <Button className="w-full" type="submit" variant="primary">
                                             Submit
                                         </Button>
                                     </div>
@@ -107,9 +116,7 @@ const HomePage = ({ }: Props) => {
                                 </CardContent>
                                 <CardFooter>
                                     <div className="text-sm">
-                                        <p>
-                                            Need help? Contact administrator for assistance.
-                                        </p>
+                                        <p>Need help? Contact administrator for assistance.</p>
                                     </div>
                                 </CardFooter>
                             </Card>
@@ -144,9 +151,7 @@ const HomePage = ({ }: Props) => {
                                 </CardContent>
                                 <CardFooter>
                                     <div className="text-sm">
-                                        <p>
-                                            Need help? Contact developers for assistance.
-                                        </p>
+                                        <p>Need help? Contact developers for assistance.</p>
                                     </div>
                                 </CardFooter>
                             </Card>

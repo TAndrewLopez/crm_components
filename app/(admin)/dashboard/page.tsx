@@ -21,6 +21,7 @@ const DashboardPage = async ({ }: Props) => {
     clientWithMostSubmissions,
     employeeWithMostPaidDeposit,
     depositsPaidGroupedByEmployees,
+    totalPaidDepositAmount,
   } = await getDashboardData();
 
   return (
@@ -70,49 +71,15 @@ const DashboardPage = async ({ }: Props) => {
         </DashboardWidget>
       </div>
 
-      <div className="flex flex-col gap-y-5 xl:gap-x-5 xl:flex-row ">
-        <DashboardWidget
-          className="flex-1"
-          title="Total Revenue"
-          titleIcon="$"
-          description="+20.1% from last month">
-          <div className="text-2xl font-semibold tracking-wide">$45,231.89</div>
-        </DashboardWidget>
-
-        <DashboardWidget
-          className="flex-1"
-          title={getFullName(
-            clientWithMostSubmissions.first_name ?? "",
-            clientWithMostSubmissions.last_name ?? ""
-          )}
-          titleIcon="#"
-          description="Client with most submission.">
-          <div className="text-2xl font-semibold tracking-wide flex items-end gap-x-2">
-            {clientWithMostSubmissions.totalSubmissions}
-            <p className="text-xs pb-1">lifetime total</p>
-          </div>
-        </DashboardWidget>
-        <DashboardWidget
-          className="flex-1"
-          title={getFullName(
-            employeeWithMostPaidDeposit.first_name ?? "",
-            employeeWithMostPaidDeposit.last_name ?? ""
-          )}
-          titleIcon="#"
-          description="Employee with most earnings.">
-          <div className="text-2xl font-semibold tracking-wide flex items-end gap-x-2">
-            $ {employeeWithMostPaidDeposit.amountPaid?.toLocaleString()}
-            <p className="text-xs pb-1">lifetime total</p>
-          </div>
-        </DashboardWidget>
-      </div>
+     
 
       <DashboardWidget
         className="flex-1"
-        title="Total Revenue"
-        titleIcon="$"
-        description="+20.1% from last month">
-        <div className="text-2xl font-semibold tracking-wide">$45,231.89</div>
+        title="Team Total Revenue"
+        titleIcon="$">
+        <div className="text-2xl font-semibold tracking-wide">
+          ${totalPaidDepositAmount.toLocaleString()}
+        </div>
       </DashboardWidget>
 
       <div className="flex flex-col 2xl:flex-row gap-5 h-full">
@@ -146,14 +113,15 @@ const DashboardPage = async ({ }: Props) => {
             />
           </div>
 
-          <DashboardWidget
-            title="Total In Sales"
-            titleIcon="$">
+          <DashboardWidget title="Total In Sales" titleIcon="$">
             <div>
               <ul>
                 {depositsPaidGroupedByEmployees.map((e, i) => (
                   <li key={e.id} className="flex gap-x-3">
-                    <p className="text-right">{i + 1}{`.`}</p>
+                    <p className="text-right">
+                      {i + 1}
+                      {`.`}
+                    </p>
                     <p>{getFullName(e.first_name, e.last_name)}</p>
                     <p>$ {e.totalEarned?.toLocaleString()}</p>
                   </li>

@@ -14,7 +14,7 @@ export const newNoteSchema = z.object({
 export const userSortingSettingsSchema = z.object({
     showBirthday: z.boolean().default(true),
     contactSortOption: z
-        .enum(["first_name", "last_name", "username", "role"])
+        .enum(["first_name", "last_name", "username",])
         .default("last_name"),
     contactSortDir: z.enum(["asc", "desc"]).default("asc"),
     bookmarkSortOption: z
